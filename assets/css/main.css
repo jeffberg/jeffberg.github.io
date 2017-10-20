@@ -184,6 +184,7 @@
 		-webkit-transform: translate3d(0,0,0);
 		-ms-transform: translate3d(0,0,0);
 		transform: translate3d(0,0,0);
+	
 	/* Set your background with this */
 
 		background: #348cb2 url("images/background.png") bottom left;
@@ -516,12 +517,14 @@
 		#header h1 {
 			font-size: 4.35em;
 			font-weight: 900;
+			color: #e19235;
 			letter-spacing: -0.035em;
 			line-height: 1em;
 		}
 
 		#header p {
 			font-size: 1.25em;
+			color: #e19235;
 			margin: 0.75em 0 0.25em 0;
 			opacity: 0.75;
 		}
