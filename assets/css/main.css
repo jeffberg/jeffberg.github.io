@@ -63,7 +63,6 @@
 		font-family: 'Gill Sans', sans-serif;
 		font-size: 15pt;
 		font-weight: 300 !important;
-		letter-spacing: -0.025em;
 		line-height: 1.75em;
 	}
 
@@ -518,7 +517,6 @@
 			font-size: 3em;
 			font-weight: 600;
 			color: #e19235;
-			letter-spacing: -0.035em;
 			line-height: 1em;
 		}
 
