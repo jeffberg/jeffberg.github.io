@@ -188,8 +188,8 @@
 	
 	/* Set your background with this */
 
-		background: #348cb2 url("images/background.png") top right;
-		background-size: auto 100%;
+		background: #348cb2 url("images/background.png") center center;
+		background-size: cover;
 		background-repeat: repeat-x;
 		height: 100%;
 		left: 0;
