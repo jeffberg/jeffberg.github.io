@@ -188,7 +188,7 @@
 	
 	/* Set your background with this */
 
-		background: #348cb2 url("images/background.png") bottom left;
+		background: #348cb2 url("images/background.png") top right;
 		background-repeat: repeat-x;
 		height: 100%;
 		left: 0;
