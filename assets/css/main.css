@@ -191,7 +191,6 @@
 		background: #348cb2 url("images/background.png") center center;
 		background-size: cover;
 		background-repeat: repeat-x;
-		height: 100%;
 		left: 0;
 		opacity: 1;
 		position: fixed;
@@ -262,10 +261,9 @@
 		}
 	}
 
-	/* #bg {
-		background-size: 2250px auto;
-		width: 6750px;
-	} */
+	#bg {
+		background-size: cover;
+	}
 
 /* Overlay */
 
