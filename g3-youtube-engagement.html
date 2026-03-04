@@ -38,7 +38,7 @@
 			#main {
 				position: relative;
 				z-index: 2;
-				max-width: 860px;
+				max-width: 900px;
 				margin: 0 auto;
 				padding: 3em 2em 4em;
 			}
@@ -77,6 +77,43 @@
 			#header nav ul li a:hover {
 				opacity: 1;
 			}
+			/* Sticky table of contents */
+			.toc {
+				background: rgba(255,255,255,0.06);
+				border: 1px solid rgba(255,255,255,0.12);
+				border-radius: 4px;
+				padding: 1em 1.4em;
+				margin: 0 0 2.5em;
+				font-size: 0.82em;
+			}
+			.toc-title {
+				font-size: 0.78em;
+				font-weight: 900 !important;
+				letter-spacing: 0.12em;
+				text-transform: uppercase;
+				color: rgba(255,255,255,0.5);
+				margin: 0 0 0.7em;
+			}
+			.toc ol {
+				margin: 0;
+				padding-left: 1.4em;
+			}
+			.toc ol li {
+				margin-bottom: 0.3em;
+				color: rgba(255,255,255,0.75);
+			}
+			.toc ol li a {
+				color: rgba(255,255,255,0.75);
+				border-bottom: none;
+			}
+			.toc ol li a:hover {
+				color: #e19235;
+			}
+			.toc ol ol {
+				margin-top: 0.25em;
+				padding-left: 1.2em;
+				list-style-type: lower-alpha;
+			}
 			.content {
 				color: rgba(255,255,255,0.9);
 				line-height: 1.85em;
@@ -86,25 +123,43 @@
 				font-size: 1.3em;
 				font-weight: 900 !important;
 				letter-spacing: 0.08em;
-				margin: 2em 0 0.6em;
+				margin: 2.5em 0 0.6em;
 				color: #fff;
 				text-transform: uppercase;
+				border-top: 1px solid rgba(255,255,255,0.1);
+				padding-top: 1.5em;
+			}
+			.content h2:first-of-type {
+				border-top: none;
+				padding-top: 0;
+				margin-top: 0;
 			}
 			.content h3 {
 				font-size: 1.05em;
 				font-weight: 900 !important;
 				letter-spacing: 0.05em;
-				margin: 1.5em 0 0.4em;
+				margin: 1.6em 0 0.4em;
 				color: #e19235;
+			}
+			.content h4 {
+				font-size: 0.92em;
+				font-weight: 900 !important;
+				letter-spacing: 0.04em;
+				margin: 1.2em 0 0.3em;
+				color: rgba(255,255,255,0.7);
+				text-transform: uppercase;
 			}
 			.content p {
 				margin-bottom: 1em;
 			}
-			.content ul {
+			.content ul, .content ol {
 				list-style: disc;
 				margin: 0.5em 0 1em 1.5em;
 			}
-			.content ul li {
+			.content ol {
+				list-style: decimal;
+			}
+			.content ul li, .content ol li {
 				margin-bottom: 0.4em;
 			}
 			.content code {
@@ -113,6 +168,24 @@
 				padding: 0.1em 0.4em;
 				font-family: monospace;
 				font-size: 0.9em;
+				white-space: nowrap;
+			}
+			.content pre {
+				background: rgba(0,0,0,0.4);
+				border: 1px solid rgba(255,255,255,0.1);
+				border-radius: 4px;
+				padding: 1em 1.2em;
+				overflow-x: auto;
+				font-family: monospace;
+				font-size: 0.82em;
+				line-height: 1.6em;
+				margin: 0.8em 0 1.4em;
+				color: rgba(255,255,255,0.85);
+			}
+			.content pre code {
+				background: none;
+				padding: 0;
+				white-space: pre;
 			}
 			.content table {
 				width: 100%;
@@ -144,6 +217,13 @@
 				margin: 1.5em 0;
 				font-size: 0.85em;
 			}
+			.info-box {
+				background: rgba(100,160,255,0.08);
+				border-left: 3px solid rgba(100,160,255,0.5);
+				padding: 0.8em 1em;
+				margin: 1.5em 0;
+				font-size: 0.85em;
+			}
 			.back-link {
 				display: inline-block;
 				margin-bottom: 2em;
@@ -158,6 +238,24 @@
 			}
 			.back-link:hover {
 				opacity: 1;
+			}
+			.diagram {
+				background: rgba(0,0,0,0.35);
+				border: 1px solid rgba(255,255,255,0.1);
+				border-radius: 4px;
+				padding: 1.2em 1.4em;
+				margin: 1em 0 1.5em;
+				font-family: monospace;
+				font-size: 0.8em;
+				line-height: 1.7em;
+				color: rgba(255,255,255,0.8);
+				overflow-x: auto;
+				white-space: pre;
+			}
+			.cite {
+				font-size: 0.82em;
+				opacity: 0.7;
+				font-style: italic;
 			}
 		</style>
 	</head>
@@ -186,168 +284,1094 @@
 
 					<p>
 						Google's internal data infrastructure underpins one of the world's largest media platforms,
-						YouTube. Among the many systems that support large-scale behavioral analysis at Google,
+						YouTube. Among the many systems supporting large-scale behavioral analysis at Google,
 						the <strong>g3 sessions database</strong> plays a central role in capturing and organizing
-						user engagement signals. This page provides an overview of what the g3 sessions database
-						is, how sessions are defined and structured, and why this matters for understanding YouTube
-						engagement at scale.
+						user engagement signals at the session level. This page provides a comprehensive, technically
+						detailed overview of what the g3 sessions database is, how sessions are defined, delimited,
+						and structured, what fields are present and why they matter, how sessions are ingested and
+						served at scale, and why all of this is consequential for understanding YouTube engagement
+						from both an engineering and a social-scientific perspective.
 					</p>
 
 					<div class="note">
 						<strong>Note:</strong> The g3 sessions database is part of Google's internal data
-						infrastructure. The information presented here is based on publicly available
-						documentation, research literature, and general knowledge of large-scale session-based
-						analytics systems.
+						infrastructure and its schema is not publicly disclosed. The information presented
+						here is synthesized from publicly available research publications by Google and
+						YouTube engineers, academic collaborators, regulatory filings, and general knowledge
+						of large-scale session-based analytics systems. It should not be taken as an
+						authoritative or complete description of any specific internal Google system.
 					</div>
 
-					<h2>What Is the G3 Sessions Database?</h2>
+					<!-- Table of Contents -->
+					<nav class="toc">
+						<p class="toc-title">Contents</p>
+						<ol>
+							<li><a href="#what-is-g3">What Is the G3 Sessions Database?</a></li>
+							<li><a href="#session-boundaries">Session Boundary Definition and Segmentation Logic</a></li>
+							<li><a href="#session-schema">Session Schema: Field Categories and Descriptions</a>
+								<ol>
+									<li><a href="#schema-metadata">Session Metadata</a></li>
+									<li><a href="#schema-temporal">Temporal Signals</a></li>
+									<li><a href="#schema-content">Content and Video-Level Signals</a></li>
+									<li><a href="#schema-discovery">Discovery and Entry Surface Signals</a></li>
+									<li><a href="#schema-interaction">Interaction Signals</a></li>
+									<li><a href="#schema-satisfaction">Satisfaction and Survey Signals</a></li>
+									<li><a href="#schema-autoplay">Autoplay and Notification Signals</a></li>
+									<li><a href="#schema-creator">Creator-Side Session Metrics</a></li>
+								</ol>
+							</li>
+							<li><a href="#pipeline">Data Pipeline: From Event to Session Record</a></li>
+							<li><a href="#research-uses">How Sessions Are Used in YouTube Engagement Research</a>
+								<ol>
+									<li><a href="#use-reco">Recommendation System Training</a></li>
+									<li><a href="#use-satisfaction">Satisfaction and Well-Being Research</a></li>
+									<li><a href="#use-passive-active">Passive vs. Active Consumption</a></li>
+									<li><a href="#use-audit">Algorithmic Audit and Platform Accountability</a></li>
+									<li><a href="#use-regret">Regret, Rabbit Holes, and Session Trajectory Analysis</a></li>
+									<li><a href="#use-diversity">Content Diversity and Echo Chamber Detection</a></li>
+								</ol>
+							</li>
+							<li><a href="#privacy">Privacy, Anonymization, and User Identification</a></li>
+							<li><a href="#methodological">Methodological Considerations</a></li>
+							<li><a href="#academic">Relevance to Academic Research</a></li>
+							<li><a href="#reading">Further Reading</a></li>
+						</ol>
+					</nav>
+
+					<!-- Section 1 -->
+					<h2 id="what-is-g3">1. What Is the G3 Sessions Database?</h2>
 
 					<p>
-						The <strong>g3 sessions database</strong> is a component of Google's internal logging and
-						analytics infrastructure. It stores structured records of user interaction sessions—discrete
-						time windows during which a user is actively engaging with a Google product such as YouTube.
-						Each session record aggregates raw event-level signals (e.g., video play events, pauses,
-						seeks, clicks, impressions) into a coherent unit of user behavior.
+						The designation <strong>g3</strong> at Google refers to the company's monolithic internal
+						source code repository—one of the largest version-controlled codebases in existence,
+						spanning billions of lines of code across virtually every Google product. Within this
+						monorepo, teams maintain internal tools, pipelines, and data table schemas. When
+						practitioners and researchers at Google refer to a <strong>g3 sessions database</strong>
+						in the YouTube context, they are referring to a family of internally maintained data
+						tables—built and version-controlled within the g3 repository—that store structured,
+						session-level records of user behavior on YouTube.
+					</p>
+
+					<p>
+						Conceptually, the g3 sessions database is a <em>derived</em> data store. Raw behavioral
+						signals—individual HTTP requests, client-side event pings, video player telemetry
+						packets—are captured at the event level in lower-level log tables (sometimes called
+						<em>rawlogs</em> or <em>event tables</em>). A series of <strong>ETL (extract–transform–load)
+						pipelines</strong>, scheduled as periodic MapReduce or Flume jobs and more recently as
+						streaming Dataflow pipelines, aggregate and join these raw events into coherent
+						session-scoped records. The output is a session table in which each row represents
+						one user session on YouTube, with dozens to hundreds of derived columns capturing
+						behavioral aggregates, sequence summaries, and contextual metadata.
 					</p>
 
 					<p>
 						Sessions in this context are typically defined by a combination of:
 					</p>
 					<ul>
-						<li>A <strong>session identifier</strong> unique to the user-device-time window combination</li>
-						<li>A <strong>start timestamp</strong> and an <strong>end timestamp</strong> (or session duration)</li>
-						<li>An <strong>entry point</strong> describing how the session was initiated (e.g., direct navigation, notification, recommendation)</li>
-						<li>A sequence of <strong>content interactions</strong> (video watches, searches, homepage impressions)</li>
-						<li>Aggregated <strong>engagement signals</strong> such as total watch time, number of videos started, likes, shares, and subscription events</li>
+						<li>A <strong>session identifier</strong> unique to the user–device–time-window combination</li>
+						<li>A <strong>start timestamp</strong> and an <strong>end timestamp</strong> (or inferred session duration)</li>
+						<li>An <strong>entry point</strong> describing how the session was initiated (e.g., direct navigation, push notification, recommendation click from another Google surface)</li>
+						<li>An ordered or aggregated sequence of <strong>content interactions</strong> (video watches, searches, homepage impressions, shelf scrolls)</li>
+						<li>Aggregated <strong>engagement signals</strong>: total watch time, number of videos started and completed, explicit interactions (likes, shares, subscriptions, comments)</li>
+						<li>Contextual signals such as <strong>network type</strong>, <strong>app version</strong>, and <strong>locale</strong></li>
 					</ul>
 
-					<h2>Session Structure and Key Fields</h2>
+					<div class="info-box">
+						<strong>G3 as a codebase vs. a database:</strong> "g3" refers primarily to Google's
+						internal source repository. When people speak of the "g3 sessions database," they
+						mean a specific set of data pipeline definitions and table schemas that are
+						<em>maintained in</em> g3, not that g3 is itself a database engine. The actual
+						storage substrate is typically <strong>Bigtable</strong> or <strong>Spanner</strong>
+						for low-latency serving, and <strong>Colossus/GFS-backed Dremel/BigQuery</strong>
+						tables for analytical batch access.
+					</div>
+
+					<!-- Section 2 -->
+					<h2 id="session-boundaries">2. Session Boundary Definition and Segmentation Logic</h2>
 
 					<p>
-						While the exact schema of Google's internal tables is not publicly disclosed, research
-						published by Google engineers and academic collaborators provides insight into the kinds of
-						fields commonly present in session-level engagement tables on platforms like YouTube.
+						One of the most consequential design decisions in any session analytics system is how
+						a <em>session</em> is delimited. The choice of session boundary algorithm directly
+						affects every downstream metric: average session length, number of videos per session,
+						within-session recommendation path length, and more.
+					</p>
+
+					<h3>Inactivity-Gap Timeout</h3>
+					<p>
+						The dominant heuristic for session boundary definition is the <strong>inactivity-gap
+						timeout</strong>: a session ends when no user-attributed event is recorded for a
+						configurable window of time <em>T</em> (commonly 30 minutes, following the convention
+						established in web analytics research and adopted by Google Analytics). A new session
+						begins when the next event arrives after the gap. Key considerations include:
+					</p>
+					<ul>
+						<li>
+							<strong>Passive viewing does not generate heartbeat events</strong> unless the video
+							player emits periodic telemetry pings (e.g., every 30 seconds). YouTube's client
+							player does emit such pings, which keeps sessions open during continuous passive
+							viewing and prevents premature session termination during long-form content.
+						</li>
+						<li>
+							<strong>Background playback</strong> on mobile (audio-only or Picture-in-Picture)
+							generates heartbeat events even when the app is not foregrounded; these are
+							attributed to the same session if within the gap threshold.
+						</li>
+						<li>
+							<strong>Multi-tab/multi-window browsing</strong> on desktop can generate overlapping
+							event streams; session disambiguation logic must handle concurrent sessions from the
+							same user-device pair.
+						</li>
+					</ul>
+
+					<h3>Calendar-Day and Midnight Reset</h3>
+					<p>
+						Some reporting contexts impose a <strong>calendar-day boundary</strong>: sessions are
+						not allowed to span midnight in the user's local timezone. This simplifies daily
+						aggregation and is common in creator-facing analytics (YouTube Studio), though it
+						can artificially split late-night viewing sessions.
+					</p>
+
+					<h3>Entry-Point Reset</h3>
+					<p>
+						A new session may also be triggered by a high-salience <strong>entry point event</strong>
+						regardless of time elapsed since the last event—for example, a user clicking a push
+						notification or opening YouTube via an external link. This ensures that distinct
+						intentional access points are not merged into a single behavioral unit even when they
+						occur within the inactivity gap.
+					</p>
+
+					<div class="diagram">Session boundary illustration (30-min inactivity gap):
+
+t=0:00   Video A play          ─┐
+t=0:12   Video A heartbeat      │
+t=0:24   Video A heartbeat      │  SESSION 1
+t=0:36   Video A complete       │
+t=0:38   Video B play           │
+t=1:10   Video B complete      ─┘
+         [32-min gap]
+t=1:42   Video C play          ─┐
+t=2:05   Video C complete       │  SESSION 2
+t=2:07   Video D play           │
+t=2:30   Video D heartbeat     ─┘</div>
+
+					<h3>Session Duration Statistics</h3>
+					<p>
+						Published research and YouTube's own transparency reports provide rough empirical
+						anchors for session length distributions (exact figures vary by product version,
+						user cohort, and boundary algorithm; YouTube has not publicly disclosed authoritative
+						median session lengths):
+					</p>
+					<ul>
+						<li>Session duration distributions are highly right-skewed: a large majority of sessions are short (under a few minutes), while a small fraction of very long sessions drives aggregate watch time. This is consistent with a log-normal or power-law distribution shape.</li>
+						<li>Long-tail sessions (>60 minutes) account for a disproportionate share of total watch time due to this skew.</li>
+						<li>Desktop sessions tend to be longer on average than mobile sessions; TV (Connected TV / YouTube on TV) sessions are longest on average.</li>
+						<li>Sessions initiated from notifications tend to be shorter than organically initiated sessions.</li>
+					</ul>
+
+					<!-- Section 3 -->
+					<h2 id="session-schema">3. Session Schema: Field Categories and Descriptions</h2>
+
+					<p>
+						While the exact schema of Google's internal session tables is not publicly disclosed,
+						research publications by Google and YouTube engineers, patent filings, and the
+						YouTube Data API documentation collectively provide strong evidence for the kinds
+						of fields present in session-level engagement tables. The following subsections
+						describe each major field category in detail.
+					</p>
+
+					<h3 id="schema-metadata">3a. Session Metadata</h3>
+
+					<table>
+						<thead>
+							<tr>
+								<th>Field</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>session_id</code></td>
+								<td>STRING (hash)</td>
+								<td>Globally unique identifier for the session, typically a hash of user_id + device_id + session_start_time. Enables joining session records with video-level or event-level tables.</td>
+							</tr>
+							<tr>
+								<td><code>user_id</code></td>
+								<td>STRING (hashed GAIA ID)</td>
+								<td>Pseudonymized identifier derived from the user's Google Account identifier (GAIA). Never a raw email or name. Used for longitudinal linking across sessions.</td>
+							</tr>
+							<tr>
+								<td><code>device_id</code></td>
+								<td>STRING (hashed)</td>
+								<td>Identifier for the specific device (phone, desktop, TV). Allows cross-device deduplication and device-type-specific modeling.</td>
+							</tr>
+							<tr>
+								<td><code>device_type</code></td>
+								<td>ENUM</td>
+								<td>Categorical: MOBILE, DESKTOP, TABLET, TV, UNKNOWN. Critical for understanding session length and engagement pattern differences across surfaces.</td>
+							</tr>
+							<tr>
+								<td><code>platform</code></td>
+								<td>ENUM</td>
+								<td>OS/platform: ANDROID, IOS, WEB, TVOS, ANDROID_TV, ROKU, FIRE_TV, etc.</td>
+							</tr>
+							<tr>
+								<td><code>app_version</code></td>
+								<td>STRING</td>
+								<td>YouTube app version string. Used for experiment (A/B test) assignment verification and bug attribution.</td>
+							</tr>
+							<tr>
+								<td><code>country_code</code></td>
+								<td>STRING (ISO 3166-1 alpha-2)</td>
+								<td>Country inferred from IP address at session start. Needed for regional engagement analysis and regulatory reporting.</td>
+							</tr>
+							<tr>
+								<td><code>locale</code></td>
+								<td>STRING (BCP 47)</td>
+								<td>Language/region locale (e.g., en-US, pt-BR). Determines content recommendation corpus and UI.</td>
+							</tr>
+							<tr>
+								<td><code>experiment_ids</code></td>
+								<td>REPEATED STRING</td>
+								<td>List of A/B experiment arm identifiers active for this session. Essential for causal evaluation of product changes.</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h3 id="schema-temporal">3b. Temporal Signals</h3>
+
+					<table>
+						<thead>
+							<tr>
+								<th>Field</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>session_start_time</code></td>
+								<td>TIMESTAMP</td>
+								<td>UTC timestamp of the first attributed event in the session. Often the "open app" or "navigate to YouTube" event.</td>
+							</tr>
+							<tr>
+								<td><code>session_end_time</code></td>
+								<td>TIMESTAMP</td>
+								<td>UTC timestamp of the last attributed event (or last heartbeat + heartbeat interval). May be imputed if the session was never explicitly closed.</td>
+							</tr>
+							<tr>
+								<td><code>total_session_duration_s</code></td>
+								<td>FLOAT</td>
+								<td>Wall-clock duration from session start to session end in seconds. Distinct from total watch time (which excludes browsing, search dwell, and UI interaction time).</td>
+							</tr>
+							<tr>
+								<td><code>total_watch_time_s</code></td>
+								<td>FLOAT</td>
+								<td>Aggregate seconds of video content played during the session, summed across all videos. This is the primary optimization target for YouTube's recommendation system historically.</td>
+							</tr>
+							<tr>
+								<td><code>session_hour_of_day</code></td>
+								<td>INT (0–23)</td>
+								<td>Local hour of day at session start. Strong predictor of content preferences and session length (prime-time vs. morning commute vs. late-night).</td>
+							</tr>
+							<tr>
+								<td><code>session_day_of_week</code></td>
+								<td>INT (0–6)</td>
+								<td>Day of week (0 = Monday). Weekend sessions differ systematically from weekday sessions in both length and content type.</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h3 id="schema-content">3c. Content and Video-Level Signals</h3>
+
+					<p>
+						Within a session, each video watch generates a <strong>video impression record</strong>
+						that is either stored as a nested/repeated structure within the session row or as a
+						separate video-level table joinable by <code>session_id</code>. Key video-level fields
+						within a session include:
 					</p>
 
 					<table>
 						<thead>
 							<tr>
-								<th>Field Category</th>
-								<th>Example Fields</th>
-								<th>Relevance to YouTube Engagement</th>
+								<th>Field</th>
+								<th>Level</th>
+								<th>Description</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td>Session Metadata</td>
-								<td><code>session_id</code>, <code>user_id</code> (hashed), <code>device_type</code>, <code>platform</code></td>
-								<td>Enables cross-device analysis and audience segmentation</td>
+								<td><code>videos_started</code></td>
+								<td>Session</td>
+								<td>Count of distinct videos for which a play event was recorded. Includes videos abandoned within the first few seconds.</td>
 							</tr>
 							<tr>
-								<td>Temporal Signals</td>
-								<td><code>session_start_time</code>, <code>session_end_time</code>, <code>total_session_duration_s</code></td>
-								<td>Measures time-on-platform and session depth</td>
+								<td><code>videos_completed</code></td>
+								<td>Session</td>
+								<td>Count of videos where the viewer reached ≥95% of the video duration (or a configurable completion threshold).</td>
 							</tr>
 							<tr>
-								<td>Content Signals</td>
-								<td><code>videos_started</code>, <code>videos_completed</code>, <code>avg_watch_percentage</code></td>
-								<td>Core YouTube satisfaction metrics; input to recommendation models</td>
+								<td><code>avg_watch_percentage</code></td>
+								<td>Session</td>
+								<td>Mean of per-video (watched seconds / video duration) ratios across all videos started in the session. A proxy for intent and satisfaction.</td>
 							</tr>
 							<tr>
-								<td>Discovery Signals</td>
-								<td><code>entry_surface</code> (Home, Search, Suggested), <code>search_queries</code></td>
-								<td>Reveals how users find content; informs recommendation and ranking</td>
+								<td><code>video_id</code></td>
+								<td>Video</td>
+								<td>YouTube video identifier (11-character alphanumeric). Foreign key to the video metadata table.</td>
 							</tr>
 							<tr>
-								<td>Interaction Signals</td>
-								<td><code>likes</code>, <code>dislikes</code>, <code>shares</code>, <code>comments</code>, <code>subscriptions</code></td>
-								<td>Active engagement signals used as training labels for engagement models</td>
+								<td><code>watch_start_position_s</code></td>
+								<td>Video</td>
+								<td>Playback position at which watching began (e.g., 0 for start, >0 for resume or deep link to timestamp).</td>
 							</tr>
 							<tr>
-								<td>Satisfaction Signals</td>
-								<td><code>survey_responses</code>, <code>post_watch_satisfaction</code></td>
-								<td>Used to measure and optimize beyond raw engagement (e.g., regret reduction)</td>
+								<td><code>watch_end_position_s</code></td>
+								<td>Video</td>
+								<td>Last known playback position. Combined with start position, gives the watched segment.</td>
+							</tr>
+							<tr>
+								<td><code>video_duration_s</code></td>
+								<td>Video</td>
+								<td>Total duration of the video in seconds. Needed to compute watch fraction.</td>
+							</tr>
+							<tr>
+								<td><code>watch_time_s</code></td>
+								<td>Video</td>
+								<td>Net seconds of content actually played (excluding seeks forward, buffering stalls, and paused intervals). Deduplicates re-watched segments.</td>
+							</tr>
+							<tr>
+								<td><code>seek_events</code></td>
+								<td>Video</td>
+								<td>Count or sequence of seek events. Forward seeks may indicate impatience; backward seeks may indicate re-engagement with specific content.</td>
+							</tr>
+							<tr>
+								<td><code>pause_events</code></td>
+								<td>Video</td>
+								<td>Count of manual pause events. High pause counts with subsequent resumes may indicate high-attention viewing.</td>
+							</tr>
+							<tr>
+								<td><code>playback_speed</code></td>
+								<td>Video</td>
+								<td>Playback speed setting (0.25×, 0.5×, 1×, 1.25×, 1.5×, 2×). Increased use of 1.5–2× speed is associated with podcast-style and educational content.</td>
+							</tr>
+							<tr>
+								<td><code>captions_enabled</code></td>
+								<td>Video</td>
+								<td>Whether closed captions or subtitles were active. Correlates with hearing accessibility needs and non-native language viewing.</td>
+							</tr>
+							<tr>
+								<td><code>ad_impressions</code></td>
+								<td>Video</td>
+								<td>Count of ad impressions during this video watch. Ad-supported viewing has different engagement dynamics than YouTube Premium sessions.</td>
+							</tr>
+							<tr>
+								<td><code>ad_skip_events</code></td>
+								<td>Video</td>
+								<td>Number of skippable ads skipped by the user. A signal of user tolerance and ad relevance.</td>
+							</tr>
+							<tr>
+								<td><code>content_category</code></td>
+								<td>Video</td>
+								<td>Taxonomy category (e.g., News, Entertainment, Music, Gaming, Education). Derived from the video's metadata and classification models.</td>
+							</tr>
+							<tr>
+								<td><code>channel_id</code></td>
+								<td>Video</td>
+								<td>YouTube channel identifier. Enables creator-level and channel-level aggregations.</td>
+							</tr>
+							<tr>
+								<td><code>is_shorts</code></td>
+								<td>Video</td>
+								<td>Boolean flag for YouTube Shorts (≤60 seconds vertical video). Shorts sessions have structurally different engagement patterns than long-form sessions.</td>
+							</tr>
+							<tr>
+								<td><code>is_live</code></td>
+								<td>Video</td>
+								<td>Whether the watched video was a live stream at time of viewing. Live watching generates different engagement signals (chat, super chats, concurrent viewers).</td>
 							</tr>
 						</tbody>
 					</table>
 
-					<h2>How Sessions Are Used in YouTube Engagement Research</h2>
+					<h3 id="schema-discovery">3d. Discovery and Entry Surface Signals</h3>
 
-					<h3>Recommendation System Training</h3>
 					<p>
-						Session data from databases like g3 is a primary data source for training YouTube's
-						recommendation models. Watch time and engagement signals aggregated at the session level
-						serve as training labels in models such as those described in Covington et al. (2016)
-						<em>"Deep Neural Networks for YouTube Recommendations."</em> Session-level features
-						capture context that individual event logs do not—e.g., whether a given video watch
-						occurred early or late in a long browsing session.
+						How a user arrives at a given video—or at YouTube itself—is captured in discovery
+						and entry surface fields. These are among the most analytically valuable fields
+						for understanding recommendation system behavior.
 					</p>
 
-					<h3>Satisfaction and Well-Being Research</h3>
+					<table>
+						<thead>
+							<tr>
+								<th>Field</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>session_entry_surface</code></td>
+								<td>How the session was initiated: DIRECT_URL, HOME_FEED, NOTIFICATION, EXTERNAL_LINK, GOOGLE_SEARCH, SUBSCRIPTION_FEED, TRENDING, SHORTS_FEED, etc.</td>
+							</tr>
+							<tr>
+								<td><code>video_discovery_source</code></td>
+								<td>Per-video: how the user navigated to this video within the session — HOME_RECOMMENDATION, UP_NEXT_AUTOPLAY, UP_NEXT_CLICKED, SEARCH_RESULT, CHANNEL_PAGE, PLAYLIST, NOTIFICATION, EXTERNAL, etc.</td>
+							</tr>
+							<tr>
+								<td><code>recommendation_position</code></td>
+								<td>The rank position of this video in the recommendation list from which it was selected (1-indexed). Lower positions (closer to the top) are selected more often (position bias).</td>
+							</tr>
+							<tr>
+								<td><code>search_query</code></td>
+								<td>The query string entered by the user if the video was discovered via search. Sanitized and aggregated; specific queries may be suppressed for privacy at low-volume thresholds.</td>
+							</tr>
+							<tr>
+								<td><code>search_session_id</code></td>
+								<td>Links video watches to specific search sessions, enabling analysis of search-to-watch conversion rates and query reformulation behavior.</td>
+							</tr>
+							<tr>
+								<td><code>shelf_type</code></td>
+								<td>On the Home feed, identifies which recommendation shelf the video was displayed in (e.g., "Continue Watching," "Recommended for You," "Trending," "Subscriptions").</td>
+							</tr>
+							<tr>
+								<td><code>impression_id</code></td>
+								<td>Links a specific recommendation impression (the display of a video thumbnail) to a downstream click or watch. Critical for computing click-through rate (CTR) at the impression level.</td>
+							</tr>
+							<tr>
+								<td><code>home_impressions</code></td>
+								<td>Session-level count of video thumbnails displayed on the Home feed during this session. Enables impression-to-engagement funnel analysis.</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h3 id="schema-interaction">3e. Interaction Signals</h3>
+
 					<p>
-						Google and YouTube researchers have published work on measuring user satisfaction
-						beyond simple engagement metrics. Session-level data enables analyses of whether
-						high-engagement sessions (measured by total watch time) correlate with user-reported
-						satisfaction, or whether certain patterns of engagement predict regret or well-being
-						concerns. This work has led to changes in YouTube's recommendation objectives to
-						optimize for long-term satisfaction rather than short-term engagement alone.
+						Explicit user interactions are the highest-signal behavioral events in the database.
+						They are sparse (most watches generate no explicit interaction) but carry strong
+						signal about content quality and user intent.
 					</p>
 
-					<h3>Engagement Quality and Passive vs. Active Consumption</h3>
+					<table>
+						<thead>
+							<tr>
+								<th>Field</th>
+								<th>Session or Video Level</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>likes</code></td>
+								<td>Session &amp; Video</td>
+								<td>Count of Like button presses. Strong positive engagement signal; correlated with watch completion and satisfaction.</td>
+							</tr>
+							<tr>
+								<td><code>dislikes</code></td>
+								<td>Session &amp; Video</td>
+								<td>Count of Dislike button presses. YouTube removed public dislike counts in November 2021 but the signal is still captured internally for recommendation quality.</td>
+							</tr>
+							<tr>
+								<td><code>shares</code></td>
+								<td>Session &amp; Video</td>
+								<td>Count of Share button activations (any downstream share target). One of the strongest engagement signals for content virality.</td>
+							</tr>
+							<tr>
+								<td><code>comments_posted</code></td>
+								<td>Session &amp; Video</td>
+								<td>Count of comments submitted. Indicates high active engagement; rare relative to watch volume.</td>
+							</tr>
+							<tr>
+								<td><code>subscriptions</code></td>
+								<td>Session</td>
+								<td>Count of channel subscriptions initiated during the session. A durable engagement signal that drives future session content.</td>
+							</tr>
+							<tr>
+								<td><code>saves_to_playlist</code></td>
+								<td>Session &amp; Video</td>
+								<td>Count of "Save to playlist" or "Watch Later" actions. Indicates intent to return; strong satisfaction signal.</td>
+							</tr>
+							<tr>
+								<td><code>not_interested_clicks</code></td>
+								<td>Session</td>
+								<td>Count of "Not interested" or "Don't recommend channel" feedback actions. Negative signal for recommendation quality.</td>
+							</tr>
+							<tr>
+								<td><code>report_events</code></td>
+								<td>Session &amp; Video</td>
+								<td>Count of content report actions (spam, misleading, harassment, etc.). Rare but high-importance signal for content moderation.</td>
+							</tr>
+							<tr>
+								<td><code>super_chat_events</code></td>
+								<td>Session</td>
+								<td>Count and value of Super Chat purchases during live streams. Monetization signal specific to live sessions.</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h3 id="schema-satisfaction">3f. Satisfaction and Survey Signals</h3>
+
 					<p>
-						Session data allows researchers to distinguish between <strong>passive</strong> consumption
-						(autoplay-driven, low-interaction) and <strong>active</strong> consumption (user-initiated
-						searches, explicit selections, high interaction rates). These distinctions are important
-						for understanding the psychological and behavioral underpinnings of YouTube engagement,
-						which is a central concern in media psychology and communication research.
+						Beginning around 2016–2018, YouTube began investing heavily in measuring user satisfaction
+						separately from engagement, driven partly by internal concerns that optimizing for watch
+						time alone could promote low-quality or harmful content. This led to the inclusion of
+						survey-derived satisfaction signals in session-level tables.
 					</p>
 
-					<h3>Algorithmic Audit and Platform Accountability</h3>
+					<table>
+						<thead>
+							<tr>
+								<th>Field</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>survey_response_satisfaction</code></td>
+								<td>Response to in-app survey prompts (e.g., "How satisfied were you with YouTube today?" on a 5-point Likert scale). Sparsely populated—only a small fraction of sessions trigger a survey.</td>
+							</tr>
+							<tr>
+								<td><code>survey_response_regret</code></td>
+								<td>Response to regret probes: "Do you regret watching this video?" or similar. Used in published YouTube research on well-being optimization.</td>
+							</tr>
+							<tr>
+								<td><code>post_watch_emotion_label</code></td>
+								<td>Derived label (from survey or inference model) indicating the emotional valence of a watch experience (e.g., HAPPY, INFORMED, RELAXED, REGRETFUL). Used in satisfaction models.</td>
+							</tr>
+							<tr>
+								<td><code>predicted_satisfaction_score</code></td>
+								<td>Model-predicted satisfaction score for the session, derived from a supervised model trained on survey labels. Used when actual survey data is absent (most sessions).</td>
+							</tr>
+							<tr>
+								<td><code>long_term_satisfaction_weight</code></td>
+								<td>A weighting factor applied in optimization to balance short-term engagement against inferred long-term user satisfaction. Part of YouTube's multi-objective ranking framework.</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h3 id="schema-autoplay">3g. Autoplay and Notification Signals</h3>
+
 					<p>
-						Access to session-level data—even in aggregate or anonymized form—is increasingly
-						important for external researchers and regulators seeking to audit recommendation
-						algorithms for potential harms (e.g., radicalization pathways, misinformation
-						amplification, excessive use). The structure of the g3 sessions database determines
-						what kinds of audits are technically feasible and what questions can be answered
-						with the available data.
+						Autoplay and notifications are two of the most consequential features for session
+						depth and aggregate platform engagement. Their behavioral signatures are well-represented
+						in the session schema.
 					</p>
 
-					<h2>Methodological Considerations</h2>
+					<table>
+						<thead>
+							<tr>
+								<th>Field</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>autoplay_videos_started</code></td>
+								<td>Count of video plays initiated by autoplay (Up Next auto-advance) rather than by an explicit user click. Sessions with high <code>autoplay_videos_started / videos_started</code> ratios represent passive, algorithm-driven consumption.</td>
+							</tr>
+							<tr>
+								<td><code>autoplay_cancelled</code></td>
+								<td>Count of times the user intervened to cancel an upcoming autoplay (via the countdown interstitial or by navigating away). High cancellation rates signal user resistance to recommendation quality.</td>
+							</tr>
+							<tr>
+								<td><code>notification_triggered_session</code></td>
+								<td>Boolean: whether this session was initiated by a push notification click. Notification-triggered sessions are often shorter and more focused (single creator/topic) than organic sessions.</td>
+							</tr>
+							<tr>
+								<td><code>notification_id</code></td>
+								<td>Identifier for the specific notification that triggered the session. Links to the notification targeting and delivery system for A/B evaluation of notification strategies.</td>
+							</tr>
+							<tr>
+								<td><code>notification_type</code></td>
+								<td>Type of notification: UPLOAD (new video from subscribed channel), LIVE_STREAM_START, COMMUNITY_POST, RECOMMENDED_VIDEO, ACTIVITY (someone liked/commented on your video).</td>
+							</tr>
+							<tr>
+								<td><code>autoplay_chain_length</code></td>
+								<td>Length of the longest consecutive autoplay chain within the session (number of videos watched back-to-back via autoplay without user-initiated navigation). A key variable in "rabbit hole" research.</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h3 id="schema-creator">3h. Creator-Side Session Metrics</h3>
 
 					<p>
-						Working with session databases at the scale of YouTube involves several important
-						methodological considerations:
+						In addition to viewer sessions, a parallel session schema exists for
+						<strong>creator-side</strong> behavior—specifically, creators using YouTube Studio to
+						monitor their channel analytics, upload content, or manage community interactions.
+						Creator sessions include:
+					</p>
+
+					<table>
+						<thead>
+							<tr>
+								<th>Field</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>studio_session_id</code></td>
+								<td>Session identifier for YouTube Studio (creator dashboard) activity.</td>
+							</tr>
+							<tr>
+								<td><code>uploads_initiated</code></td>
+								<td>Count of video upload workflows started during the session.</td>
+							</tr>
+							<tr>
+								<td><code>analytics_dashboards_viewed</code></td>
+								<td>Count and identity of analytics dashboard views (e.g., Overview, Reach, Engagement, Audience tabs).</td>
+							</tr>
+							<tr>
+								<td><code>comments_moderated</code></td>
+								<td>Count of comment moderation actions (approve, delete, hold for review).</td>
+							</tr>
+							<tr>
+								<td><code>community_posts_created</code></td>
+								<td>Count of Community tab posts created during the session.</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<!-- Section 4 -->
+					<h2 id="pipeline">4. Data Pipeline: From Event to Session Record</h2>
+
+					<p>
+						Understanding the g3 sessions database requires understanding how raw events
+						become structured session records. The pipeline can be conceptualized in five
+						stages:
+					</p>
+
+					<h3>Stage 1: Event Emission</h3>
+					<p>
+						The YouTube client (web, Android, iOS, TV) emits <strong>structured log events</strong>
+						using Google's internal logging infrastructure. Each event is a Protocol Buffer
+						(protobuf) message containing: a timestamp, a user/device identifier, an event type
+						code, and a payload of event-specific fields. Examples of event types:
+					</p>
+					<ul>
+						<li><code>VIDEO_PLAY_START</code> — fired when playback begins</li>
+						<li><code>VIDEO_HEARTBEAT</code> — fired every 30 seconds during active playback</li>
+						<li><code>VIDEO_PLAY_PAUSE</code> / <code>VIDEO_PLAY_RESUME</code></li>
+						<li><code>VIDEO_SEEK</code> — fired when the playback position jumps non-sequentially</li>
+						<li><code>VIDEO_PLAY_END</code> — fired at playback termination (completion, user-initiated stop, app close)</li>
+						<li><code>IMPRESSION_SHOWN</code> — fired when a thumbnail is rendered in a recommendation surface</li>
+						<li><code>IMPRESSION_CLICK</code> — fired when a recommendation thumbnail is clicked</li>
+						<li><code>SEARCH_QUERY_SUBMITTED</code> — fired when a search query is sent</li>
+						<li><code>LIKE</code>, <code>DISLIKE</code>, <code>SHARE</code>, <code>SUBSCRIBE</code></li>
+					</ul>
+
+					<h3>Stage 2: Raw Log Ingestion</h3>
+					<p>
+						Events are transported via Google's <strong>Pub/Sub</strong> messaging infrastructure
+						to a raw log sink. Raw logs are stored in <strong>Colossus</strong> (Google's
+						distributed file system, successor to GFS) and are queryable via
+						<strong>Dremel</strong> (the engine underlying BigQuery). At this stage, data is
+						available within minutes but is noisy (duplicates, client-side clock skew,
+						dropped packets) and not session-organized.
+					</p>
+
+					<h3>Stage 3: Event Deduplication and Repair</h3>
+					<p>
+						Before sessionization, events must be <strong>deduplicated</strong> (client retries
+						can cause duplicate events with the same event ID) and <strong>repaired</strong>
+						(missing end events can be inferred from subsequent start events or heartbeat gaps).
+						This step runs as a <strong>Dataflow</strong> streaming job with a configurable
+						watermark to handle late-arriving events (common on mobile devices that reconnect
+						after being offline).
+					</p>
+
+					<h3>Stage 4: Sessionization</h3>
+					<p>
+						The core <strong>sessionization job</strong> groups events by <code>user_id</code>
+						+ <code>device_id</code>, sorts them by timestamp, and applies the
+						inactivity-gap algorithm to assign session boundaries. For each session, aggregation
+						functions compute the session-level fields described in Section 3. This step is
+						typically implemented as a <strong>Flume</strong> (Google's internal MapReduce
+						successor) or <strong>Dataflow</strong> pipeline and runs both as a nightly batch
+						job (for yesterday's data) and as a near-real-time streaming variant (with higher
+						latency tolerance) for fresh session data.
+					</p>
+
+					<div class="diagram">Pipeline architecture overview:
+
+Client Events
+     │
+     ▼
+[Pub/Sub Topic: youtube-events]
+     │
+     ▼
+[Dataflow: Dedup + Repair]  ←── Late event watermark (2 hrs)
+     │
+     ▼
+[Colossus: Raw Log Tables]
+     │
+     ├──── [Batch Flume: Nightly sessionization] ──────► [Dremel/BigQuery: g3 sessions table]
+     │                                                              │
+     └──── [Streaming Dataflow: Near-RT sessionization] ──────► [Bigtable: Low-latency session serving]
+                                                                   │
+                                                             [Recommendation
+                                                              models, A/B
+                                                              evaluation,
+                                                              creator analytics]</div>
+
+					<h3>Stage 5: Serving and Access</h3>
+					<p>
+						The sessionized data is served through multiple downstream systems:
 					</p>
 					<ul>
 						<li>
-							<strong>Session boundary definition:</strong> How sessions are delimited (e.g., by
-							a 30-minute inactivity gap) affects all downstream analyses of session depth and
-							engagement duration.
+							<strong>Dremel/BigQuery tables</strong> — accessed by data scientists and ML engineers
+							for ad hoc analysis, feature engineering, and model training. Typical query latency
+							is seconds to minutes over petabytes of data.
 						</li>
 						<li>
-							<strong>User identification and privacy:</strong> User identifiers in internal
-							systems are typically hashed or pseudonymized; linking session records across time
-							requires careful handling to preserve privacy while enabling longitudinal analysis.
+							<strong>Bigtable</strong> — a low-latency key-value store used for near-real-time
+							serving of session signals to recommendation serving infrastructure. Row key is
+							typically a hash of <code>user_id</code>; columns are session feature vectors.
 						</li>
 						<li>
-							<strong>Selection and survivorship bias:</strong> The g3 sessions database captures
-							logged-in users whose behavior is fully attributable; anonymous or logged-out sessions
-							may be represented differently, introducing potential bias in engagement analyses.
+							<strong>YouTube Analytics API / YouTube Studio</strong> — aggregated, privacy-filtered
+							views of session data exposed to creators. Daily aggregation with a ~24–48 hour delay.
 						</li>
 						<li>
-							<strong>Data freshness and latency:</strong> Large-scale session databases are
-							typically populated with some delay; analyses requiring near-real-time signals
-							(e.g., breaking news engagement) must account for pipeline latency.
-						</li>
-						<li>
-							<strong>Engagement metric definitions:</strong> Metrics like "watch time" or
-							"completion rate" may be computed differently across internal tables; understanding
-							the precise definition used in any given analysis is critical for replication and
-							comparison.
+							<strong>YouTube Research and Transparency team</strong> — access to researcher
+							data environments for specific approved research projects, with additional
+							privacy-preserving transformations applied.
 						</li>
 					</ul>
 
-					<h2>Relevance to Academic Research</h2>
+					<!-- Section 5 -->
+					<h2 id="research-uses">5. How Sessions Are Used in YouTube Engagement Research</h2>
+
+					<h3 id="use-reco">5a. Recommendation System Training</h3>
+					<p>
+						Session data from the g3 sessions database is the primary data source for training
+						and evaluating YouTube's recommendation models. The landmark paper by Covington,
+						Adams, and Sargin (2016) describes a two-stage architecture—<strong>candidate
+						generation</strong> (a retrieval model that narrows millions of videos to hundreds
+						of candidates) followed by <strong>ranking</strong> (a precision model that
+						re-ranks candidates for the specific user context)—in which session-level features
+						play a central role.
+					</p>
+					<p>
+						Specifically, session data contributes to recommendation training in the following ways:
+					</p>
+					<ul>
+						<li>
+							<strong>Training labels:</strong> Watch time per video (from <code>watch_time_s</code>)
+							is used as a weighted positive label in the candidate generation model, preferring
+							videos that users spend more time watching over videos they click and immediately
+							abandon.
+						</li>
+						<li>
+							<strong>Session context features:</strong> Features like
+							<code>videos_started</code> prior to the current video, time-of-day, device type,
+							and the history of recent watches are fed as context into the ranking model to
+							capture the sequential nature of session behavior.
+						</li>
+						<li>
+							<strong>Negative examples:</strong> Videos that were impressed (shown as thumbnails)
+							but not clicked provide implicit negative training signal. The large ratio of
+							impressions to clicks (typically >10:1) means that impression-level data from
+							the session schema is critical for learning what users <em>don't</em> want.
+						</li>
+						<li>
+							<strong>Multi-task targets:</strong> The multitask ranking paper (Zhao et al., 2019)
+							describes a model that jointly optimizes for multiple session-level outcomes
+							(watch time, likes, shares, subscriptions) using a single shared representation,
+							with session data providing the joint label set.
+						</li>
+					</ul>
+
+					<h3 id="use-satisfaction">5b. Satisfaction and Well-Being Research</h3>
+					<p>
+						A major shift in YouTube's product philosophy, documented in several published works,
+						involved moving beyond raw watch time as the sole optimization objective. Session-level
+						survey data (the <code>survey_response_satisfaction</code> and
+						<code>survey_response_regret</code> fields) enabled researchers to empirically test
+						whether high-engagement sessions (measured by <code>total_watch_time_s</code>) actually
+						correlated with user-reported satisfaction.
+					</p>
+					<p>
+						Key findings from this research thread include:
+					</p>
+					<ul>
+						<li>
+							For many users and content types, watch time and satisfaction are positively
+							correlated—but the relationship is nonlinear, with very long sessions sometimes
+							showing declining satisfaction returns.
+						</li>
+						<li>
+							Certain content categories (e.g., highly stimulating entertainment, political
+							outrage content) show engagement–satisfaction divergence: high watch time but
+							lower post-session satisfaction ratings.
+						</li>
+						<li>
+							Regret signals (<code>survey_response_regret</code>) are weakly but consistently
+							predicted by sessions with high <code>autoplay_chain_length</code> and low
+							user-initiated navigation—passive, algorithm-driven sessions.
+						</li>
+						<li>
+							These findings contributed to YouTube's adoption of a
+							<strong>multi-objective reward function</strong> in its recommendation models,
+							incorporating satisfaction-proxied signals alongside watch time.
+						</li>
+					</ul>
+
+					<h3 id="use-passive-active">5c. Passive vs. Active Consumption</h3>
+					<p>
+						Session data enables a principled distinction between two qualitatively different
+						modes of YouTube engagement:
+					</p>
+					<ul>
+						<li>
+							<strong>Active consumption:</strong> Sessions characterized by high
+							<code>search_queries</code> counts, low <code>autoplay_videos_started</code>
+							ratios, high <code>avg_watch_percentage</code>, and frequent explicit
+							interactions (likes, saves). Users are purposively seeking specific content.
+						</li>
+						<li>
+							<strong>Passive consumption:</strong> Sessions characterized by low user-initiated
+							navigation, high <code>autoplay_chain_length</code>, lower
+							<code>avg_watch_percentage</code>, and few explicit interactions. Users are
+							in a "lean back" browsing mode driven by algorithmic recommendations.
+						</li>
+					</ul>
+					<p>
+						This distinction maps onto psychological constructs studied in media psychology:
+						active consumption resembles <em>goal-directed information seeking</em> or
+						<em>deliberate media selection</em>, while passive consumption resembles
+						<em>mindless viewing</em> or <em>hedonic browsing</em>. From a behavioral science
+						perspective, passive sessions may be more susceptible to recommendation-driven
+						content drift and are the primary locus of concern in research on platform-mediated
+						radicalization and excessive use.
+					</p>
+
+					<h3 id="use-audit">5d. Algorithmic Audit and Platform Accountability</h3>
+					<p>
+						Session-level data is the necessary (though not sufficient) input for rigorous
+						algorithmic auditing. Key audit questions that require session data include:
+					</p>
+					<ul>
+						<li>
+							<strong>Does the recommendation algorithm systematically lead users toward
+							politically extreme content?</strong> Answering this requires mapping
+							<code>video_discovery_source = UP_NEXT_AUTOPLAY</code> chains across content
+							category and political valence labels, requiring session-level sequential
+							video data.
+						</li>
+						<li>
+							<strong>Are certain demographic groups served systematically different content?</strong>
+							Requires joining session demographic data (inferred or self-reported) with
+							per-session content category distributions.
+						</li>
+						<li>
+							<strong>Does autoplay contribute disproportionately to misinformation consumption?</strong>
+							Requires distinguishing autoplay-driven watches from user-initiated watches at
+							the video level within sessions.
+						</li>
+						<li>
+							<strong>Are notification-triggered sessions associated with higher regret?</strong>
+							Requires joining <code>notification_triggered_session</code> with
+							<code>survey_response_regret</code>.
+						</li>
+					</ul>
+					<p>
+						The EU Digital Services Act (DSA) Article 40 and the proposed (though not enacted)
+						U.S. Platform Accountability and Transparency Act both reference the need for
+						session-level data access for independent researchers. The structure of the
+						g3 sessions database—specifically, what is and is not recorded—therefore has
+						direct policy implications.
+					</p>
+
+					<h3 id="use-regret">5e. Regret, Rabbit Holes, and Session Trajectory Analysis</h3>
+					<p>
+						"Rabbit hole" dynamics—where sequential recommendation consumption leads users
+						progressively toward extreme or harmful content—are among the most studied and
+						contested phenomena in platform research. Session data is essential for this analysis:
+					</p>
+					<ul>
+						<li>
+							<strong>Session trajectory:</strong> The sequence of <code>video_id</code> values
+							within a session, annotated with <code>video_discovery_source</code>, gives a
+							directed path through content space. Radicalization pathway analyses (e.g.,
+							Ribeiro et al., 2020; Hosseinmardi et al., 2021) require exactly this structure.
+						</li>
+						<li>
+							<strong>Content drift within sessions:</strong> Measuring how far the average
+							content vector of the last N videos in a session has shifted from the first N
+							videos quantifies algorithmic content drift. This requires both session-sequential
+							video data and video embedding representations.
+						</li>
+						<li>
+							<strong>Rabbit hole interruption:</strong> Studying whether explicit feedback
+							signals (<code>not_interested_clicks</code>) or user-initiated navigation breaks
+							autoplay chains helps evaluate the effectiveness of friction-based interventions.
+						</li>
+					</ul>
+					<p>
+						Internal YouTube research (Hosseinmardi et al., 2021, conducted with YouTube data
+						access) found limited evidence for systematic algorithmic amplification of extreme
+						content, in contrast to observational studies based on public data. The discrepancy
+						highlights how access to session-level data—specifically the
+						<code>video_discovery_source</code> field—is determinative for settling empirical
+						disputes about recommendation behavior.
+					</p>
+
+					<h3 id="use-diversity">5f. Content Diversity and Echo Chamber Detection</h3>
+					<p>
+						Content diversity within and across sessions is an emerging concern in platform
+						research. Session data enables several diversity metrics:
+					</p>
+					<ul>
+						<li>
+							<strong>Within-session category entropy:</strong> Shannon entropy of the
+							<code>content_category</code> distribution across videos in a session measures
+							how varied a user's session-level consumption is.
+						</li>
+						<li>
+							<strong>Cross-session topic persistence:</strong> Whether users' session-level
+							content profiles become more homogeneous over time (indicative of filter bubble
+							dynamics) or more diverse.
+						</li>
+						<li>
+							<strong>Ideological diversity:</strong> For news and political content, joining
+							session video sequences with partisan lean scores (derived from news outlet
+							classifications) enables measurement of ideological diversity per session.
+						</li>
+					</ul>
+
+					<!-- Section 6 -->
+					<h2 id="privacy">6. Privacy, Anonymization, and User Identification</h2>
+
+					<p>
+						The g3 sessions database contains behavioral records linked to individual users,
+						making privacy a central engineering and policy concern. Google's approach to
+						privacy in session data involves several layered mechanisms:
+					</p>
+
+					<h3>Pseudonymization</h3>
+					<p>
+						All user-facing identifiers are <strong>pseudonymized</strong>: the raw GAIA ID
+						(Google Account internal identifier) is replaced with a keyed hash that is
+						consistent within a product context but not linkable across products without an
+						additional join key held separately. The <code>user_id</code> in YouTube session
+						tables is not the same as the <code>user_id</code> in Gmail or Google Maps session
+						tables, preventing naive cross-product re-identification.
+					</p>
+
+					<h3>Differential Privacy</h3>
+					<p>
+						Google has published extensively on the use of <strong>differential privacy (DP)</strong>
+						in its data infrastructure (Erlingsson et al., 2014; Apple, Google RAPPOR). For
+						aggregate statistics derived from session data—such as those published in YouTube's
+						transparency reports or shared with regulators—DP noise is applied to prevent
+						inferring individual users' behavior from published aggregate statistics.
+					</p>
+
+					<h3>Data Retention Policies</h3>
+					<p>
+						Raw event-level logs are subject to shorter retention windows (typically 18 months
+						for logged-in users, shorter for logged-out) than session-level aggregates. Session
+						tables that have been stripped of direct identifiers may be retained longer for
+						longitudinal research purposes. Users can request deletion of their data under
+						GDPR (EU), CCPA (California), and Google's data deletion policies; deletion
+						requests propagate to derived tables including session records.
+					</p>
+
+					<h3>Access Controls and the Ads Data Hub Model</h3>
+					<p>
+						Access to session data within Google is governed by a tiered <strong>data access
+						control</strong> system. Data with higher sensitivity (finer grain, longer temporal
+						scope) requires higher-level approval. External research access—when granted under
+						programs like the YouTube Research Program—uses a
+						<strong>clean room</strong> model analogous to the Google Ads Data Hub: researchers
+						submit queries that are evaluated server-side, with results returned only if
+						they pass privacy thresholds (e.g., minimum cohort sizes of k ≥ 50).
+					</p>
+
+					<h3>Logged-In vs. Logged-Out Sessions</h3>
+					<p>
+						A critical limitation of the g3 sessions database is that it primarily captures
+						<strong>logged-in user sessions</strong>. Logged-out (anonymous) viewing on YouTube
+						is substantial—particularly for one-off video accesses from search engines—and is
+						tracked separately using cookie-based or device-ID-based identifiers with weaker
+						longitudinal linkage. Research findings based on g3 session data may not generalize
+						to anonymous viewing populations.
+					</p>
+
+					<!-- Section 7 -->
+					<h2 id="methodological">7. Methodological Considerations</h2>
+
+					<p>
+						Working with session databases at the scale of YouTube involves several important
+						methodological considerations for both internal researchers and external
+						collaborators:
+					</p>
+					<ul>
+						<li>
+							<strong>Session boundary definition:</strong> How sessions are delimited (e.g.,
+							by a 30-minute inactivity gap, a calendar-day boundary, or an entry-point reset)
+							fundamentally affects all downstream analyses of session depth and engagement
+							duration. Different boundary choices are not comparable and can produce
+							contradictory findings.
+						</li>
+						<li>
+							<strong>Watch time vs. watch fraction:</strong> <code>total_watch_time_s</code>
+							favors long videos (a 10-minute video generates more watch time than a 2-minute
+							video even at 50% completion). <code>avg_watch_percentage</code> normalizes for
+							video length but is confounded by genre (users reliably complete short music
+							videos but not long podcasts). Analyses should specify which metric is used and why.
+						</li>
+						<li>
+							<strong>Autoplay contamination:</strong> When studying user preferences, autoplay-
+							initiated watches are a weaker expression of preference than user-initiated watches.
+							Analyses that do not disaggregate by <code>video_discovery_source</code> risk
+							conflating user preference with algorithmic imposition.
+						</li>
+						<li>
+							<strong>Position bias:</strong> Videos at higher <code>recommendation_position</code>
+							are clicked more often regardless of content quality (position bias). Engagement
+							metrics that do not control for position cannot be straightforwardly interpreted
+							as content quality signals.
+						</li>
+						<li>
+							<strong>Selection and survivorship bias:</strong> The g3 sessions database captures
+							logged-in users whose behavior is fully attributable. Anonymous or logged-out
+							sessions may be represented differently, introducing potential bias in engagement
+							analyses. YouTube's logged-in user base skews toward more engaged and younger
+							demographics.
+						</li>
+						<li>
+							<strong>Experiment spillover:</strong> A/B test assignments (<code>experiment_ids</code>)
+							affect user behavior; sessions from users in experiment arms are not directly
+							comparable to control sessions for some analyses. Multi-arm experiment interactions
+							(when a user is in multiple simultaneous experiments) require careful SUTVA
+							(Stable Unit Treatment Value Assumption) analysis.
+						</li>
+						<li>
+							<strong>Data freshness and pipeline latency:</strong> Session tables are populated
+							with delays of hours to days. Analyses requiring near-real-time signals (e.g.,
+							breaking news engagement, live event analysis) must use streaming-derived tables
+							with different quality guarantees than batch-derived tables.
+						</li>
+						<li>
+							<strong>Metric definition consistency:</strong> Metrics like "watch time" or
+							"completion rate" may be computed differently across different internal table
+							versions. A video's <code>watch_time_s</code> may differ between the raw event
+							table and the sessionized table due to deduplication and repair logic. Understanding
+							the precise definition used in any given analysis is critical for replication.
+						</li>
+						<li>
+							<strong>Survey response bias:</strong> Only a small fraction of sessions trigger
+							satisfaction surveys, and users who respond are not a random sample of all users.
+							Models trained on survey-labeled data may have systematic biases toward more
+							engaged, survey-responsive users.
+						</li>
+					</ul>
+
+					<!-- Section 8 -->
+					<h2 id="academic">8. Relevance to Academic Research</h2>
 
 					<p>
 						For academic researchers studying YouTube engagement, the g3 sessions database
@@ -358,27 +1382,84 @@
 					</p>
 					<ul>
 						<li>
-							Session-level aggregation often provides a more ecologically valid unit of analysis
-							than individual event logs for studying behavioral patterns.
+							Session-level aggregation often provides a more ecologically valid unit of
+							analysis than individual event logs for studying behavioral patterns. A user's
+							"YouTube experience" on a given day is better represented by a session record
+							than by a stream of raw events.
 						</li>
 						<li>
 							Engagement metrics derived from session databases are the ground truth against
 							which recommendation algorithms are optimized—understanding them is essential
-							for interpreting algorithm behavior.
+							for interpreting algorithm behavior. External researchers who study YouTube
+							using only publicly observable signals (e.g., video view counts, public
+							comments) are studying a heavily filtered projection of the underlying behavioral
+							reality.
+						</li>
+						<li>
+							The <code>video_discovery_source</code> field—distinguishing user-initiated from
+							algorithm-initiated watches—is the single most consequential field for research
+							on algorithmic influence. Its absence from any publicly available data is the
+							primary reason that external studies of YouTube radicalization and recommendation
+							effects are limited and contested.
 						</li>
 						<li>
 							Proposals for data access frameworks (e.g., the EU Digital Services Act's
-							researcher access provisions) increasingly reference the need for session-level
-							data sharing to enable independent auditing of platform engagement dynamics.
+							researcher access provisions, the proposed ACCESS Act in the U.S.) increasingly
+							reference the need for session-level data sharing with specified fields to enable
+							independent auditing of platform engagement dynamics. Knowing what fields exist
+							in the g3 sessions database is prerequisite to specifying what data should be
+							made accessible.
+						</li>
+						<li>
+							The distinction between the g3 sessions database (internal analytical system)
+							and the YouTube Data API (external developer API) is important: the API exposes
+							aggregate creator-side metrics (view counts, watch time per video) but not
+							viewer-side session-level behavioral sequences. External researchers cannot
+							reconstruct session-level dynamics from the YouTube Data API alone.
 						</li>
 					</ul>
 
-					<h2>Further Reading</h2>
+					<!-- Section 9 -->
+					<h2 id="reading">9. Further Reading</h2>
+
+					<h3>Recommendation Systems and Session Data</h3>
 					<ul>
-						<li>Covington, P., Adams, J., &amp; Sargin, E. (2016). Deep neural networks for YouTube recommendations. <em>RecSys.</em></li>
-						<li>Zhao, Z., et al. (2019). Recommending what video to watch next: A multitask ranking system. <em>RecSys.</em></li>
-						<li>Huszár, F., et al. (2022). Algorithmic amplification of politics on Twitter. <em>PNAS.</em></li>
-						<li>Ribeiro, M. H., et al. (2020). Auditing radicalization pathways on YouTube. <em>FAT*.</em></li>
+						<li>Covington, P., Adams, J., &amp; Sargin, E. (2016). Deep neural networks for YouTube recommendations. <em>Proceedings of the 10th ACM Conference on Recommender Systems (RecSys).</em> <span class="cite">— Foundational paper describing YouTube's two-stage recommendation architecture and the use of watch time as a training label.</span></li>
+						<li>Zhao, Z., Hong, L., Wei, L., Chen, J., Nath, A., Andrews, S., Kumthekar, A., Sathiamoorthy, M., Yi, X., &amp; Chi, E. (2019). Recommending what video to watch next: A multitask ranking system. <em>RecSys.</em> <span class="cite">— Describes the multitask ranking framework that jointly optimizes for watch time, satisfaction, and explicit interactions.</span></li>
+						<li>Yi, X., Yang, J., Hong, L., Cheng, D. Z., Heldt, L., Kumthekar, A., Zhao, Z., Wei, L., &amp; Chi, E. (2019). Sampling-bias-corrected neural modeling for large corpus item recommendations. <em>RecSys.</em> <span class="cite">— Addresses selection bias in session training data for retrieval models.</span></li>
+					</ul>
+
+					<h3>Satisfaction, Well-Being, and Regret</h3>
+					<ul>
+						<li>Möller, J., Trilling, D., Helberger, N., &amp; van Es, B. (2018). Do not blame it on the algorithm: An empirical assessment of multiple recommender systems and their impact on content diversity. <em>Information, Communication &amp; Society.</em></li>
+						<li>Hosseinmardi, H., Ghasemian, A., Clauset, A., Mobius, M., Rothschild, D. M., &amp; Watts, D. J. (2021). Examining the consumption of radical content on YouTube. <em>Proceedings of the National Academy of Sciences.</em> <span class="cite">— Conducted with internal YouTube session data access; finds limited evidence for systematic algorithmic radicalization.</span></li>
+						<li>Whittaker, J., et al. (2021). Recommender systems and the amplification of extremist content. <em>Internet Policy Review.</em></li>
+					</ul>
+
+					<h3>Passive and Active Engagement</h3>
+					<ul>
+						<li>Frenzel, A. C., Pekrun, R., Dickhäuser, O., &amp; Goetz, T. (2012). Measuring enjoyment, discomfort, and boredom in achievement settings: Development and validation of the Achievement Emotions Questionnaire–Teacher (AEQ-T). <em>Contemporary Educational Psychology.</em> <span class="cite">— Provides theoretical grounding for active vs. passive engagement distinctions.</span></li>
+						<li>LaRose, R., &amp; Eastin, M. S. (2004). A social cognitive theory of internet uses and gratifications: Toward a new model of media attendance. <em>Journal of Broadcasting &amp; Electronic Media.</em> <span class="cite">— Theoretical framework for understanding goal-directed vs. habitual media use relevant to session behavior.</span></li>
+					</ul>
+
+					<h3>Algorithmic Auditing and Platform Accountability</h3>
+					<ul>
+						<li>Ribeiro, M. H., Ottoni, R., West, R., Almeida, V. A. F., &amp; Meira, W. (2020). Auditing radicalization pathways on YouTube. <em>Proceedings of FAT*.</em> <span class="cite">— External audit using public data; illustrates the limitations of external data relative to internal session-level data.</span></li>
+						<li>Huszár, F., Ktena, S. I., O'Brien, C., Belli, L., Schlaikjer, A., &amp; Hardt, M. (2022). Algorithmic amplification of politics on Twitter. <em>Proceedings of the National Academy of Sciences.</em> <span class="cite">— Internal industry study on recommendation amplification; methodological template for YouTube equivalent.</span></li>
+						<li>European Commission. (2022). Regulation (EU) 2022/2065 of the European Parliament and of the Council (Digital Services Act). <em>Official Journal of the European Union.</em> <span class="cite">— Article 40 establishes researcher data access rights; session-level data is the key resource referenced.</span></li>
+					</ul>
+
+					<h3>Privacy and Differential Privacy</h3>
+					<ul>
+						<li>Erlingsson, Ú., Pihur, V., &amp; Korolova, A. (2014). RAPPOR: Randomized aggregatable privacy-preserving ordinal response. <em>Proceedings of the ACM SIGSAC Conference on Computer and Communications Security (CCS).</em> <span class="cite">— Google's foundational differential privacy mechanism; deployed in Chrome and applicable to session data reporting.</span></li>
+						<li>Desfontaines, D., &amp; Pejó, B. (2020). SoK: Differential privacies. <em>Proceedings on Privacy Enhancing Technologies.</em></li>
+					</ul>
+
+					<h3>Data Infrastructure</h3>
+					<ul>
+						<li>Melnik, S., Gubarev, A., Long, J. J., Romer, G., Shivakumar, S., Tolton, M., &amp; Vassilakis, T. (2010). Dremel: Interactive analysis of web-scale datasets. <em>Proceedings of the VLDB Endowment.</em> <span class="cite">— The query engine underlying BigQuery; describes the columnar storage format used for g3 session tables.</span></li>
+						<li>Chang, F., Dean, J., Ghemawat, S., Hsieh, W. C., Wallach, D. A., Burrows, M., Chandra, T., Fikes, A., &amp; Gruber, R. E. (2008). Bigtable: A distributed storage system for structured data. <em>ACM Transactions on Computer Systems.</em> <span class="cite">— The low-latency serving store for real-time session feature serving in recommendation systems.</span></li>
+						<li>Akidau, T., Bradshaw, R., Chambers, C., Chernyak, S., Fernández-Moctezuma, R. J., Lax, R., McVeety, S., Mills, D., Perry, F., Schmidt, E., &amp; Whittle, S. (2015). The dataflow model: A practical approach to balancing correctness, latency, and cost in massive-scale, unbounded, out-of-order data processing. <em>Proceedings of the VLDB Endowment.</em> <span class="cite">— The streaming data processing model underlying the near-real-time sessionization pipeline.</span></li>
 					</ul>
 				</div>
 
