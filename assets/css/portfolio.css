@@ -1,0 +1,471 @@
+/* ===================================================================
+   Portfolio CSS — Jeffrey J. Berg
+   Clean, professional single-page portfolio
+   =================================================================== */
+
+/* ---------- Variables & Base ---------- */
+:root {
+  --color-bg:        #0e1117;
+  --color-surface:   #161b22;
+  --color-border:    rgba(255,255,255,0.08);
+  --color-text:      rgba(255,255,255,0.88);
+  --color-muted:     rgba(255,255,255,0.55);
+  --color-accent:    #e19235;
+  --color-accent-light: rgba(225,146,53,0.15);
+  --font-sans:       'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif:      'Georgia', 'Times New Roman', serif;
+  --max-width:       960px;
+  --section-padding: 5rem 2rem;
+}
+
+/* Override Aerial template defaults */
+html { overflow-y: auto; }
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  line-height: 1.8;
+  font-size: 16px;
+  overflow: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.loading #wrapper { opacity: 1; }
+
+#wrapper {
+  position: relative;
+  height: auto;
+  min-height: 100vh;
+  opacity: 1;
+  animation: none;
+}
+
+#bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  animation: none;
+  opacity: 0.25;
+  filter: blur(2px);
+}
+
+#overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(180deg, rgba(14,17,23,0.7) 0%, rgba(14,17,23,0.95) 100%);
+  z-index: 1;
+}
+
+#main {
+  position: relative;
+  z-index: 2;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.25s ease, opacity 0.25s ease;
+}
+a:hover { color: #f0a84c; }
+
+/* ---------- Navigation Bar ---------- */
+.site-nav {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(14,17,23,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+  transition: background 0.3s ease;
+}
+
+.site-nav .nav-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+
+.site-nav .nav-logo {
+  font-weight: 900;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #fff;
+  border-bottom: none;
+}
+.site-nav .nav-logo:hover { color: var(--color-accent); }
+
+.site-nav .nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0; padding: 0;
+}
+
+.site-nav .nav-links a {
+  font-size: 0.75rem;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  border-bottom: none;
+  transition: color 0.2s ease;
+}
+.site-nav .nav-links a:hover { color: #fff; }
+
+/* ---------- Hero Section ---------- */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6rem 2rem;
+}
+
+.hero-tagline {
+  font-size: 0.8rem;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 1.2rem;
+}
+
+.hero h1 {
+  font-size: 3.2rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.15;
+  margin-bottom: 0.6rem;
+  color: #fff;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  margin-bottom: 2.5rem;
+  max-width: 600px;
+}
+
+.hero-cta {
+  display: inline-block;
+  padding: 0.8rem 2.4rem;
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.hero-cta:hover {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+.hero-social {
+  margin-top: 3rem;
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+}
+
+.hero-social a {
+  font-size: 1.2rem;
+  color: var(--color-muted);
+  border-bottom: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.hero-social a:hover { color: #fff; transform: translateY(-2px); }
+
+/* ---------- Section Defaults ---------- */
+.section {
+  padding: var(--section-padding);
+}
+
+.section-label {
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.6rem;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 1.4rem;
+  line-height: 1.25;
+}
+
+.section-body {
+  max-width: 720px;
+}
+
+.section-body p {
+  margin-bottom: 1.2rem;
+  color: var(--color-text);
+}
+
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 0;
+}
+
+/* ---------- About Section ---------- */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-top: 2rem;
+}
+
+.about-col h3 {
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 0.8rem;
+}
+
+.about-col p {
+  color: var(--color-text);
+  margin-bottom: 1rem;
+}
+
+/* ---------- Poetic Quote Block ---------- */
+.quote-block {
+  border-left: 3px solid var(--color-accent);
+  padding: 1.5rem 2rem;
+  margin: 2.5rem 0;
+  background: var(--color-accent-light);
+  border-radius: 0 4px 4px 0;
+}
+
+.quote-block p {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 0;
+}
+
+.quote-block .quote-attr {
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  margin-top: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+/* ---------- Expertise Cards ---------- */
+.expertise-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.expertise-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 2rem 1.5rem;
+  transition: border-color 0.3s ease, transform 0.2s ease;
+}
+
+.expertise-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-3px);
+}
+
+.expertise-card .card-icon {
+  font-size: 1.6rem;
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+}
+
+.expertise-card h3 {
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 0.8rem;
+}
+
+.expertise-card p {
+  font-size: 0.88rem;
+  color: var(--color-muted);
+  line-height: 1.7;
+}
+
+/* ---------- Featured Project ---------- */
+.featured-project {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 2.5rem;
+  margin-top: 2rem;
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+  transition: border-color 0.3s ease;
+}
+
+.featured-project:hover { border-color: var(--color-accent); }
+
+.featured-project .project-icon {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  background: var(--color-accent-light);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: var(--color-accent);
+}
+
+.featured-project h3 {
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 0.6rem;
+}
+
+.featured-project p {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.featured-project .project-link {
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  border-bottom: none;
+}
+.featured-project .project-link:after { content: " \2192"; }
+.featured-project .project-link:hover { color: #f0a84c; }
+
+/* ---------- Publications ---------- */
+.pub-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 2rem;
+}
+
+.pub-list li {
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+.pub-list li:last-child { border-bottom: none; }
+
+.pub-list .pub-title {
+  font-weight: 900;
+  color: #fff;
+}
+
+.pub-list .pub-venue {
+  font-style: italic;
+  color: var(--color-muted);
+}
+
+.pub-list .pub-year {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
+  margin-right: 0.6rem;
+}
+
+/* ---------- Contact / Footer ---------- */
+.site-footer {
+  padding: 4rem 2rem;
+  text-align: center;
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-social {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+.footer-social a {
+  font-size: 1.3rem;
+  color: var(--color-muted);
+  border-bottom: none;
+  transition: color 0.2s ease;
+}
+.footer-social a:hover { color: #fff; }
+
+.footer-text {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  letter-spacing: 0.05em;
+}
+
+/* ---------- Smooth Scroll ---------- */
+html { scroll-behavior: smooth; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2.2rem; }
+  .hero-subtitle { font-size: 1rem; }
+  .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .expertise-grid { grid-template-columns: 1fr; }
+  .featured-project { flex-direction: column; }
+  .site-nav .nav-links { gap: 1rem; }
+  .site-nav .nav-links a { font-size: 0.65rem; letter-spacing: 0.08em; }
+  :root { --section-padding: 3.5rem 1.5rem; }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 1.8rem; }
+  .site-nav .nav-links { display: none; }
+  .section-title { font-size: 1.4rem; }
+  .expertise-card { padding: 1.5rem 1.2rem; }
+}
