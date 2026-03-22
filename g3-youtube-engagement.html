@@ -1,187 +1,144 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 	<head>
 		<title>G3 Sessions Database &amp; YouTube Engagement | Jeffrey J. Berg</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="An in-depth look at Google's G3 sessions database and its role in YouTube engagement analytics." />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/portfolio.css" />
 		<!-- ****** favicons ****** -->
 		<link rel="shortcut icon" href="/favicon/favicon.ico">
 		<link rel="icon" sizes="16x16 32x32 64x64" href="/favicon/favicon.ico">
 		<style>
-			/* Page-specific overrides for readable content layout */
-			body {
-				overflow: auto;
-				background: #1b1f22;
-			}
-			#wrapper {
-				position: relative;
-				height: auto;
-				min-height: 100vh;
-				opacity: 1;
-				animation: none;
-			}
-			#bg {
-				animation: none;
-				position: fixed;
-				width: 100%;
-			}
-			#overlay {
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				background: rgba(0,0,0,0.55);
-				z-index: 1;
-			}
-			#main {
-				position: relative;
-				z-index: 2;
-				max-width: 860px;
-				margin: 0 auto;
-				padding: 3em 2em 4em;
-			}
-			#header {
-				text-align: center;
-				margin-bottom: 2.5em;
-				border-bottom: 1px solid rgba(255,255,255,0.2);
-				padding-bottom: 1.5em;
-			}
-			#header h1 {
-				font-size: 2em;
-				font-weight: 900 !important;
-				letter-spacing: 0.1em;
-				margin-bottom: 0.3em;
-			}
-			#header p {
-				font-size: 0.85em;
-				letter-spacing: 0.08em;
-				opacity: 0.75;
-			}
-			#header nav ul {
-				list-style: none;
-				margin-top: 1em;
-				padding: 0;
-				display: flex;
-				justify-content: center;
-				gap: 1.5em;
-			}
-			#header nav ul li a {
-				font-size: 0.8em;
-				letter-spacing: 0.1em;
-				border-bottom: none;
-				opacity: 0.75;
-				text-transform: uppercase;
-			}
-			#header nav ul li a:hover {
-				opacity: 1;
-			}
-			.content {
+			/* Content page overrides */
+			#main { padding-top: 80px; }
+			.article-content {
 				color: rgba(255,255,255,0.9);
-				line-height: 1.85em;
-				font-size: 0.9em;
+				line-height: 1.85;
+				font-size: 0.95rem;
+				max-width: 760px;
 			}
-			.content h2 {
-				font-size: 1.3em;
-				font-weight: 900 !important;
+			.article-content h2 {
+				font-size: 1.3rem;
+				font-weight: 900;
 				letter-spacing: 0.08em;
-				margin: 2em 0 0.6em;
+				margin: 2.5em 0 0.6em;
 				color: #fff;
 				text-transform: uppercase;
 			}
-			.content h3 {
-				font-size: 1.05em;
-				font-weight: 900 !important;
+			.article-content h3 {
+				font-size: 1.05rem;
+				font-weight: 900;
 				letter-spacing: 0.05em;
 				margin: 1.5em 0 0.4em;
 				color: #e19235;
 			}
-			.content p {
-				margin-bottom: 1em;
-			}
-			.content ul {
+			.article-content p { margin-bottom: 1em; }
+			.article-content ul {
 				list-style: disc;
 				margin: 0.5em 0 1em 1.5em;
 			}
-			.content ul li {
-				margin-bottom: 0.4em;
-			}
-			.content code {
+			.article-content ul li { margin-bottom: 0.4em; }
+			.article-content code {
 				background: rgba(255,255,255,0.1);
 				border-radius: 3px;
 				padding: 0.1em 0.4em;
 				font-family: monospace;
 				font-size: 0.9em;
 			}
-			.content table {
+			.article-content table {
 				width: 100%;
 				border-collapse: collapse;
 				margin: 1em 0 1.5em;
-				font-size: 0.85em;
+				font-size: 0.85rem;
 			}
-			.content table th {
+			.article-content table th {
 				text-align: left;
 				padding: 0.5em 0.8em;
 				background: rgba(255,255,255,0.12);
-				font-weight: 900 !important;
+				font-weight: 900;
 				letter-spacing: 0.05em;
 				text-transform: uppercase;
 				font-size: 0.8em;
 			}
-			.content table td {
+			.article-content table td {
 				padding: 0.5em 0.8em;
 				border-bottom: 1px solid rgba(255,255,255,0.08);
 				vertical-align: top;
 			}
-			.content table tr:last-child td {
-				border-bottom: none;
-			}
+			.article-content table tr:last-child td { border-bottom: none; }
 			.note {
 				background: rgba(225,146,53,0.15);
 				border-left: 3px solid #e19235;
 				padding: 0.8em 1em;
 				margin: 1.5em 0;
-				font-size: 0.85em;
+				font-size: 0.85rem;
+				border-radius: 0 4px 4px 0;
 			}
 			.back-link {
 				display: inline-block;
 				margin-bottom: 2em;
-				font-size: 0.8em;
-				letter-spacing: 0.08em;
+				font-size: 0.75rem;
+				font-weight: 900;
+				letter-spacing: 0.12em;
 				text-transform: uppercase;
 				opacity: 0.7;
 				border-bottom: none !important;
+				color: var(--color-muted);
 			}
-			.back-link:before {
-				content: "\2190  ";
+			.back-link:before { content: "\2190  "; }
+			.back-link:hover { opacity: 1; color: #fff; }
+			.article-header {
+				margin-bottom: 2.5em;
+				padding-bottom: 1.5em;
+				border-bottom: 1px solid var(--color-border);
 			}
-			.back-link:hover {
-				opacity: 1;
+			.article-header h1 {
+				font-size: 1.8rem;
+				font-weight: 900;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+				color: #fff;
+				line-height: 1.3;
+				margin-bottom: 0.5em;
+			}
+			.article-header .article-meta {
+				font-size: 0.8rem;
+				letter-spacing: 0.08em;
+				color: var(--color-muted);
 			}
 		</style>
 	</head>
-	<body>
+	<body class="loading">
 		<div id="wrapper">
 			<div id="bg"></div>
 			<div id="overlay"></div>
-			<div id="main">
 
-				<header id="header">
-					<h1>Jeffrey J. Berg</h1>
-					<p>Doctoral Researcher&nbsp;&nbsp;|&nbsp;&nbsp;New York University</p>
-					<nav>
-						<ul>
-							<li><a href="https://linkedin.com/in/jeffreyjordanberg" class="icon fa fa-linkedin"><span class="label">LinkedIn</span></a></li>
-							<li><a href="/cv/CV_JeffreyJBerg.pdf" class="icon fa fa-file-o"><span class="label">CV</span></a></li>
-							<li><a href="https://twitter.com/therealJeffBerg" class="icon fa fa-twitter"><span class="label">Twitter</span></a></li>
-						</ul>
-					</nav>
-				</header>
+			<!-- Navigation -->
+			<nav class="site-nav">
+				<div class="nav-inner">
+					<a href="/" class="nav-logo">JJB</a>
+					<ul class="nav-links">
+						<li><a href="/#about">About</a></li>
+						<li><a href="/#expertise">Expertise</a></li>
+						<li><a href="/#research">Research</a></li>
+						<li><a href="/#publications">Publications</a></li>
+						<li><a href="/#contact">Contact</a></li>
+					</ul>
+				</div>
+			</nav>
+
+			<div id="main">
 
 				<a href="/" class="back-link">Back to Home</a>
 
-				<div class="content">
+				<div class="article-header">
+					<h1>G3 Sessions Database &amp; YouTube Engagement</h1>
+					<p class="article-meta">Jeffrey J. Berg &nbsp;&bull;&nbsp; Research Analysis</p>
+				</div>
+
+				<div class="article-content">
 					<h2>Understanding the G3 Sessions Database at Google as It Pertains to YouTube Engagement</h2>
 
 					<p>
@@ -381,6 +338,16 @@
 						<li>Ribeiro, M. H., et al. (2020). Auditing radicalization pathways on YouTube. <em>FAT*.</em></li>
 					</ul>
 				</div>
+
+				<hr class="section-divider" style="margin-top:3rem;">
+				<footer class="site-footer">
+					<ul class="footer-social">
+						<li><a href="https://linkedin.com/in/jeffreyjordanberg" class="icon fa fa-linkedin" aria-label="LinkedIn"></a></li>
+						<li><a href="https://twitter.com/therealJeffBerg" class="icon fa fa-twitter" aria-label="Twitter"></a></li>
+						<li><a href="/cv/CV_JeffreyJBerg.pdf" class="icon fa fa-file-o" aria-label="CV"></a></li>
+					</ul>
+					<p class="footer-text">&copy; Jeffrey J. Berg. Built with purpose.</p>
+				</footer>
 
 			</div>
 		</div>
