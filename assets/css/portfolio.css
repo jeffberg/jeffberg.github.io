@@ -399,7 +399,7 @@ a:hover { color: #f0a84c; }
 
 .pub-list li:last-child { border-bottom: none; }
 
-.pub-list .pub-title {
+.pub-list .pub-author {
   font-weight: 900;
   color: #fff;
 }
