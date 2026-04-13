@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>jeff berg — cv</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='14'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --ink: #1a1614;
+    --ink-soft: #5a4f48;
+    --ink-faint: #8a7f78;
+    --paper: #f4efe6;
+    --warm: #e8dcc4;
+    --sage: #b2bfa0;
+    --spruce: #7a8c6e;
+    --celery: #d4cdb0;
+    --ochre: #c5944a;
+    --pale-pink: #f0ddd6;
+    --lavender: #c4b7d4;
+    --rule: #d8d0c4;
+  }
+
+  * { box-sizing: border-box; margin: 0; }
+
+  html, body {
+    min-height: 100%;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  body {
+    font-family: "Cormorant Garamond", "EB Garamond", Garamond, "Hoefler Text", "Times New Roman", serif;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.6;
+    letter-spacing: 0.005em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .page {
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: 3rem clamp(1.5rem, 6vw, 4rem) 5rem;
+    animation: rise 1.4s cubic-bezier(.2,.7,.2,1) both;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(0.5rem); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* header */
+  .cv-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  h1 {
+    font-family: inherit;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+  }
+
+  .subtitle {
+    font-family: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.15em;
+    text-transform: lowercase;
+    color: var(--ink-soft);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  /* sections */
+  section {
+    margin-top: 2.2rem;
+  }
+
+  h2 {
+    font-family: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .entry {
+    margin-bottom: 1.4rem;
+  }
+
+  .entry-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .entry-title {
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+
+  .entry-org {
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  .entry-date {
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+
+  .entry-detail {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    margin-top: 0.25rem;
+    line-height: 1.55;
+  }
+
+  /* publications */
+  .pub {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  .pub em {
+    color: var(--ink);
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  .pub .journal {
+    font-style: italic;
+  }
+
+  /* skills list */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  .tags li {
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    border: 1px solid var(--rule);
+    border-radius: 2rem;
+    padding: 0.25rem 0.75rem;
+  }
+
+  /* footer nav */
+  .cv-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--ink-faint);
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+    transition: color .3s ease, border-color .3s ease;
+  }
+
+  a:hover,
+  a:focus-visible {
+    color: var(--ink);
+    border-color: transparent;
+  }
+
+  a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page { animation: none; }
+  }
+
+  @media print {
+    body { font-size: 11pt; }
+    .page { padding: 0; max-width: none; }
+    .cv-footer { display: none; }
+    a { border: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <header class="cv-header">
+      <h1>jeffrey j. berg</h1>
+      <p class="subtitle">
+        data scientist &amp; researcher<br>
+        ai, behavioral science, digital media intelligence
+      </p>
+    </header>
+
+    <section>
+      <h2>experience</h2>
+
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">Senior Data Scientist</span>
+          <span class="entry-date">2022 &ndash; present</span>
+        </div>
+        <div class="entry-org">Electronic Arts (EA)</div>
+        <p class="entry-detail">
+          Behavioral modeling and player analytics at platform scale.
+          Deep learning architectures for engagement prediction,
+          recommendation systems, and content understanding.
+        </p>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">Data Scientist &amp; Researcher</span>
+          <span class="entry-date">2019 &ndash; 2022</span>
+        </div>
+        <div class="entry-org">YouTube / Google</div>
+        <p class="entry-detail">
+          Session-level behavioral modeling and engagement dynamics
+          across YouTube&rsquo;s recommendation ecosystem. Causal inference
+          methods applied to the interplay between algorithms and
+          user satisfaction at billion-user scale.
+        </p>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">Doctoral Researcher</span>
+          <span class="entry-date">2014 &ndash; 2019</span>
+        </div>
+        <div class="entry-org">New York University &amp; University of Amsterdam &mdash; Amodio Lab</div>
+        <p class="entry-detail">
+          Investigated how attitudes form and change through reinforcement
+          learning, using behavioral experiments, fMRI neuroimaging, and
+          computational modeling. Research on implicit bias, social cognition,
+          and the neural underpinnings of prejudice.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>education</h2>
+
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">Ph.D., Cognition &amp; Perception</span>
+          <span class="entry-date">2019</span>
+        </div>
+        <div class="entry-org">New York University, Department of Psychology</div>
+        <p class="entry-detail">
+          Advisor: David M. Amodio. NSF GRFP Honorable Mention.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>selected publications</h2>
+
+      <div class="pub">
+        Amodio, D. M. &amp; <em>Berg, J. J.</em> (2022).
+        The neural underpinnings of intergroup bias.
+        In P. Molenberghs (Ed.), <span class="journal">The Neuroscience of Intergroup Relations</span>.
+        New York: Routledge.
+      </div>
+
+      <div class="pub">
+        Hackel, L. M., <em>Berg, J. J.</em>, Lindstr&ouml;m, B. R., &amp; Amodio, D. M. (2019).
+        Model-based and model-free social cognition: investigating the role
+        of habit in social attitude formation and choice.
+        <span class="journal">Frontiers in Psychology</span>, 10, 2592.
+      </div>
+
+      <div class="pub">
+        Amodio, D. M. &amp; <em>Berg, J. J.</em> (2018).
+        Toward a multiple memory systems model of attitudes and social cognition.
+        <span class="journal">Psychological Inquiry</span>, 29, 14&ndash;19.
+      </div>
+    </section>
+
+    <section>
+      <h2>talks &amp; presentations</h2>
+
+      <div class="pub">
+        Amodio, D. M., <em>Berg, J. J.</em>, &amp; Cui, Q. (2022).
+        Human sources of racial bias in face classification algorithms.
+        <span class="journal">Society for Personality and Social Psychology (SPSP)</span>, San Francisco.
+      </div>
+
+      <div class="pub">
+        Amodio, D. M., <em>Berg, J. J.</em>, &amp; Cui, Q. (2021).
+        Human sources of racial bias in AI face classification algorithms.
+        <span class="journal">Society of Experimental Social Psychology (SESP)</span>, Santa Barbara.
+      </div>
+    </section>
+
+    <section>
+      <h2>domains</h2>
+      <ul class="tags">
+        <li>deep learning</li>
+        <li>reinforcement learning</li>
+        <li>behavioral modeling</li>
+        <li>recommendation systems</li>
+        <li>causal inference</li>
+        <li>fMRI neuroimaging</li>
+        <li>computational social cognition</li>
+        <li>algorithmic bias</li>
+        <li>digital media intelligence</li>
+        <li>platform analytics</li>
+        <li>python</li>
+        <li>pytorch</li>
+        <li>sql</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>research interests</h2>
+      <p class="entry-detail">
+        how attitudes form through learning.
+        the prediction errors that shape human and machine behavior.
+        AI systems that inherit our biases&mdash;and how to see it, measure it, fix it.
+        digital media ecosystems at scale.
+        the space between neuroscience and industry.
+      </p>
+    </section>
+
+    <footer class="cv-footer">
+      <a href="/">home</a>
+      <a href="https://linkedin.com/in/jeffreyjordanberg">linkedin</a>
+      <a href="https://github.com/jeffberg">github</a>
+      <a href="https://scholar.google.com/citations?user=biGrKHwAAAAJ">scholar</a>
+      <a href="mailto:berg.jeffreyjordan@gmail.com">say hi</a>
+    </footer>
+  </div>
+</body>
+</html>

@@ -14,6 +14,13 @@
     --warm: #e8dcc4;
     --rose: #d9b5a0;
     --sky:  #b8c9d4;
+    --sage: #b2bfa0;
+    --spruce: #7a8c6e;
+    --celery: #d4cdb0;
+    --ochre: #c5944a;
+    --pale-pink: #f0ddd6;
+    --navajo: #ffdead;
+    --lavender: #c4b7d4;
   }
 
   * { box-sizing: border-box; }
@@ -37,32 +44,34 @@
     overflow-x: hidden;
   }
 
-  /* the breathing field of color behind everything */
   .field {
     position: fixed;
     inset: 0;
     z-index: -2;
     background:
-      radial-gradient(circle at 20% 15%,  var(--rose) 0%, transparent 55%),
-      radial-gradient(circle at 80% 85%,  var(--sky)  0%, transparent 55%),
-      radial-gradient(circle at 50% 50%,  var(--warm) 0%, transparent 70%),
+      radial-gradient(circle at 12% 20%,  var(--sage) 0%, transparent 45%),
+      radial-gradient(circle at 85% 15%,  var(--lavender) 0%, transparent 40%),
+      radial-gradient(circle at 20% 80%,  var(--rose) 0%, transparent 50%),
+      radial-gradient(circle at 75% 70%,  var(--pale-pink) 0%, transparent 45%),
+      radial-gradient(circle at 50% 50%,  var(--celery) 0%, transparent 60%),
+      radial-gradient(circle at 40% 35%,  var(--navajo) 0%, transparent 35%),
       var(--paper);
-    filter: saturate(0.85);
-    animation: drift 28s ease-in-out infinite alternate;
+    filter: saturate(0.7);
+    animation: drift 32s ease-in-out infinite alternate;
   }
 
   @keyframes drift {
     0%   { transform: scale(1)    translate3d(0, 0, 0); }
+    50%  { transform: scale(1.04) translate3d(-1%, 0.5%, 0); }
     100% { transform: scale(1.08) translate3d(-2%, 1%, 0); }
   }
 
-  /* a hush of grain */
   .grain {
     position: fixed;
     inset: -50%;
     z-index: -1;
     pointer-events: none;
-    opacity: 0.12;
+    opacity: 0.1;
     mix-blend-mode: multiply;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
@@ -102,16 +111,6 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  h1 {
-    font-family: inherit;
-    font-weight: 400;
-    font-style: italic;
-    font-size: clamp(2.6rem, 7vw, 4.2rem);
-    line-height: 1;
-    margin: 0 0 1.6rem;
-    letter-spacing: -0.01em;
-  }
-
   .poem {
     font-size: clamp(1.05rem, 1.6vw, 1.2rem);
     line-height: 1.75;
@@ -137,6 +136,33 @@
     margin-top: 1.8rem;
     color: var(--ink-soft);
     font-size: 0.95rem;
+  }
+
+  .links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .links a {
+    font-family: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    color: var(--ink-soft);
+    border: 1px solid var(--ink-soft);
+    border-radius: 2rem;
+    padding: 0.35rem 1rem;
+    border-bottom: 1px solid var(--ink-soft);
+    transition: color .3s ease, border-color .3s ease, background .3s ease;
+  }
+
+  .links a:hover,
+  .links a:focus-visible {
+    color: var(--ink);
+    border-color: var(--ink);
+    background: rgba(26, 22, 20, 0.04);
   }
 
   .bottom {
@@ -169,7 +195,6 @@
     outline-offset: 3px;
   }
 
-  /* tiny accents */
   .dot {
     display: inline-block;
     width: 4px; height: 4px;
@@ -201,11 +226,12 @@
     </header>
 
     <section class="center">
-      <h1>here,<br>briefly.</h1>
       <div class="poem">
         <p class="stanza">
-          <span>a new fork,</span>
-          <span>another road to be traveled.</span>
+          <span>a new fork_</span>
+          <span>another road to be traversed.</span>
+          <span>trodden.</span>
+          <span>tr</span>
         </p>
         <p class="stanza">
           <span>less? or more? suspense, suspended.</span>
@@ -225,11 +251,17 @@
           <span>like a siren&rsquo;s call.</span>
         </p>
       </div>
-      <span class="mark">&#10026;</span>
+      <span class="mark" aria-hidden="true">&#10026;</span>
+
+      <nav class="links" aria-label="elsewhere">
+        <a href="/cv">cv</a>
+        <a href="https://linkedin.com/in/jeffreyjordanberg">linkedin</a>
+        <a href="https://github.com/jeffberg">github</a>
+      </nav>
     </section>
 
     <footer class="bottom">
-      <span>napa &mdash; or, if serendipity succeeds, a city near you</span>
+      <span>n@pa &mdash; or, if serendipity succeeds, a city near you</span>
       <span aria-hidden="true">&middot;</span>
       <a href="mailto:berg.jeffreyjordan@gmail.com">say hi</a>
     </footer>
