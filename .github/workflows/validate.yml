@@ -1,0 +1,152 @@
+name: validate site
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Collect HTML files
+        run: |
+          echo "--- HTML files found ---"
+          find . -name '*.html' -not -path './.git/*' | sort | tee /tmp/html_files.txt
+          echo ""
+
+      - name: Check file sizes
+        run: |
+          echo "--- File size check (warn if > 50KB) ---"
+          status=0
+          while IFS= read -r file; do
+            size=$(stat -c%s "$file")
+            kb=$((size / 1024))
+            if [ "$size" -gt 51200 ]; then
+              echo "::warning file=${file}::${file} is ${kb}KB (exceeds 50KB limit)"
+              status=1
+            else
+              echo "OK: ${file} (${kb}KB)"
+            fi
+          done < /tmp/html_files.txt
+          # file size is a warning, not a failure
+          exit 0
+
+      - name: Validate HTML structure
+        run: |
+          echo "--- Basic HTML validation ---"
+          status=0
+          while IFS= read -r file; do
+            echo "Checking: $file"
+            errors=""
+
+            # DOCTYPE
+            if ! head -1 "$file" | grep -qi '<!doctype html>'; then
+              errors="${errors}  - Missing <!DOCTYPE html> declaration\n"
+            fi
+
+            # Closing </html> tag
+            if ! grep -qi '</html>' "$file"; then
+              errors="${errors}  - Missing closing </html> tag\n"
+            fi
+
+            # Matching head/body open and close
+            for tag in head body; do
+              open=$(grep -oci "<${tag}[ >]" "$file" || true)
+              close=$(grep -oci "</${tag}>" "$file" || true)
+              if [ "$open" -ne "$close" ]; then
+                errors="${errors}  - Mismatched <${tag}> tags (open: ${open}, close: ${close})\n"
+              fi
+            done
+
+            if [ -n "$errors" ]; then
+              printf "::error file=%s::Validation errors:\n%b" "$file" "$errors"
+              status=1
+            else
+              echo "  PASS"
+            fi
+          done < /tmp/html_files.txt
+          exit $status
+
+      - name: Check required meta tags
+        run: |
+          echo "--- Required meta tag check ---"
+          status=0
+          while IFS= read -r file; do
+            echo "Checking: $file"
+            missing=""
+
+            # charset
+            if ! grep -qi 'meta.*charset' "$file"; then
+              missing="${missing}  - Missing charset meta tag\n"
+            fi
+
+            # viewport
+            if ! grep -qi 'meta.*name=["\x27]viewport' "$file"; then
+              missing="${missing}  - Missing viewport meta tag\n"
+            fi
+
+            # robots
+            if ! grep -qi 'meta.*name=["\x27]robots' "$file"; then
+              missing="${missing}  - Missing robots meta tag\n"
+            fi
+
+            if [ -n "$missing" ]; then
+              printf "::error file=%s::Missing required meta tags:\n%b" "$file" "$missing"
+              status=1
+            else
+              echo "  PASS"
+            fi
+          done < /tmp/html_files.txt
+          exit $status
+
+      - name: Accessibility checks
+        run: |
+          echo "--- Basic accessibility checks ---"
+          status=0
+          while IFS= read -r file; do
+            echo "Checking: $file"
+            issues=""
+
+            # lang attribute on <html>
+            if ! grep -qiP '<html[^>]+lang=' "$file"; then
+              issues="${issues}  - Missing lang attribute on <html> element\n"
+            fi
+
+            # All img tags should have alt attributes
+            if grep -qiP '<img\b' "$file"; then
+              img_count=$(grep -ciP '<img\b' "$file" || true)
+              alt_count=$(grep -ciP '<img\b[^>]*\balt=' "$file" || true)
+              if [ "$alt_count" -lt "$img_count" ]; then
+                issues="${issues}  - Found images without alt attributes (${alt_count}/${img_count} have alt)\n"
+              fi
+            fi
+
+            # Check that aria-hidden values are valid (true/false)
+            if grep -qiP 'aria-hidden=' "$file"; then
+              bad_aria=$(grep -oiP 'aria-hidden="[^"]*"' "$file" | grep -viP 'aria-hidden="(true|false)"' || true)
+              if [ -n "$bad_aria" ]; then
+                issues="${issues}  - Invalid aria-hidden values: ${bad_aria}\n"
+              fi
+            fi
+
+            # Check that links have discernible text (not empty <a></a>)
+            if grep -qP '<a\b[^>]*>\s*</a>' "$file"; then
+              issues="${issues}  - Found empty links with no discernible text\n"
+            fi
+
+            # Check for focus-visible styles (a good practice indicator)
+            if ! grep -q 'focus-visible' "$file"; then
+              issues="${issues}  - No :focus-visible styles found (recommended for keyboard navigation)\n"
+            fi
+
+            if [ -n "$issues" ]; then
+              printf "::error file=%s::Accessibility issues:\n%b" "$file" "$issues"
+              status=1
+            else
+              echo "  PASS"
+            fi
+          done < /tmp/html_files.txt
+          exit $status
