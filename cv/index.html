@@ -12,13 +12,6 @@
     --ink-soft: #5a4f48;
     --ink-faint: #8a7f78;
     --paper: #f4efe6;
-    --warm: #e8dcc4;
-    --sage: #b2bfa0;
-    --spruce: #7a8c6e;
-    --celery: #d4cdb0;
-    --ochre: #c5944a;
-    --pale-pink: #f0ddd6;
-    --lavender: #c4b7d4;
     --rule: #d8d0c4;
   }
 
@@ -41,7 +34,7 @@
   }
 
   .page {
-    max-width: 40rem;
+    max-width: 42rem;
     margin: 0 auto;
     padding: 3rem clamp(1.5rem, 6vw, 4rem) 5rem;
     animation: rise 1.4s cubic-bezier(.2,.7,.2,1) both;
@@ -52,7 +45,6 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* header */
   .cv-header {
     margin-bottom: 2.5rem;
     padding-bottom: 1.5rem;
@@ -72,17 +64,14 @@
   .subtitle {
     font-family: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
     font-size: 0.82rem;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.12em;
     text-transform: lowercase;
     color: var(--ink-soft);
     font-weight: 300;
-    line-height: 1.5;
+    line-height: 1.6;
   }
 
-  /* sections */
-  section {
-    margin-top: 2.2rem;
-  }
+  section { margin-top: 2.2rem; }
 
   h2 {
     font-family: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
@@ -96,9 +85,7 @@
     border-bottom: 1px solid var(--rule);
   }
 
-  .entry {
-    margin-bottom: 1.4rem;
-  }
+  .entry { margin-bottom: 1.5rem; }
 
   .entry-head {
     display: flex;
@@ -108,15 +95,9 @@
     gap: 0.5rem;
   }
 
-  .entry-title {
-    font-weight: 600;
-    font-size: 1.05rem;
-  }
+  .entry-title { font-weight: 600; font-size: 1.05rem; }
 
-  .entry-org {
-    font-style: italic;
-    color: var(--ink-soft);
-  }
+  .entry-org { font-style: italic; color: var(--ink-soft); }
 
   .entry-date {
     font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -127,31 +108,31 @@
   }
 
   .entry-detail {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     color: var(--ink-soft);
     margin-top: 0.25rem;
     line-height: 1.55;
   }
 
-  /* publications */
+  .entry-detail ul {
+    padding-left: 1.2rem;
+    margin: 0.3rem 0 0;
+  }
+
+  .entry-detail li {
+    margin-bottom: 0.2rem;
+  }
+
   .pub {
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
+    margin-bottom: 0.9rem;
+    font-size: 0.92rem;
     line-height: 1.55;
     color: var(--ink-soft);
   }
 
-  .pub em {
-    color: var(--ink);
-    font-style: normal;
-    font-weight: 500;
-  }
+  .pub em { color: var(--ink); font-style: normal; font-weight: 500; }
+  .pub .journal { font-style: italic; }
 
-  .pub .journal {
-    font-style: italic;
-  }
-
-  /* skills list */
   .tags {
     display: flex;
     flex-wrap: wrap;
@@ -162,15 +143,14 @@
 
   .tags li {
     font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
     color: var(--ink-soft);
     border: 1px solid var(--rule);
     border-radius: 2rem;
-    padding: 0.25rem 0.75rem;
+    padding: 0.2rem 0.65rem;
   }
 
-  /* footer nav */
   .cv-footer {
     margin-top: 3rem;
     padding-top: 1.5rem;
@@ -192,8 +172,7 @@
     transition: color .3s ease, border-color .3s ease;
   }
 
-  a:hover,
-  a:focus-visible {
+  a:hover, a:focus-visible {
     color: var(--ink);
     border-color: transparent;
   }
@@ -208,8 +187,8 @@
   }
 
   @media print {
-    body { font-size: 11pt; }
-    .page { padding: 0; max-width: none; }
+    body { font-size: 10.5pt; }
+    .page { padding: 0; max-width: none; animation: none; }
     .cv-footer { display: none; }
     a { border: none; }
   }
@@ -218,10 +197,10 @@
 <body>
   <div class="page">
     <header class="cv-header">
-      <h1>jeffrey j. berg</h1>
+      <h1>jeff berg, ph.d.</h1>
       <p class="subtitle">
-        data scientist &amp; researcher<br>
-        ai, behavioral science, digital media intelligence
+        research data scientist &amp; behavioral scientist<br>
+        digital entertainment &amp; discovery &#183; statistics &amp; inference for human-machine interaction
       </p>
     </header>
 
@@ -230,43 +209,122 @@
 
       <div class="entry">
         <div class="entry-head">
-          <span class="entry-title">Senior Data Scientist</span>
-          <span class="entry-date">2022 &ndash; present</span>
+          <span class="entry-title">Research Data Scientist</span>
+          <span class="entry-date">jan 2026 &ndash; present</span>
         </div>
-        <div class="entry-org">Electronic Arts (EA)</div>
+        <div class="entry-org">YouTube &mdash; San Bruno, CA</div>
         <p class="entry-detail">
-          Behavioral modeling and player analytics at platform scale.
-          Deep learning architectures for engagement prediction,
-          recommendation systems, and content understanding.
+          <ul>
+            <li>understanding how youtube users discover, be discovered by, and be discovered via gaming-related content</li>
+            <li>implementing in silico information-theoretic experimental machine inference frameworks by synthesizing axioms of psychometric theory and measurement synergies within their emergent nomological network</li>
+          </ul>
         </p>
       </div>
 
       <div class="entry">
         <div class="entry-head">
-          <span class="entry-title">Data Scientist &amp; Researcher</span>
-          <span class="entry-date">2019 &ndash; 2022</span>
+          <span class="entry-title">Senior Analyst</span>
+          <span class="entry-date">jul 2022 &ndash; jun 2025</span>
         </div>
-        <div class="entry-org">YouTube / Google</div>
+        <div class="entry-org">Electronic Arts &mdash; Decision &amp; Data Science, Fan Intelligence &mdash; Redwood City, CA</div>
         <p class="entry-detail">
-          Session-level behavioral modeling and engagement dynamics
-          across YouTube&rsquo;s recommendation ecosystem. Causal inference
-          methods applied to the interplay between algorithms and
-          user satisfaction at billion-user scale.
+          <ul>
+            <li>built social-graph framework using community detection and temporal graph attention networks to predict edge formation for unlinked players; surfaced $1B+ growth upside from prioritizing social connection</li>
+            <li>transformed viewership ROI measurement, converting 100M+ watch hours into acquisition value using econometric models of player telemetry and media engagement</li>
+            <li>designed digital landing page ROAS framework mapping 100M+ ad-driven user journeys to conversion and spend behavior</li>
+            <li>led A/B testing strategy for in-game assistive UX surfaces; codified success/guardrail metrics and data-driven design protocols</li>
+            <li>created cross-market normalization framework reducing view inflation ~75%, instituting single source of truth for video metrics</li>
+            <li>directed multimillion-dollar marketing investments via market prioritization tools fusing audience, economic, and media inputs</li>
+            <li>led vendor evaluation and onboarding; drove metrics governance across multisource media engagement data</li>
+            <li>founded company-wide exchange bridging data, marketing, product, and engineering to enhance player social experiences</li>
+          </ul>
+        </p>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">Marketing Analytics Intern</span>
+          <span class="entry-date">may &ndash; aug 2021</span>
+        </div>
+        <div class="entry-org">Electronic Arts &mdash; Data Science &amp; Solutions &mdash; Redwood City, CA</div>
+        <p class="entry-detail">
+          <ul>
+            <li>automated competitor selection and market share analysis via factor-validated competition features and predictive models</li>
+            <li>reduced multichannel social media activity into interpretable time-series factors mapped to segmented in-game engagement</li>
+          </ul>
         </p>
       </div>
 
       <div class="entry">
         <div class="entry-head">
           <span class="entry-title">Doctoral Researcher</span>
-          <span class="entry-date">2014 &ndash; 2019</span>
+          <span class="entry-date">sep 2016 &ndash; aug 2023</span>
         </div>
-        <div class="entry-org">New York University &amp; University of Amsterdam &mdash; Amodio Lab</div>
+        <div class="entry-org">New York University &mdash; Department of Psychology, Amodio Lab</div>
         <p class="entry-detail">
-          Investigated how attitudes form and change through reinforcement
-          learning, using behavioral experiments, fMRI neuroimaging, and
-          computational modeling. Research on implicit bias, social cognition,
-          and the neural underpinnings of prejudice.
+          <ul>
+            <li>demonstrated causal impact of human bias on algorithmic face classification; designed experimental pipelines isolating how annotator prejudice degrades accuracy and fairness in deep CNN face classifiers</li>
+            <li>identified computational mechanisms of social impression formation using hierarchical Bayesian reinforcement learning across behavioral and neural experiments</li>
+            <li>modeled causal effects of media exposure on voter behavior via time-series VAR/IRF analysis; clustered civic behavior profiles with Gaussian mixture models</li>
+            <li>led experimentation on human evaluation of AI-generated news, finding and intervening on widespread trust in misleading automated content</li>
+            <li>improved health prediction in older adults using regularized regression and random forests over high-dimensional psychosocial features</li>
+          </ul>
         </p>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">Instructor &amp; Teaching Assistant</span>
+          <span class="entry-date">2017 &ndash; 2022</span>
+        </div>
+        <div class="entry-org">New York University &mdash; Department of Psychology</div>
+        <p class="entry-detail">
+          Instructor: statistics for the behavioral sciences (summer 2019).
+          TA: graduate statistics, introduction to machine learning, scientific programming in R &amp; Python.
+        </p>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">Research Technician</span>
+          <span class="entry-date">jul 2014 &ndash; jun 2016</span>
+        </div>
+        <div class="entry-org">Washington University in St. Louis &mdash; Memory &amp; Cognition Lab</div>
+        <p class="entry-detail">
+          visuospatial clarity during memory and imagination as hybrid trait-state constructs in human mental time travel.
+        </p>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">Visiting Researcher</span>
+          <span class="entry-date">jun &ndash; aug 2013</span>
+        </div>
+        <div class="entry-org">University of Zurich &mdash; Institute for Political Science</div>
+        <p class="entry-detail">
+          personality measurement as a foundation for understanding the psychological development of political ambivalence.
+        </p>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">Research &amp; Lab Assistant, Teaching Assistant</span>
+          <span class="entry-date">2011 &ndash; 2014</span>
+        </div>
+        <div class="entry-org">Carleton College &mdash; Departments of Psychology &amp; Political Science</div>
+        <p class="entry-detail">
+          research: causal dynamics between economic conditions, political misinformation, and electoral participation.
+          perception lab: grammatical context constraints during lexical-visual processing.
+          teaching: media &amp; politics, methods of political research.
+        </p>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">Intern</span>
+          <span class="entry-date">jun &ndash; aug 2012</span>
+        </div>
+        <div class="entry-org">ICPSR &mdash; Inter-university Consortium for Political and Social Research &mdash; Ann Arbor, MI</div>
       </div>
     </section>
 
@@ -275,24 +333,50 @@
 
       <div class="entry">
         <div class="entry-head">
-          <span class="entry-title">Ph.D., Cognition &amp; Perception</span>
-          <span class="entry-date">2019</span>
+          <span class="entry-title">Ph.D. in Psychology</span>
+          <span class="entry-date">2016 &ndash; 2023</span>
         </div>
-        <div class="entry-org">New York University, Department of Psychology</div>
+        <div class="entry-org">New York University</div>
         <p class="entry-detail">
-          Advisor: David M. Amodio. NSF GRFP Honorable Mention.
+          social psychology &amp; quantitative methods.
+          dissertation: <em>human sources of social bias in automated face classification models.</em>
+          teaching: B.A., M.A., &amp; Ph.D. courses in statistics &amp; machine learning.
+          NSF Graduate Research Fellowship, honorable mention.
+        </p>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <span class="entry-title">B.A. in Cognitive Science &amp; Political Science</span>
+          <span class="entry-date">2010 &ndash; 2014</span>
+        </div>
+        <div class="entry-org">Carleton College</div>
+        <p class="entry-detail">
+          honors in both majors. Elveton Prize (top student in cognitive science).
         </p>
       </div>
     </section>
 
     <section>
-      <h2>selected publications</h2>
+      <h2>selected publications &amp; talks</h2>
+
+      <div class="pub">
+        Amodio, D. M., <em>Berg, J. J.</em>, &amp; Cui, Q. (2022).
+        Human sources of racial bias in face classification algorithms.
+        <span class="journal">Society for Personality and Social Psychology (SPSP)</span>, San Francisco.
+      </div>
 
       <div class="pub">
         Amodio, D. M. &amp; <em>Berg, J. J.</em> (2022).
         The neural underpinnings of intergroup bias.
         In P. Molenberghs (Ed.), <span class="journal">The Neuroscience of Intergroup Relations</span>.
-        New York: Routledge.
+        Routledge.
+      </div>
+
+      <div class="pub">
+        Amodio, D. M., <em>Berg, J. J.</em>, &amp; Cui, Q. (2021).
+        Human sources of racial bias in AI face classification algorithms.
+        <span class="journal">Society of Experimental Social Psychology (SESP)</span>, Santa Barbara.
       </div>
 
       <div class="pub">
@@ -310,49 +394,38 @@
     </section>
 
     <section>
-      <h2>talks &amp; presentations</h2>
-
-      <div class="pub">
-        Amodio, D. M., <em>Berg, J. J.</em>, &amp; Cui, Q. (2022).
-        Human sources of racial bias in face classification algorithms.
-        <span class="journal">Society for Personality and Social Psychology (SPSP)</span>, San Francisco.
-      </div>
-
-      <div class="pub">
-        Amodio, D. M., <em>Berg, J. J.</em>, &amp; Cui, Q. (2021).
-        Human sources of racial bias in AI face classification algorithms.
-        <span class="journal">Society of Experimental Social Psychology (SESP)</span>, Santa Barbara.
-      </div>
-    </section>
-
-    <section>
-      <h2>domains</h2>
+      <h2>methods</h2>
       <ul class="tags">
-        <li>deep learning</li>
-        <li>reinforcement learning</li>
-        <li>behavioral modeling</li>
-        <li>recommendation systems</li>
+        <li>A/B &amp; geo testing</li>
         <li>causal inference</li>
+        <li>DiD / IV / RD</li>
+        <li>synthetic control</li>
+        <li>econometrics</li>
+        <li>hierarchical models</li>
+        <li>time series</li>
+        <li>survival analysis</li>
+        <li>reinforcement learning</li>
+        <li>deep neural networks</li>
+        <li>graph neural networks</li>
+        <li>community detection</li>
+        <li>recommender systems</li>
+        <li>embeddings</li>
+        <li>psychometrics</li>
         <li>fMRI neuroimaging</li>
-        <li>computational social cognition</li>
-        <li>algorithmic bias</li>
-        <li>digital media intelligence</li>
-        <li>platform analytics</li>
+        <li>fairness auditing</li>
+        <li>metric governance</li>
         <li>python</li>
+        <li>R</li>
+        <li>SQL</li>
+        <li>spark</li>
+        <li>bigquery</li>
         <li>pytorch</li>
-        <li>sql</li>
       </ul>
     </section>
 
     <section>
-      <h2>research interests</h2>
-      <p class="entry-detail">
-        how attitudes form through learning.
-        the prediction errors that shape human and machine behavior.
-        AI systems that inherit our biases&mdash;and how to see it, measure it, fix it.
-        digital media ecosystems at scale.
-        the space between neuroscience and industry.
-      </p>
+      <h2>languages</h2>
+      <p class="entry-detail">english, spanish</p>
     </section>
 
     <footer class="cv-footer">
