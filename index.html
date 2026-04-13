@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <title>jeff berg</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='14'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
 <style>
@@ -79,9 +79,9 @@
 
   .top, .bottom {
     display: flex;
-    align-items: end;
+    align-items: flex-end;
   }
-  .bottom { align-items: start; }
+  .bottom { align-items: flex-start; }
 
   .top {
     font-size: 0.78rem;
@@ -117,7 +117,6 @@
     line-height: 1.75;
     color: var(--ink);
     margin: 0;
-    max-width: 28ch;
   }
 
   .poem span {
@@ -125,6 +124,13 @@
   }
 
   .poem span + span { margin-top: 0.15rem; }
+
+  .poem .stanza {
+    margin: 0;
+    padding: 0;
+  }
+
+  .poem .stanza + .stanza { margin-top: 1em; }
 
   .mark {
     display: inline-block;
@@ -152,9 +158,15 @@
     transition: color .3s ease, border-color .3s ease;
   }
 
-  a:hover {
+  a:hover,
+  a:focus-visible {
     color: var(--ink);
     border-color: transparent;
+  }
+
+  a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
   }
 
   /* tiny accents */
@@ -171,6 +183,11 @@
   @media (prefers-reduced-motion: reduce) {
     .field { animation: none; }
     .center { animation: none; }
+    .grain { display: none; }
+  }
+
+  @media (max-width: 768px) {
+    .grain { display: none; }
   }
 </style>
 </head>
@@ -185,17 +202,35 @@
 
     <section class="center">
       <h1>here,<br>briefly.</h1>
-      <p class="poem">
-        <span>making quiet things</span>
-        <span>with the people i love,</span>
-        <span>in the time we&rsquo;re given.</span>
-      </p>
+      <div class="poem">
+        <p class="stanza">
+          <span>a new fork,</span>
+          <span>another road to be traveled.</span>
+        </p>
+        <p class="stanza">
+          <span>less? or more? suspense, suspended.</span>
+          <span>the prediction error will shape our surprise,</span>
+          <span>or so i&rsquo;ve been told (criticized,</span>
+          <span>from a certain perspective&mdash; or at least my own: mine).</span>
+        </p>
+        <p class="stanza">
+          <span>and or in any one-case:</span>
+        </p>
+        <p class="stanza">
+          <span>cheers to the positives in life</span>
+          <span>to science, to discovery, and to the data</span>
+          <span>&mdash;innervating it all.</span>
+          <span>to the physical presents, and to the mental time travel,</span>
+          <span>and to the research awaiting</span>
+          <span>like a siren&rsquo;s call.</span>
+        </p>
+      </div>
       <span class="mark">&#10026;</span>
     </section>
 
     <footer class="bottom">
       <span>napa &mdash; or, if serendipity succeeds, a city near you</span>
-      <span>&middot;</span>
+      <span aria-hidden="true">&middot;</span>
       <a href="mailto:berg.jeffreyjordan@gmail.com">say hi</a>
     </footer>
   </main>
