@@ -12,7 +12,12 @@
     --ink-soft: #5a4f48;
     --ink-faint: #8a7f78;
     --paper: #f4efe6;
+    --warm: #e8dcc4;
     --rule: #d8d0c4;
+    --sage: #b2bfa0;
+    --lavender: #c4b7d4;
+    --rose: #d9b5a0;
+    --pale-pink: #f0ddd6;
   }
 
   * { box-sizing: border-box; margin: 0; }
@@ -33,6 +38,18 @@
     text-rendering: optimizeLegibility;
   }
 
+  .field {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(circle at 10% 90%, var(--sage) 0%, transparent 40%),
+      radial-gradient(circle at 90% 10%, var(--lavender) 0%, transparent 35%),
+      radial-gradient(circle at 50% 50%, var(--pale-pink) 0%, transparent 50%),
+      var(--paper);
+    filter: saturate(0.4);
+  }
+
   .page {
     max-width: 42rem;
     margin: 0 auto;
@@ -46,7 +63,7 @@
   }
 
   .cv-header {
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.2rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--rule);
   }
@@ -69,6 +86,15 @@
     color: var(--ink-soft);
     font-weight: 300;
     line-height: 1.6;
+  }
+
+  .summary {
+    margin-top: 1.2rem;
+    margin-bottom: 2.2rem;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 38rem;
   }
 
   section { margin-top: 2.2rem; }
@@ -119,19 +145,31 @@
     margin: 0.3rem 0 0;
   }
 
-  .entry-detail li {
-    margin-bottom: 0.2rem;
-  }
+  .entry-detail li { margin-bottom: 0.2rem; }
 
   .pub {
     margin-bottom: 0.9rem;
     font-size: 0.92rem;
     line-height: 1.55;
     color: var(--ink-soft);
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
   }
+
+  .pub .citation { flex: 1; }
 
   .pub em { color: var(--ink); font-style: normal; font-weight: 500; }
   .pub .journal { font-style: italic; }
+
+  .pub .cites {
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-faint);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
 
   .pub a {
     color: inherit;
@@ -145,27 +183,49 @@
     color: var(--ink);
   }
 
-  .pub a:hover em,
-  .pub a:focus-visible em {
-    color: var(--ink);
+  .pub a::after {
+    content: " pdf";
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    vertical-align: super;
+    margin-left: 0.2rem;
+  }
+
+  .pub a:hover::after { color: var(--ink-soft); }
+
+  .skills-group {
+    margin-bottom: 1.2rem;
+  }
+
+  .skills-group h3 {
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.4rem;
   }
 
   .tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
+    gap: 0.35rem;
     list-style: none;
     padding: 0;
   }
 
   .tags li {
     font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
-    font-size: 0.68rem;
-    letter-spacing: 0.06em;
+    font-size: 0.66rem;
+    letter-spacing: 0.05em;
     color: var(--ink-soft);
     border: 1px solid var(--rule);
     border-radius: 2rem;
-    padding: 0.2rem 0.65rem;
+    padding: 0.18rem 0.6rem;
   }
 
   .cv-footer {
@@ -199,6 +259,11 @@
     outline-offset: 3px;
   }
 
+  @media (max-width: 640px) {
+    .pub { flex-direction: column; gap: 0; }
+    .pub .cites { margin-top: 0.1rem; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .page { animation: none; }
   }
@@ -206,12 +271,15 @@
   @media print {
     body { font-size: 10.5pt; }
     .page { padding: 0; max-width: none; animation: none; }
+    .field { display: none; }
     .cv-footer { display: none; }
+    .pub a::after { content: none; }
     a { border: none; }
   }
 </style>
 </head>
 <body>
+  <div class="field" aria-hidden="true"></div>
   <div class="page">
     <header class="cv-header">
       <h1>jeffrey j. berg, ph.d.</h1>
@@ -220,6 +288,18 @@
         digital entertainment &amp; discovery &#183; statistics &amp; inference for human-machine interaction
       </p>
     </header>
+
+    <p class="summary">
+      Ph.D. data scientist shaping connection and experience in digital communities.
+      At YouTube, studying how users discover and are discovered via gaming content.
+      At EA, built measurement systems to evaluate and grow engagement for social
+      entertainment products&mdash;from graph-based friend recommendation and forecasts
+      of network-driven revenue lift to large-scale UX experimentation and media metric
+      governance. At NYU, employed computational reinforcement learning models and deep
+      neural networks to study social and human-machine interaction. Skilled in experiment
+      design, causal inference, applied statistics, and machine learning. End-to-end expertise
+      turning behavioral signals into insights that inform product health and roadmap decisions.
+    </p>
 
     <section>
       <h2>experience</h2>
@@ -230,12 +310,12 @@
           <span class="entry-date">jan 2026 &ndash; present</span>
         </div>
         <div class="entry-org">YouTube &mdash; San Bruno, CA</div>
-        <p class="entry-detail">
+        <div class="entry-detail">
           <ul>
             <li>understanding how youtube users discover, be discovered by, and be discovered via gaming-related content</li>
             <li>implementing in silico information-theoretic experimental machine inference frameworks by synthesizing axioms of psychometric theory and measurement synergies within their emergent nomological network</li>
           </ul>
-        </p>
+        </div>
       </div>
 
       <div class="entry">
@@ -244,7 +324,7 @@
           <span class="entry-date">jul 2022 &ndash; jun 2025</span>
         </div>
         <div class="entry-org">Electronic Arts &mdash; Decision &amp; Data Science, Fan Intelligence &mdash; Redwood City, CA</div>
-        <p class="entry-detail">
+        <div class="entry-detail">
           <ul>
             <li>built social-graph framework using community detection and temporal graph attention networks to predict edge formation for unlinked players; surfaced $1B+ growth upside from prioritizing social connection</li>
             <li>transformed viewership ROI measurement, converting 100M+ watch hours into acquisition value using econometric models of player telemetry and media engagement</li>
@@ -255,7 +335,7 @@
             <li>led vendor evaluation and onboarding; drove metrics governance across multisource media engagement data</li>
             <li>founded company-wide exchange bridging data, marketing, product, and engineering to enhance player social experiences</li>
           </ul>
-        </p>
+        </div>
       </div>
 
       <div class="entry">
@@ -264,12 +344,12 @@
           <span class="entry-date">may &ndash; aug 2021</span>
         </div>
         <div class="entry-org">Electronic Arts &mdash; Data Science &amp; Solutions &mdash; Redwood City, CA</div>
-        <p class="entry-detail">
+        <div class="entry-detail">
           <ul>
             <li>automated competitor selection and market share analysis via factor-validated competition features and predictive models</li>
             <li>reduced multichannel social media activity into interpretable time-series factors mapped to segmented in-game engagement</li>
           </ul>
-        </p>
+        </div>
       </div>
 
       <div class="entry">
@@ -278,7 +358,7 @@
           <span class="entry-date">sep 2016 &ndash; aug 2023</span>
         </div>
         <div class="entry-org">New York University &mdash; Department of Psychology, Amodio Lab</div>
-        <p class="entry-detail">
+        <div class="entry-detail">
           <ul>
             <li>demonstrated causal impact of human bias on algorithmic face classification; designed experimental pipelines isolating how annotator prejudice degrades accuracy and fairness in deep CNN face classifiers</li>
             <li>identified computational mechanisms of social impression formation using hierarchical Bayesian reinforcement learning across behavioral and neural experiments</li>
@@ -286,7 +366,7 @@
             <li>led experimentation on human evaluation of AI-generated news, finding and intervening on widespread trust in misleading automated content</li>
             <li>improved health prediction in older adults using regularized regression and random forests over high-dimensional psychosocial features</li>
           </ul>
-        </p>
+        </div>
       </div>
 
       <div class="entry">
@@ -295,10 +375,10 @@
           <span class="entry-date">2017 &ndash; 2022</span>
         </div>
         <div class="entry-org">New York University &mdash; Department of Psychology</div>
-        <p class="entry-detail">
+        <div class="entry-detail">
           Instructor: statistics for the behavioral sciences (summer 2019).
           TA: graduate statistics, introduction to machine learning, scientific programming in R &amp; Python.
-        </p>
+        </div>
       </div>
 
       <div class="entry">
@@ -307,9 +387,9 @@
           <span class="entry-date">jul 2014 &ndash; jun 2016</span>
         </div>
         <div class="entry-org">Washington University in St. Louis &mdash; Memory &amp; Cognition Lab</div>
-        <p class="entry-detail">
+        <div class="entry-detail">
           visuospatial clarity during memory and imagination as hybrid trait-state constructs in human mental time travel.
-        </p>
+        </div>
       </div>
 
       <div class="entry">
@@ -318,9 +398,9 @@
           <span class="entry-date">jun &ndash; aug 2013</span>
         </div>
         <div class="entry-org">University of Zurich &mdash; Institute for Political Science</div>
-        <p class="entry-detail">
+        <div class="entry-detail">
           personality measurement as a foundation for understanding the psychological development of political ambivalence.
-        </p>
+        </div>
       </div>
 
       <div class="entry">
@@ -329,11 +409,11 @@
           <span class="entry-date">2011 &ndash; 2014</span>
         </div>
         <div class="entry-org">Carleton College &mdash; Departments of Psychology &amp; Political Science</div>
-        <p class="entry-detail">
+        <div class="entry-detail">
           research: causal dynamics between economic conditions, political misinformation, and electoral participation.
           perception lab: grammatical context constraints during lexical-visual processing.
           teaching: media &amp; politics, methods of political research.
-        </p>
+        </div>
       </div>
 
       <div class="entry">
@@ -354,11 +434,11 @@
           <span class="entry-date">2016 &ndash; 2023</span>
         </div>
         <div class="entry-org">New York University</div>
-        <p class="entry-detail">
+        <div class="entry-detail">
           social psychology &amp; quantitative methods.
           dissertation: <em>human sources of social bias in automated face classification models.</em>
           teaching: B.A., M.A., &amp; Ph.D. courses in statistics &amp; machine learning.
-        </p>
+        </div>
       </div>
 
       <div class="entry">
@@ -367,9 +447,9 @@
           <span class="entry-date">2010 &ndash; 2014</span>
         </div>
         <div class="entry-org">Carleton College</div>
-        <p class="entry-detail">
+        <div class="entry-detail">
           Elveton Prize (top student in cognitive science).
-        </p>
+        </div>
       </div>
     </section>
 
@@ -377,117 +457,173 @@
       <h2>selected publications</h2>
 
       <div class="pub">
-        <em>Berg, J. J.</em>, Gilmore, A. W., Shaffer, R. A., &amp; McDermott, K. B. (2021).
+        <span class="citation"><em>Berg, J. J.</em>, Gilmore, A. W., Shaffer, R. A., &amp; McDermott, K. B. (2021).
         The stability of visual perspective and vividness during mental time travel.
-        <span class="journal">Consciousness and Cognition</span>, 92, 103116.
+        <span class="journal">Consciousness and Cognition</span>, 92, 103116.</span>
+        <span class="cites">21 cites</span>
       </div>
 
       <div class="pub">
-        <a href="/papers/greene-2020-neuron.pdf">Greene, D. J., Marek, S., Gordon, E. M., Siegel, J. S., Gratton, C., Laumann, T. O., ...<em>Berg, J. J.</em>, ... (2020).
+        <span class="citation"><a href="/papers/greene-2020-neuron.pdf">Greene, D. J., Marek, S., Gordon, E. M., Siegel, J. S., Gratton, C., Laumann, T. O., ...<em>Berg, J. J.</em>, ... (2020).
         Integrative and network-specific connectivity of the basal ganglia and thalamus defined in individuals.
-        <span class="journal">Neuron</span>, 105(4), 742&ndash;758.</a>
+        <span class="journal">Neuron</span>, 105(4), 742&ndash;758.</a></span>
+        <span class="cites">274 cites</span>
       </div>
 
       <div class="pub">
-        <a href="/papers/sylvester-2020-pnas.pdf">Sylvester, C. M., Yu, Q., Srivastava, A. B., Marek, S., Zheng, A., ...<em>Berg, J. J.</em>, ... (2020).
+        <span class="citation"><a href="/papers/sylvester-2020-pnas.pdf">Sylvester, C. M., Yu, Q., Srivastava, A. B., Marek, S., Zheng, A., ...<em>Berg, J. J.</em>, ... (2020).
         Individual-specific functional connectivity of the amygdala: a substrate for precision psychiatry.
-        <span class="journal">Proceedings of the National Academy of Sciences</span>, 117(7), 3808&ndash;3818.</a>
+        <span class="journal">Proceedings of the National Academy of Sciences</span>, 117(7), 3808&ndash;3818.</a></span>
+        <span class="cites">161 cites</span>
       </div>
 
       <div class="pub">
-        <a href="/papers/hackel-2019-frontiers.pdf">Hackel, L. M., <em>Berg, J. J.</em>, Lindstr&ouml;m, B. R., &amp; Amodio, D. M. (2019).
+        <span class="citation"><a href="/papers/hackel-2019-frontiers.pdf">Hackel, L. M., <em>Berg, J. J.</em>, Lindstr&ouml;m, B. R., &amp; Amodio, D. M. (2019).
         Model-based and model-free social cognition: investigating the role of habit in social attitude formation and choice.
-        <span class="journal">Frontiers in Psychology</span>, 10, 2592.</a>
+        <span class="journal">Frontiers in Psychology</span>, 10, 2592.</a></span>
+        <span class="cites">47 cites</span>
       </div>
 
       <div class="pub">
-        <a href="/papers/seitzman-2019-pnas.pdf">Seitzman, B. A., Gratton, C., Laumann, T. O., Gordon, E. M., Adeyemo, B., ...<em>Berg, J. J.</em>, ... (2019).
+        <span class="citation"><a href="/papers/seitzman-2019-pnas.pdf">Seitzman, B. A., Gratton, C., Laumann, T. O., Gordon, E. M., Adeyemo, B., ...<em>Berg, J. J.</em>, ... (2019).
         Trait-like variants in human functional brain networks.
-        <span class="journal">Proceedings of the National Academy of Sciences</span>, 116(45), 22851&ndash;22861.</a>
+        <span class="journal">Proceedings of the National Academy of Sciences</span>, 116(45), 22851&ndash;22861.</a></span>
+        <span class="cites">252 cites</span>
       </div>
 
       <div class="pub">
-        <a href="/papers/gilmore-2019-neuroimage.pdf">Gilmore, A. W., Nelson, S. M., Laumann, T. O., Gordon, E. M., <em>Berg, J. J.</em>, Greene, D. J., ... (2019).
+        <span class="citation"><a href="/papers/gilmore-2019-neuroimage.pdf">Gilmore, A. W., Nelson, S. M., Laumann, T. O., Gordon, E. M., <em>Berg, J. J.</em>, Greene, D. J., ... (2019).
         High-fidelity mapping of repetition-related changes in the parietal memory network.
-        <span class="journal">NeuroImage</span>, 199, 427&ndash;439.</a>
+        <span class="journal">NeuroImage</span>, 199, 427&ndash;439.</a></span>
+        <span class="cites">23 cites</span>
       </div>
 
       <div class="pub">
-        <a href="/papers/amodio-2018-psych-inquiry.pdf">Amodio, D. M. &amp; <em>Berg, J. J.</em> (2018).
+        <span class="citation"><a href="/papers/amodio-2018-psych-inquiry.pdf">Amodio, D. M. &amp; <em>Berg, J. J.</em> (2018).
         Toward a multiple memory systems model of attitudes and social cognition.
-        <span class="journal">Psychological Inquiry</span>, 29(1), 14&ndash;19.</a>
+        <span class="journal">Psychological Inquiry</span>, 29(1), 14&ndash;19.</a></span>
+        <span class="cites">23 cites</span>
       </div>
 
       <div class="pub">
-        <a href="/papers/zerr-2018-psych-science.pdf">Zerr, C. L., <em>Berg, J. J.</em>, Nelson, S. M., Fishell, A. K., Savalia, N. K., &amp; McDermott, K. B. (2018).
+        <span class="citation"><a href="/papers/zerr-2018-psych-science.pdf">Zerr, C. L., <em>Berg, J. J.</em>, Nelson, S. M., Fishell, A. K., Savalia, N. K., &amp; McDermott, K. B. (2018).
         Learning efficiency: identifying individual differences in learning rate and retention in healthy adults.
-        <span class="journal">Psychological Science</span>, 29(9), 1436&ndash;1450.</a>
+        <span class="journal">Psychological Science</span>, 29(9), 1436&ndash;1450.</a></span>
+        <span class="cites">81 cites</span>
       </div>
 
       <div class="pub">
-        <a href="/papers/marek-2018-neuron.pdf">Marek, S., Siegel, J. S., Gordon, E. M., Raut, R. V., Gratton, C., Newbold, D. J., ...<em>Berg, J. J.</em>, ... (2018).
+        <span class="citation"><a href="/papers/marek-2018-neuron.pdf">Marek, S., Siegel, J. S., Gordon, E. M., Raut, R. V., Gratton, C., Newbold, D. J., ...<em>Berg, J. J.</em>, ... (2018).
         Spatial and temporal organization of the individual human cerebellum.
-        <span class="journal">Neuron</span>, 100(4), 977&ndash;993.</a>
+        <span class="journal">Neuron</span>, 100(4), 977&ndash;993.</a></span>
+        <span class="cites">375 cites</span>
       </div>
 
       <div class="pub">
-        <a href="/papers/strand-2018-jeplmc.pdf">Strand, J. F., Brown, V. A., Brown, H. E., &amp; <em>Berg, J. J.</em> (2018).
+        <span class="citation"><a href="/papers/strand-2018-jeplmc.pdf">Strand, J. F., Brown, V. A., Brown, H. E., &amp; <em>Berg, J. J.</em> (2018).
         Keep listening: grammatical context reduces but does not eliminate activation of unexpected words.
-        <span class="journal">Journal of Experimental Psychology: Learning, Memory, and Cognition</span>, 44(6), 962.</a>
+        <span class="journal">Journal of Experimental Psychology: Learning, Memory, and Cognition</span>, 44(6), 962.</a></span>
+        <span class="cites">22 cites</span>
       </div>
 
       <div class="pub">
-        <a href="/papers/gordon-2017-neuron.pdf">Gordon, E. M., Laumann, T. O., Gilmore, A. W., Newbold, D. J., Greene, D. J., <em>Berg, J. J.</em>, ... (2017).
+        <span class="citation"><a href="/papers/gordon-2017-neuron.pdf">Gordon, E. M., Laumann, T. O., Gilmore, A. W., Newbold, D. J., Greene, D. J., <em>Berg, J. J.</em>, ... (2017).
         Precision functional mapping of individual human brains.
-        <span class="journal">Neuron</span>, 95(4), 791&ndash;807.</a>
+        <span class="journal">Neuron</span>, 95(4), 791&ndash;807.</a></span>
+        <span class="cites">1508 cites</span>
       </div>
 
       <div class="pub">
-        <a href="/papers/laumann-2017-cerebral-cortex.pdf">Laumann, T. O., Snyder, A. Z., Mitra, A., Gordon, E. M., Gratton, C., Adeyemo, B., ...<em>Berg, J. J.</em>, ... (2017).
+        <span class="citation"><a href="/papers/laumann-2017-cerebral-cortex.pdf">Laumann, T. O., Snyder, A. Z., Mitra, A., Gordon, E. M., Gratton, C., Adeyemo, B., ...<em>Berg, J. J.</em>, ... (2017).
         On the stability of BOLD fMRI correlations.
-        <span class="journal">Cerebral Cortex</span>, 27(10), 4719&ndash;4732.</a>
+        <span class="journal">Cerebral Cortex</span>, 27(10), 4719&ndash;4732.</a></span>
+        <span class="cites">620 cites</span>
       </div>
 
       <div class="pub">
-        <a href="/papers/mcdermott-2016-qjep.pdf">McDermott, K. B., Wooldridge, C. L., Rice, H. J., <em>Berg, J. J.</em>, &amp; Szpunar, K. K. (2016).
+        <span class="citation"><a href="/papers/mcdermott-2016-qjep.pdf">McDermott, K. B., Wooldridge, C. L., Rice, H. J., <em>Berg, J. J.</em>, &amp; Szpunar, K. K. (2016).
         Visual perspective in remembering and episodic future thought.
-        <span class="journal">Quarterly Journal of Experimental Psychology</span>, 69(2), 243&ndash;253.</a>
+        <span class="journal">Quarterly Journal of Experimental Psychology</span>, 69(2), 243&ndash;253.</a></span>
+        <span class="cites">77 cites</span>
       </div>
     </section>
 
     <section>
       <h2>methods</h2>
-      <ul class="tags">
-        <li>A/B &amp; geo testing</li>
-        <li>causal inference</li>
-        <li>DiD / IV / RD</li>
-        <li>synthetic control</li>
-        <li>econometrics</li>
-        <li>hierarchical models</li>
-        <li>time series</li>
-        <li>survival analysis</li>
-        <li>reinforcement learning</li>
-        <li>deep neural networks</li>
-        <li>graph neural networks</li>
-        <li>community detection</li>
-        <li>recommender systems</li>
-        <li>embeddings</li>
-        <li>psychometrics</li>
-        <li>fMRI neuroimaging</li>
-        <li>fairness auditing</li>
-        <li>metric governance</li>
-        <li>python</li>
-        <li>R</li>
-        <li>SQL</li>
-        <li>spark</li>
-        <li>bigquery</li>
-        <li>pytorch</li>
-      </ul>
+
+      <div class="skills-group">
+        <h3>experimentation &amp; causality</h3>
+        <ul class="tags">
+          <li>A/B &amp; geo testing</li>
+          <li>causal inference</li>
+          <li>DiD / IV / RD</li>
+          <li>synthetic control</li>
+          <li>propensity scores</li>
+          <li>uplift modeling</li>
+          <li>power / MDE</li>
+          <li>variance reduction</li>
+        </ul>
+      </div>
+
+      <div class="skills-group">
+        <h3>statistics &amp; modeling</h3>
+        <ul class="tags">
+          <li>econometrics</li>
+          <li>hierarchical models</li>
+          <li>time series</li>
+          <li>survival analysis</li>
+          <li>forecasting</li>
+          <li>psychometrics</li>
+          <li>fairness auditing</li>
+          <li>metric governance</li>
+        </ul>
+      </div>
+
+      <div class="skills-group">
+        <h3>machine learning &amp; AI</h3>
+        <ul class="tags">
+          <li>reinforcement learning</li>
+          <li>deep neural networks</li>
+          <li>graph neural networks</li>
+          <li>community detection</li>
+          <li>recommender systems</li>
+          <li>embeddings</li>
+          <li>regularization</li>
+          <li>ensemble methods</li>
+        </ul>
+      </div>
+
+      <div class="skills-group">
+        <h3>product &amp; UX analytics</h3>
+        <ul class="tags">
+          <li>retention &amp; cohorting</li>
+          <li>funnels &amp; user journeys</li>
+          <li>ROI &amp; LTV models</li>
+          <li>segmentation</li>
+          <li>root-cause analysis</li>
+          <li>instrumentation</li>
+        </ul>
+      </div>
+
+      <div class="skills-group">
+        <h3>languages &amp; platforms</h3>
+        <ul class="tags">
+          <li>python</li>
+          <li>R</li>
+          <li>SQL</li>
+          <li>pytorch</li>
+          <li>spark</li>
+          <li>bigquery</li>
+          <li>airflow</li>
+          <li>looker</li>
+          <li>git</li>
+        </ul>
+      </div>
     </section>
 
     <section>
       <h2>languages</h2>
-      <p class="entry-detail">english, spanish</p>
+      <div class="entry-detail">english, spanish</div>
     </section>
 
     <footer class="cv-footer">
