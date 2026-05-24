@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>The Parallax Imperative &mdash; PARALLAX&trade;</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='14'%3E%E2%97%87%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --surface: #111820;
+    --surface-raised: #171f28;
+    --text: #c8ccd0;
+    --text-muted: #6a7580;
+    --text-bright: #e8ecf0;
+    --amber: #d4a843;
+    --amber-dim: rgba(212, 168, 67, 0.08);
+    --amber-border: rgba(212, 168, 67, 0.35);
+    --green-soft: #8fbc8f;
+    --serif: "Cormorant Garamond", "EB Garamond", Garamond, "Hoefler Text", "Times New Roman", serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    --mono: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", "Consolas", monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    background: var(--bg);
+    color: var(--text);
+    font-size: 17px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--serif);
+    font-weight: 400;
+    line-height: 1.72;
+    letter-spacing: 0.005em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--amber-border); transition: border-color 0.3s; }
+  a:hover { border-color: var(--amber); }
+  a:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+  /* --- NAV --- */
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 14, 20, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0.6rem clamp(1rem, 4vw, 2rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+  }
+  .site-nav a { color: var(--text-muted); border: none; }
+  .site-nav a:hover { color: var(--text-bright); }
+  .nav-brand { font-weight: 600; color: var(--text); letter-spacing: 0.22em; }
+  .nav-links { display: flex; gap: 1.2rem; }
+
+  /* --- MAIN --- */
+  #main {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem) 4rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    border: none;
+  }
+  .back-link::before { content: "\2190\00a0"; }
+
+  /* --- ARTICLE HEADER --- */
+  .article-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .article-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text-bright);
+    margin-bottom: 0.4rem;
+  }
+  .article-subtitle {
+    font-family: var(--serif);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+  .article-meta {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: lowercase;
+  }
+  .article-meta .tm { font-size: 0.6em; vertical-align: super; }
+
+  /* --- EPIGRAPH --- */
+  .epigraph {
+    text-align: center;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 2.5rem 2rem 0.5rem;
+    line-height: 1.6;
+  }
+  .epigraph-attribution {
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+  }
+
+  /* --- PREAMBLE --- */
+  .preamble {
+    margin-bottom: 3rem;
+  }
+  .preamble h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .preamble p {
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  /* --- SCHEMA SECTION --- */
+  .schema-section {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .schema-section h3 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .schema-table {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+  .schema-table .table-name {
+    color: var(--text-bright);
+    font-weight: 600;
+  }
+  .schema-table .columns {
+    color: var(--text-muted);
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* --- TRANSITION --- */
+  .transition {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+    margin: 3rem 0;
+    opacity: 0.4;
+  }
+
+  /* --- SCENARIO --- */
+  .scenario {
+    margin-bottom: 3.5rem;
+  }
+  .scenario-label {
+    font-family: var(--sans);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.8rem;
+  }
+  .scenario-question {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--text-bright);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--amber-border);
+  }
+
+  /* --- SQL BLOCK --- */
+  .sql-block {
+    background: var(--surface);
+    border-left: 3px solid var(--amber-border);
+    border-radius: 0 4px 4px 0;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sql-block code {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--text);
+    white-space: pre;
+    tab-size: 4;
+  }
+  .sql-block .kw { color: var(--amber); font-weight: 500; }
+  .sql-block .st { color: var(--green-soft); }
+  .sql-block .cm { color: var(--text-muted); font-style: italic; }
+
+  /* --- REFLECTION --- */
+  .scenario-reflection {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding: 1rem 1.2rem;
+    background: var(--amber-dim);
+    border-radius: 4px;
+    margin-bottom: 0.8rem;
+  }
+
+  /* --- DNA THREADS --- */
+  .dna-threads {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+  }
+  .dna-thread {
+    font-family: var(--sans);
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 2px;
+    padding: 0.15rem 0.5rem;
+  }
+  .dna-thread.active {
+    color: var(--amber);
+    border-color: var(--amber-border);
+    background: var(--amber-dim);
+  }
+
+  /* --- CODA --- */
+  .coda {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .coda h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.5rem;
+  }
+  .coda p { margin-bottom: 1rem; }
+  .coda .warning-line {
+    font-style: italic;
+    color: var(--text-bright);
+    font-size: 1.05rem;
+  }
+  .coda .signature {
+    margin-top: 2.5rem;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* --- FOOTER --- */
+  .site-footer {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-family: var(--sans);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 768px) {
+    .sql-block { padding: 1rem; }
+    .sql-block code { font-size: 0.72rem; }
+    .schema-table { font-size: 0.72rem; }
+    .scenario-question { font-size: 1.05rem; }
+  }
+
+  @media (max-width: 480px) {
+    .sql-block { padding: 0.8rem; margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+    .schema-section { margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  @media print {
+    .site-nav { display: none; }
+    :root { --bg: #fff; --text: #111; --text-bright: #000; --text-muted: #555; --surface: #f5f5f5; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <span class="nav-brand">parallax&trade;</span>
+  <div class="nav-links">
+    <a href="/">home</a>
+    <a href="/cv">cv</a>
+  </div>
+</nav>
+
+<div id="main">
+  <a href="/" class="back-link">home</a>
+
+  <header class="article-header">
+    <h1>The Parallax Imperative</h1>
+    <div class="article-subtitle">Toward a Science of Convergent Distributed Intelligence</div>
+    <div class="article-meta">
+      Jeffrey J. Berg &middot; PARALLAX<span class="tm">&trade;</span> &middot; CONSTELLATION<span class="tm">&trade;</span>
+    </div>
+  </header>
+
+  <article class="article-content">
+
+    <!-- EPIGRAPH -->
+    <p class="epigraph">&ldquo;One geometry cannot be more true than another; it can only be more convenient.&rdquo;</p>
+    <p class="epigraph-attribution">&mdash; Henri Poincar&eacute;, <em>Science and Hypothesis</em> (1902)</p>
+
+    <!-- PREAMBLE -->
+    <section class="preamble">
+      <h2>A Note Before the Dive</h2>
+      <p>This paper is the first public artifact of the PARALLAX&trade; research program. It makes a simple claim with deep consequences: any single view of a complex system is mathematically guaranteed to distort. This is not a metaphor. It is a theorem &mdash; Gauss, 1827 &mdash; and its implications for how we analyze data remain fundamental and underexplored.</p>
+      <p>What follows are seven structured queries on public oceanographic data. Each query looks at the same ocean through a different analytical lens. Each reveals structure that the others cannot see. Together, they demonstrate why the field&rsquo;s fifty-year debate about which dimension reduction technique is &ldquo;best&rdquo; has been asking the wrong question.</p>
+      <p>The ocean was chosen for its legibility, not its novelty. The framework was engineered for systems far less transparent than water.</p>
+    </section>
+
+    <!-- SCHEMA REFERENCE -->
+    <section class="schema-section">
+      <h3>The Shared Schema &mdash; Seven Tables, One Ocean</h3>
+      <div class="schema-table">
+        <div><span class="table-name">argo.float_profiles</span></div>
+        <div class="columns">profile_id, float_id, cycle_number, lat, lon, observation_ts, pressure_dbar, temperature_c, salinity_psu, oxygen_umol_kg, quality_flag, data_mode</div>
+
+        <div><span class="table-name">argo.float_metadata</span></div>
+        <div class="columns">float_id, deploy_date, deploy_lat, deploy_lon, country, project_name, float_model, status</div>
+
+        <div><span class="table-name">noaa.buoy_observations</span></div>
+        <div class="columns">station_id, station_name, lat, lon, observation_ts, wind_speed_ms, wave_height_m, sea_surface_temp_c, air_temp_c, air_pressure_hpa</div>
+
+        <div><span class="table-name">noaa.sea_surface_temperature</span></div>
+        <div class="columns">grid_id, lat, lon, observation_date, sst_c, sst_anomaly_c, ice_concentration_pct, source</div>
+
+        <div><span class="table-name">ocean.current_measurements</span></div>
+        <div class="columns">measurement_id, platform_type, lat, lon, depth_m, observation_ts, velocity_east_ms, velocity_north_ms, speed_ms</div>
+
+        <div><span class="table-name">gebco.bathymetry</span></div>
+        <div class="columns">cell_id, lat, lon, depth_m, feature_name, feature_type</div>
+
+        <div><span class="table-name">obis.biodiversity_observations</span></div>
+        <div class="columns">occurrence_id, species_name, phylum, observation_date, lat, lon, depth_m, abundance, dataset_id</div>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO 1 ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Lens I &mdash; Temporal-Developmental</div>
+      <p class="scenario-question">How does the thermal memory of the deep ocean differ from its surface across decades &mdash; and does the signal of warming exceed the noise of natural variability?</p>
+
+      <div class="sql-block"><code><span class="kw">WITH</span> decade_memory <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        EXTRACT(DECADE <span class="kw">FROM</span> observation_ts) * 10        <span class="kw">AS</span> decade,
+        <span class="kw">CASE</span>
+            <span class="kw">WHEN</span> pressure_dbar &lt; 100  <span class="kw">THEN</span> <span class="st">'surface'</span>
+            <span class="kw">WHEN</span> pressure_dbar &lt; 1000 <span class="kw">THEN</span> <span class="st">'mesopelagic'</span>
+            <span class="kw">ELSE</span>                           <span class="st">'abyssal'</span>
+        <span class="kw">END</span>                                             <span class="kw">AS</span> depth_realm,
+        AVG(temperature_c)                              <span class="kw">AS</span> mean_temp_c,
+        STDDEV(temperature_c)                           <span class="kw">AS</span> temp_variability,
+        COUNT(*)                                        <span class="kw">AS</span> n_observations
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+    <span class="kw">GROUP BY</span> decade, depth_realm
+),
+
+warming_signal <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        depth_realm,
+        decade,
+        mean_temp_c - LAG(mean_temp_c) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> depth_realm
+            <span class="kw">ORDER BY</span> decade
+        )                                               <span class="kw">AS</span> decadal_shift_c,
+        temp_variability
+    <span class="kw">FROM</span> decade_memory
+)
+
+<span class="kw">SELECT</span>
+    depth_realm,
+    decade,
+    ROUND(decadal_shift_c::numeric, 4)                  <span class="kw">AS</span> warming_per_decade,
+    ROUND(temp_variability::numeric, 4)                 <span class="kw">AS</span> variability,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> ABS(decadal_shift_c) &gt; temp_variability
+            <span class="kw">THEN</span> <span class="st">'signal exceeds noise'</span>
+        <span class="kw">ELSE</span>     <span class="st">'within natural range'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> interpretation
+<span class="kw">FROM</span> warming_signal
+<span class="kw">WHERE</span> decadal_shift_c <span class="kw">IS NOT NULL</span>
+<span class="kw">ORDER BY</span> depth_realm, decade;</code></div>
+
+      <div class="scenario-reflection">The surface warms loudly, visibly, politically. But this query asks whether the deep ocean remembers differently. The abyssal signal is quieter, slower, and &mdash; measured against its own variability &mdash; often larger. What the surface announces, the deep has already absorbed. A single depth slice would tell only one story.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO 2 ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Lens II &mdash; Psychometric</div>
+      <p class="scenario-question">When a buoy and a float are lowered into the same water at the same hour, do they agree about what they measure &mdash; and what does their disagreement reveal?</p>
+
+      <div class="sql-block"><code><span class="kw">WITH</span> co_located_readings <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        b.station_id,
+        f.float_id,
+        b.observation_ts,
+        b.sea_surface_temp_c                            <span class="kw">AS</span> buoy_sst,
+        f.temperature_c                                 <span class="kw">AS</span> float_sst,
+        SQRT(
+            POWER(b.lat - f.lat, 2)
+          + POWER(b.lon - f.lon, 2)
+        )                                               <span class="kw">AS</span> spatial_gap_deg
+    <span class="kw">FROM</span> noaa.buoy_observations b
+    <span class="kw">JOIN</span> argo.float_profiles f
+        <span class="kw">ON</span> ABS(b.lat - f.lat) &lt; 0.5
+       <span class="kw">AND</span> ABS(b.lon - f.lon) &lt; 0.5
+       <span class="kw">AND</span> ABS(EXTRACT(EPOCH <span class="kw">FROM</span> b.observation_ts - f.observation_ts)) &lt; 3600
+    <span class="kw">WHERE</span> f.pressure_dbar &lt; 10
+      <span class="kw">AND</span> f.quality_flag = 1
+),
+
+agreement <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        COUNT(*)                                        <span class="kw">AS</span> n_pairs,
+        CORR(buoy_sst, float_sst)                      <span class="kw">AS</span> pearson_r,
+        AVG(buoy_sst - float_sst)                      <span class="kw">AS</span> mean_bias,
+        STDDEV(buoy_sst - float_sst)                   <span class="kw">AS</span> disagreement,
+        AVG(spatial_gap_deg)                            <span class="kw">AS</span> avg_gap_deg
+    <span class="kw">FROM</span> co_located_readings
+)
+
+<span class="kw">SELECT</span>
+    n_pairs,
+    ROUND(pearson_r::numeric, 4)                        <span class="kw">AS</span> reliability,
+    ROUND(mean_bias::numeric, 4)                        <span class="kw">AS</span> systematic_bias,
+    ROUND(disagreement::numeric, 4)                     <span class="kw">AS</span> measurement_noise,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> pearson_r &gt; 0.95 <span class="kw">THEN</span> <span class="st">'instruments converge'</span>
+        <span class="kw">WHEN</span> pearson_r &gt; 0.80 <span class="kw">THEN</span> <span class="st">'moderate agreement'</span>
+        <span class="kw">ELSE</span>                       <span class="st">'instruments diverge'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> verdict
+<span class="kw">FROM</span> agreement;</code></div>
+
+      <div class="scenario-reflection">Psychometrics asks the question that most physical scientists skip: do our instruments agree with each other? Reliability is not assumed &mdash; it is tested. The disagreement between co-located sensors is not error. It is information: evidence that what we call &ldquo;sea surface temperature&rdquo; is not a single thing but a construct whose measurement properties depend on who is asking, from where, with what instrument.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO 3 ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Lens III &mdash; Network-Theoretic</div>
+      <p class="scenario-question">Which ocean currents connect the world&rsquo;s basins into a single circulatory system &mdash; and which regions are islands, unreached by the global flow?</p>
+
+      <div class="sql-block"><code><span class="kw">WITH</span> flow_grid <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> lat_bin,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> lon_bin,
+        AVG(velocity_east_ms)                           <span class="kw">AS</span> mean_u,
+        AVG(velocity_north_ms)                          <span class="kw">AS</span> mean_v,
+        AVG(speed_ms)                                   <span class="kw">AS</span> mean_speed,
+        COUNT(*)                                        <span class="kw">AS</span> n_obs
+    <span class="kw">FROM</span> ocean.current_measurements
+    <span class="kw">WHERE</span> depth_m &lt; 200
+    <span class="kw">GROUP BY</span> lat_bin, lon_bin
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 10
+),
+
+edges <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        a.lat_bin                                       <span class="kw">AS</span> from_lat,
+        a.lon_bin                                       <span class="kw">AS</span> from_lon,
+        b.lat_bin                                       <span class="kw">AS</span> to_lat,
+        b.lon_bin                                       <span class="kw">AS</span> to_lon,
+        a.mean_speed                                    <span class="kw">AS</span> edge_weight
+    <span class="kw">FROM</span> flow_grid a
+    <span class="kw">JOIN</span> flow_grid b
+        <span class="kw">ON</span> b.lat_bin = a.lat_bin
+            + ROUND(a.mean_v * 86400 / 111000 / 5) * 5
+       <span class="kw">AND</span> b.lon_bin = a.lon_bin
+            + ROUND(a.mean_u * 86400
+            / (111000 * COS(RADIANS(a.lat_bin))) / 5) * 5
+    <span class="kw">WHERE</span> a.mean_speed &gt; 0.05
+)
+
+<span class="kw">SELECT</span>
+    from_lat, from_lon,
+    to_lat,   to_lon,
+    ROUND(edge_weight::numeric, 3)                      <span class="kw">AS</span> current_strength,
+    COUNT(*) <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> from_lat, from_lon)    <span class="kw">AS</span> out_degree,
+    COUNT(*) <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> to_lat,   to_lon)      <span class="kw">AS</span> in_degree
+<span class="kw">FROM</span> edges
+<span class="kw">ORDER BY</span> edge_weight <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> 50;</code></div>
+
+      <div class="scenario-reflection">The ocean is not a volume. It is a graph. Currents create edges; water masses create nodes. The Gulf Stream is not merely warm water moving north &mdash; it is the highest-bandwidth connection in the Atlantic&rsquo;s network topology. The Southern Ocean is not merely cold &mdash; it is the most connected hub on the planet. This query builds the adjacency structure that no single time-series or temperature profile could reveal.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread active">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO 4 ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Lens IV &mdash; Causal-Inferential</div>
+      <p class="scenario-question">Can we separate the signal of warming from the noise of natural variability &mdash; and at which latitudes does the effect size cross from negligible to undeniable?</p>
+
+      <div class="sql-block"><code><span class="kw">WITH</span> baseline_era <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        lat, lon,
+        AVG(sst_c)                                     <span class="kw">AS</span> baseline_sst,
+        STDDEV(sst_c)                                  <span class="kw">AS</span> baseline_var
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> observation_date <span class="kw">BETWEEN</span> <span class="st">'1985-01-01'</span> <span class="kw">AND</span> <span class="st">'1995-12-31'</span>
+    <span class="kw">GROUP BY</span> lat, lon
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 100
+),
+
+modern_era <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        lat, lon,
+        AVG(sst_c)                                     <span class="kw">AS</span> modern_sst,
+        AVG(sst_anomaly_c)                             <span class="kw">AS</span> mean_anomaly
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> observation_date &gt;= <span class="st">'2015-01-01'</span>
+    <span class="kw">GROUP BY</span> lat, lon
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 100
+),
+
+quasi_experiment <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        b.lat,
+        b.lon,
+        m.modern_sst - b.baseline_sst                  <span class="kw">AS</span> observed_shift,
+        b.baseline_var,
+        (m.modern_sst - b.baseline_sst)
+            / NULLIF(b.baseline_var, 0)                 <span class="kw">AS</span> effect_size,
+        m.mean_anomaly
+    <span class="kw">FROM</span> baseline_era b
+    <span class="kw">JOIN</span> modern_era m <span class="kw">USING</span> (lat, lon)
+)
+
+<span class="kw">SELECT</span>
+    ROUND(lat)                                          <span class="kw">AS</span> latitude_band,
+    ROUND(AVG(observed_shift)::numeric, 3)              <span class="kw">AS</span> mean_shift_c,
+    ROUND(AVG(effect_size)::numeric, 3)                 <span class="kw">AS</span> cohens_d,
+    ROUND(AVG(mean_anomaly)::numeric, 3)                <span class="kw">AS</span> mean_anomaly,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> AVG(effect_size) &gt; 0.8  <span class="kw">THEN</span> <span class="st">'large effect'</span>
+        <span class="kw">WHEN</span> AVG(effect_size) &gt; 0.5  <span class="kw">THEN</span> <span class="st">'medium effect'</span>
+        <span class="kw">WHEN</span> AVG(effect_size) &gt; 0.2  <span class="kw">THEN</span> <span class="st">'small effect'</span>
+        <span class="kw">ELSE</span>                              <span class="st">'negligible'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> magnitude
+<span class="kw">FROM</span> quasi_experiment
+<span class="kw">GROUP BY</span> ROUND(lat)
+<span class="kw">ORDER BY</span> latitude_band;</code></div>
+
+      <div class="scenario-reflection">Econometrics brings the discipline of causal thinking to physical data. The &ldquo;quasi-experiment&rdquo; here treats baseline-era and modern-era sea surface temperatures as pre- and post-treatment observations, computing Cohen&rsquo;s d &mdash; the standardized effect size &mdash; at each latitude band. The question is not &ldquo;is the ocean warmer?&rdquo; (it is) but &ldquo;at which latitudes does the shift exceed the system&rsquo;s own natural vocabulary?&rdquo; The causal lens does not accept a trend line. It demands an effect size.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread active">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO 5 ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Lens V &mdash; Dynamical Systems</div>
+      <p class="scenario-question">Is the ocean&rsquo;s thermal behavior approaching a tipping point &mdash; or cycling within its historical dynamic range? Does the system remember itself from year to year?</p>
+
+      <div class="sql-block"><code><span class="kw">WITH</span> monthly_state <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        DATE_TRUNC(<span class="st">'month'</span>, observation_date)           <span class="kw">AS</span> month,
+        AVG(sst_c)                                     <span class="kw">AS</span> global_sst,
+        STDDEV(sst_c)                                  <span class="kw">AS</span> spatial_variance
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> lat <span class="kw">BETWEEN</span> -60 <span class="kw">AND</span> 60
+    <span class="kw">GROUP BY</span> DATE_TRUNC(<span class="st">'month'</span>, observation_date)
+),
+
+lagged_state <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        month,
+        global_sst,
+        spatial_variance,
+        LAG(global_sst, 1)  <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> month)     <span class="kw">AS</span> sst_lag1,
+        LAG(global_sst, 12) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> month)     <span class="kw">AS</span> sst_lag12
+    <span class="kw">FROM</span> monthly_state
+),
+
+sensitivity <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        EXTRACT(YEAR <span class="kw">FROM</span> month)                       <span class="kw">AS</span> year,
+        CORR(global_sst, sst_lag1)                     <span class="kw">AS</span> persistence_1m,
+        CORR(global_sst, sst_lag12)                    <span class="kw">AS</span> memory_12m,
+        AVG(spatial_variance)                          <span class="kw">AS</span> mean_spatial_var,
+        REGR_SLOPE(
+            global_sst,
+            EXTRACT(EPOCH <span class="kw">FROM</span> month)
+        )                                               <span class="kw">AS</span> trend_slope
+    <span class="kw">FROM</span> lagged_state
+    <span class="kw">WHERE</span> sst_lag1 <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> sst_lag12 <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> EXTRACT(YEAR <span class="kw">FROM</span> month)
+)
+
+<span class="kw">SELECT</span>
+    year,
+    ROUND(persistence_1m::numeric, 4)                  <span class="kw">AS</span> autocorrelation_1m,
+    ROUND(memory_12m::numeric, 4)                      <span class="kw">AS</span> annual_memory,
+    ROUND(mean_spatial_var::numeric, 4)                <span class="kw">AS</span> spatial_variance,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> persistence_1m &gt; 0.95
+         <span class="kw">AND</span> mean_spatial_var &gt;
+             LAG(mean_spatial_var) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> year)
+            <span class="kw">THEN</span> <span class="st">'critical slowing detected'</span>
+        <span class="kw">ELSE</span>     <span class="st">'within dynamic range'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> stability_signal
+<span class="kw">FROM</span> sensitivity
+<span class="kw">ORDER BY</span> year;</code></div>
+
+      <div class="scenario-reflection">Dynamical systems theory offers a vocabulary that neither time-series statistics nor causal inference possesses: the concept of the <em>tipping point</em>. When a system approaches a critical transition, two signatures emerge simultaneously &mdash; rising autocorrelation (the system takes longer to forget a perturbation) and rising variance (the system&rsquo;s fluctuations widen). This query computes both, year by year. The temporal lens sees warming. The dynamical lens asks whether the warming is approaching a threshold from which return becomes nonlinear.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO 6 ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Lens VI &mdash; Geopolitical</div>
+      <p class="scenario-question">Whose ocean gets studied? Which nations deploy the instruments, and which ocean zones does their gaze reach &mdash; or fail to reach?</p>
+
+      <div class="sql-block"><code><span class="kw">WITH</span> deployment_census <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        country,
+        COUNT(<span class="kw">DISTINCT</span> float_id)                       <span class="kw">AS</span> floats_deployed,
+        AVG(deploy_lat)                                <span class="kw">AS</span> mean_lat,
+        AVG(deploy_lon)                                <span class="kw">AS</span> mean_lon,
+        MIN(deploy_date)                               <span class="kw">AS</span> first_deployment,
+        MAX(deploy_date)                               <span class="kw">AS</span> latest_deployment
+    <span class="kw">FROM</span> argo.float_metadata
+    <span class="kw">WHERE</span> status = <span class="st">'ACTIVE'</span>
+    <span class="kw">GROUP BY</span> country
+),
+
+observation_equity <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="kw">CASE</span>
+            <span class="kw">WHEN</span> f.lat <span class="kw">BETWEEN</span> -60 <span class="kw">AND</span> -30 <span class="kw">THEN</span> <span class="st">'southern ocean'</span>
+            <span class="kw">WHEN</span> f.lat <span class="kw">BETWEEN</span> -30 <span class="kw">AND</span>   0 <span class="kw">THEN</span> <span class="st">'tropical south'</span>
+            <span class="kw">WHEN</span> f.lat <span class="kw">BETWEEN</span>   0 <span class="kw">AND</span>  30 <span class="kw">THEN</span> <span class="st">'tropical north'</span>
+            <span class="kw">WHEN</span> f.lat <span class="kw">BETWEEN</span>  30 <span class="kw">AND</span>  60 <span class="kw">THEN</span> <span class="st">'temperate north'</span>
+            <span class="kw">ELSE</span>                                <span class="st">'polar'</span>
+        <span class="kw">END</span>                                             <span class="kw">AS</span> ocean_zone,
+        m.country,
+        COUNT(*)                                        <span class="kw">AS</span> n_profiles,
+        COUNT(<span class="kw">DISTINCT</span> m.float_id)                    <span class="kw">AS</span> n_floats
+    <span class="kw">FROM</span> argo.float_profiles f
+    <span class="kw">JOIN</span> argo.float_metadata m <span class="kw">USING</span> (float_id)
+    <span class="kw">WHERE</span> f.quality_flag <span class="kw">IN</span> (1, 2)
+    <span class="kw">GROUP BY</span> ocean_zone, m.country
+)
+
+<span class="kw">SELECT</span>
+    ocean_zone,
+    country,
+    n_floats,
+    n_profiles,
+    ROUND(
+        100.0 * n_profiles
+        / SUM(n_profiles) <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> ocean_zone),
+        1
+    )                                                   <span class="kw">AS</span> pct_of_zone,
+    RANK() <span class="kw">OVER</span> (
+        <span class="kw">PARTITION BY</span> ocean_zone
+        <span class="kw">ORDER BY</span> n_profiles <span class="kw">DESC</span>
+    )                                                   <span class="kw">AS</span> observation_rank
+<span class="kw">FROM</span> observation_equity
+<span class="kw">ORDER BY</span> ocean_zone, observation_rank
+<span class="kw">LIMIT</span> 30;</code></div>
+
+      <div class="scenario-reflection">The geopolitical lens reveals what no physical measurement can: the social structure of observation itself. The Argo program is international in principle but deeply asymmetric in practice. A handful of nations deploy the vast majority of floats; vast regions of the Southern Hemisphere are measured by instruments deployed thousands of kilometers away by countries that border different oceans. The data are not biased in the statistical sense. They are biased in the political sense &mdash; and the two are inseparable.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread active">econometric</span>
+        <span class="dna-thread active">sociometric</span>
+        <span class="dna-thread active">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO 7 ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Lens VII &mdash; Multi-Scale</div>
+      <p class="scenario-question">Does the pattern that holds at one degree of latitude hold at ten? When we zoom out, does the structure cohere &mdash; or does it fracture into something the fine grain could not predict?</p>
+
+      <div class="sql-block"><code><span class="kw">WITH</span> fine_grain <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat)                                      <span class="kw">AS</span> lat_1deg,
+        ROUND(lon)                                      <span class="kw">AS</span> lon_1deg,
+        AVG(sst_anomaly_c)                             <span class="kw">AS</span> anomaly_fine,
+        COUNT(*)                                        <span class="kw">AS</span> n_obs
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> observation_date &gt;= <span class="st">'2020-01-01'</span>
+    <span class="kw">GROUP BY</span> ROUND(lat), ROUND(lon)
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 30
+),
+
+coarse_grain <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                            <span class="kw">AS</span> lat_10deg,
+        ROUND(lon / 10) * 10                            <span class="kw">AS</span> lon_10deg,
+        AVG(sst_anomaly_c)                             <span class="kw">AS</span> anomaly_coarse,
+        STDDEV(sst_anomaly_c)                          <span class="kw">AS</span> within_cell_var,
+        COUNT(*)                                        <span class="kw">AS</span> n_obs
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> observation_date &gt;= <span class="st">'2020-01-01'</span>
+    <span class="kw">GROUP BY</span> ROUND(lat / 10) * 10, ROUND(lon / 10) * 10
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 100
+),
+
+scale_comparison <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        c.lat_10deg,
+        c.lon_10deg,
+        c.anomaly_coarse,
+        c.within_cell_var,
+        AVG(f.anomaly_fine)                            <span class="kw">AS</span> mean_fine_in_cell,
+        STDDEV(f.anomaly_fine)                         <span class="kw">AS</span> fine_heterogeneity,
+        COUNT(f.*)                                     <span class="kw">AS</span> n_fine_cells
+    <span class="kw">FROM</span> coarse_grain c
+    <span class="kw">JOIN</span> fine_grain f
+        <span class="kw">ON</span> f.lat_1deg <span class="kw">BETWEEN</span> c.lat_10deg <span class="kw">AND</span> c.lat_10deg + 9
+       <span class="kw">AND</span> f.lon_1deg <span class="kw">BETWEEN</span> c.lon_10deg <span class="kw">AND</span> c.lon_10deg + 9
+    <span class="kw">GROUP BY</span>
+        c.lat_10deg, c.lon_10deg,
+        c.anomaly_coarse, c.within_cell_var
+)
+
+<span class="kw">SELECT</span>
+    lat_10deg, lon_10deg,
+    ROUND(anomaly_coarse::numeric, 3)                  <span class="kw">AS</span> coarse_signal,
+    ROUND(fine_heterogeneity::numeric, 3)              <span class="kw">AS</span> fine_texture,
+    ROUND(
+        (fine_heterogeneity
+            / NULLIF(ABS(anomaly_coarse), 0))::numeric,
+        2
+    )                                                   <span class="kw">AS</span> scale_ratio,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> fine_heterogeneity &lt; ABS(anomaly_coarse) * 0.3
+            <span class="kw">THEN</span> <span class="st">'coherent across scales'</span>
+        <span class="kw">WHEN</span> fine_heterogeneity &gt; ABS(anomaly_coarse)
+            <span class="kw">THEN</span> <span class="st">'scale-dependent structure'</span>
+        <span class="kw">ELSE</span>     <span class="st">'mixed coherence'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> scale_verdict
+<span class="kw">FROM</span> scale_comparison
+<span class="kw">WHERE</span> n_fine_cells &gt;= 5
+<span class="kw">ORDER BY</span> scale_ratio <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> 25;</code></div>
+
+      <div class="scenario-reflection">The multi-scale lens asks the most unsettling question in data science: does your result depend on your resolution? This query compares SST anomaly structure at 1&deg; and 10&deg; grids. Where the coarse signal is smooth but the fine texture is turbulent, the pattern is scale-dependent &mdash; a finding invisible to any analysis conducted at a single resolution. The implication: conclusions drawn at one zoom level may not survive a change of aperture. Scale is not a parameter. It is a lens.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- CODA -->
+    <section class="coda">
+      <h2>Coda</h2>
+
+      <p>Seven lenses. One ocean. Each query legal, public, reproducible. Each revealing structure invisible to the others.</p>
+
+      <p>The thesis of PARALLAX&trade; is not that multiple views are nice to have. It is that single views are mathematically guaranteed to distort &mdash; and that the distortions are invisible to the view that created them. This is not an opinion. It is the content of Gauss&rsquo;s <em>Theorema Egregium</em> (1827), applied to the manifold learning problem that underlies modern data science.</p>
+
+      <p>The temporal lens sees warming. The psychometric lens asks whether the instruments agree about <em>what</em> they are measuring. The network lens reveals connectivity invisible to any thermometer. The causal lens demands effect sizes, not trend lines. The dynamical lens tests for tipping points. The geopolitical lens exposes whose gaze shapes the data. The multi-scale lens asks whether the pattern survives a change of resolution.</p>
+
+      <p>No single lens sees all of this. No single lens <em>can</em>.</p>
+
+      <p>We demonstrated this on seawater because seawater is patient, public, and well-instrumented. Every query above could be re-pointed &mdash; at behavioral data, at platform telemetry, at neural recordings, at market dynamics, at cultural corpora &mdash; without changing a single structural element. The SQL would change. The schema would change. The parallax would not.</p>
+
+      <p class="warning-line">The framework was engineered for systems far less transparent than water.</p>
+
+      <p>There is no single view. There is only the ensemble.</p>
+
+      <div class="signature">
+        &mdash; Jeffrey J. Berg<br>
+        PARALLAX<span class="tm">&trade;</span> &middot; CONSTELLATION<span class="tm">&trade;</span><br>
+        Convergent Distributed Empirical Inferential Intelligence<span class="tm">&trade;</span>
+      </div>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <span>&copy; Jeffrey J. Berg. All rights reserved.</span>
+  <span>PARALLAX&trade; &middot; GAUGE&trade; &middot; CONSTELLATION&trade; &middot; CDEII&trade;</span>
+</footer>
+
+</body>
+</html>
