@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>Parallactic Baselines &mdash; PARALLAX&trade;</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='14'%3E%E2%97%87%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --surface: #111820;
+    --surface-raised: #171f28;
+    --text: #c8ccd0;
+    --text-muted: #6a7580;
+    --text-bright: #e8ecf0;
+    --amber: #d4a843;
+    --amber-dim: rgba(212, 168, 67, 0.08);
+    --amber-border: rgba(212, 168, 67, 0.35);
+    --green-soft: #8fbc8f;
+    --serif: "Cormorant Garamond", "EB Garamond", Garamond, "Hoefler Text", "Times New Roman", serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    --mono: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", "Consolas", monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    background: var(--bg);
+    color: var(--text);
+    font-size: 17px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--serif);
+    font-weight: 400;
+    line-height: 1.72;
+    letter-spacing: 0.005em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--amber-border); transition: border-color 0.3s; }
+  a:hover { border-color: var(--amber); }
+  a:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+  /* --- NAV --- */
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 14, 20, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0.6rem clamp(1rem, 4vw, 2rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+  }
+  .site-nav a { color: var(--text-muted); border: none; }
+  .site-nav a:hover { color: var(--text-bright); }
+  .nav-brand { font-weight: 600; color: var(--text); letter-spacing: 0.22em; }
+  .nav-links { display: flex; gap: 1.2rem; }
+
+  /* --- MAIN --- */
+  #main {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem) 4rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    border: none;
+  }
+  .back-link::before { content: "\2190\00a0"; }
+
+  /* --- ARTICLE HEADER --- */
+  .article-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .article-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text-bright);
+    margin-bottom: 0.4rem;
+  }
+  .article-subtitle {
+    font-family: var(--serif);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+  .article-meta {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: lowercase;
+  }
+  .article-meta .tm { font-size: 0.6em; vertical-align: super; }
+
+  /* --- EPIGRAPH --- */
+  .epigraph {
+    text-align: center;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 2.5rem 2rem 0.5rem;
+    line-height: 1.6;
+  }
+  .epigraph-attribution {
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+  }
+
+  /* --- PREAMBLE --- */
+  .preamble {
+    margin-bottom: 3rem;
+  }
+  .preamble h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .preamble p {
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  /* --- SCHEMA SECTION --- */
+  .schema-section {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .schema-section h3 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .schema-table {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+  .schema-table .table-name {
+    color: var(--text-bright);
+    font-weight: 600;
+  }
+  .schema-table .columns {
+    color: var(--text-muted);
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* --- TRANSITION --- */
+  .transition {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+    margin: 3rem 0;
+    opacity: 0.4;
+  }
+
+  /* --- SCENARIO --- */
+  .scenario {
+    margin-bottom: 3.5rem;
+  }
+  .scenario-label {
+    font-family: var(--sans);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.8rem;
+  }
+  .scenario-question {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--text-bright);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--amber-border);
+  }
+
+  /* --- SQL BLOCK --- */
+  .sql-block {
+    background: var(--surface);
+    border-left: 3px solid var(--amber-border);
+    border-radius: 0 4px 4px 0;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sql-block code {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--text);
+    white-space: pre;
+    tab-size: 4;
+  }
+  .sql-block .kw { color: var(--amber); font-weight: 500; }
+  .sql-block .st { color: var(--green-soft); }
+  .sql-block .cm { color: var(--text-muted); font-style: italic; }
+
+  /* --- REFLECTION --- */
+  .scenario-reflection {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding: 1rem 1.2rem;
+    background: var(--amber-dim);
+    border-radius: 4px;
+    margin-bottom: 0.8rem;
+  }
+
+  /* --- DNA THREADS --- */
+  .dna-threads {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+  }
+  .dna-thread {
+    font-family: var(--sans);
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 2px;
+    padding: 0.15rem 0.5rem;
+  }
+  .dna-thread.active {
+    color: var(--amber);
+    border-color: var(--amber-border);
+    background: var(--amber-dim);
+  }
+
+  /* --- CODA --- */
+  .coda {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .coda h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.5rem;
+  }
+  .coda p { margin-bottom: 1rem; }
+  .coda .warning-line {
+    font-style: italic;
+    color: var(--text-bright);
+    font-size: 1.05rem;
+  }
+  .coda .signature {
+    margin-top: 2.5rem;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* --- FOOTER --- */
+  .site-footer {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-family: var(--sans);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 768px) {
+    .sql-block { padding: 1rem; }
+    .sql-block code { font-size: 0.72rem; }
+    .schema-table { font-size: 0.72rem; }
+    .scenario-question { font-size: 1.05rem; }
+  }
+
+  @media (max-width: 480px) {
+    .sql-block { padding: 0.8rem; margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+    .schema-section { margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  @media print {
+    .site-nav { display: none; }
+    :root { --bg: #fff; --text: #111; --text-bright: #000; --text-muted: #555; --surface: #f5f5f5; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <span class="nav-brand">parallax&trade;</span>
+  <div class="nav-links">
+    <a href="/">home</a>
+    <a href="/cv">cv</a>
+  </div>
+</nav>
+
+<div id="main">
+  <a href="/" class="back-link">home</a>
+
+  <header class="article-header">
+    <h1>Parallactic Baselines</h1>
+    <div class="article-subtitle">Multi-View Monitoring of Earth-System Regime Shifts</div>
+    <div class="article-meta">
+      Jeffrey J. Berg &middot; PARALLAX<span class="tm">&trade;</span> &middot; CONSTELLATION<span class="tm">&trade;</span> &middot; paper 9 of 10 &middot; target: nature geoscience
+    </div>
+  </header>
+
+  <article class="article-content">
+
+    <!-- EPIGRAPH -->
+    <p class="epigraph">&ldquo;The baseline is not a line. It is a distribution &mdash; and the distribution is shifting.&rdquo;</p>
+    <p class="epigraph-attribution">&mdash; Jeffrey J. Berg</p>
+
+    <!-- PREAMBLE -->
+    <section class="preamble">
+      <h2>A Note Before the Dive</h2>
+      <p>A baseline is not a number. It is a probability distribution that describes the system&rsquo;s historical behavior. When the system departs from its baseline, the departure is a signal &mdash; but only if the baseline itself is trustworthy. Single-method baselines inherit all the distortions of the method that built them. Parallactic baselines &mdash; constructed from multiple independent views &mdash; are more robust because they are harder to fool.</p>
+      <p>This paper demonstrates multi-view baseline construction and regime-shift detection on oceanographic data. The logic is simple, the implications are not: parallactic baselines detect departures earlier and with fewer false positives than any single-view baseline. A thermal baseline alone cannot see what a salinity baseline sees. A satellite baseline alone cannot see what a float baseline sees. But a composite that triangulates across all of them &mdash; the parallactic baseline &mdash; sees departures that no single view can resolve.</p>
+      <p>Six scenarios. Each builds a baseline, measures departure, and tests for regime shift. The final scenario assembles all views into a single parallactic departure score &mdash; the infrastructure this program was designed to produce.</p>
+    </section>
+
+    <!-- SCHEMA REFERENCE -->
+    <section class="schema-section">
+      <h3>The Shared Schema &mdash; Seven Tables, One Ocean</h3>
+      <div class="schema-table">
+        <div><span class="table-name">argo.float_profiles</span></div>
+        <div class="columns">profile_id, float_id, cycle_number, lat, lon, observation_ts, pressure_dbar, temperature_c, salinity_psu, oxygen_umol_kg, quality_flag, data_mode</div>
+
+        <div><span class="table-name">argo.float_metadata</span></div>
+        <div class="columns">float_id, deploy_date, deploy_lat, deploy_lon, country, project_name, float_model, status</div>
+
+        <div><span class="table-name">noaa.buoy_observations</span></div>
+        <div class="columns">station_id, station_name, lat, lon, observation_ts, wind_speed_ms, wave_height_m, sea_surface_temp_c, air_temp_c, air_pressure_hpa</div>
+
+        <div><span class="table-name">noaa.sea_surface_temperature</span></div>
+        <div class="columns">grid_id, lat, lon, observation_date, sst_c, sst_anomaly_c, ice_concentration_pct, source</div>
+
+        <div><span class="table-name">ocean.current_measurements</span></div>
+        <div class="columns">measurement_id, platform_type, lat, lon, depth_m, observation_ts, velocity_east_ms, velocity_north_ms, speed_ms</div>
+
+        <div><span class="table-name">gebco.bathymetry</span></div>
+        <div class="columns">cell_id, lat, lon, depth_m, feature_name, feature_type</div>
+
+        <div><span class="table-name">obis.biodiversity_observations</span></div>
+        <div class="columns">occurrence_id, species_name, phylum, observation_date, lat, lon, depth_m, abundance, dataset_id</div>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO I ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario I &mdash; The Thermal Baseline</div>
+      <p class="scenario-question">What does &ldquo;normal&rdquo; sea surface temperature look like across decades &mdash; and at which latitudes has the system already departed from its own history?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Baseline construction and departure scoring: SST by latitude band</span>
+<span class="kw">WITH</span> thermal_baseline <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                              <span class="kw">AS</span> lat_band,
+        ROUND(lon / 30) * 30                              <span class="kw">AS</span> lon_sector,
+        AVG(sst_c)                                        <span class="kw">AS</span> baseline_mean,
+        STDDEV(sst_c)                                     <span class="kw">AS</span> baseline_sd,
+        COUNT(*)                                          <span class="kw">AS</span> baseline_n
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> observation_date <span class="kw">BETWEEN</span> <span class="st">'1985-01-01'</span>
+                             <span class="kw">AND</span> <span class="st">'2005-12-31'</span>
+      <span class="kw">AND</span> sst_c <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> lat_band, lon_sector
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 200
+),
+
+recent_departure <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(s.lat / 10) * 10                            <span class="kw">AS</span> lat_band,
+        ROUND(s.lon / 30) * 30                            <span class="kw">AS</span> lon_sector,
+        DATE_TRUNC(<span class="st">'year'</span>, s.observation_date)            <span class="kw">AS</span> obs_year,
+        AVG(s.sst_c)                                      <span class="kw">AS</span> recent_mean,
+        (AVG(s.sst_c) - b.baseline_mean)
+            / NULLIF(b.baseline_sd, 0)                    <span class="kw">AS</span> z_score,
+        b.baseline_mean,
+        b.baseline_sd
+    <span class="kw">FROM</span> noaa.sea_surface_temperature s
+    <span class="kw">JOIN</span> thermal_baseline b
+        <span class="kw">ON</span> ROUND(s.lat / 10) * 10 = b.lat_band
+       <span class="kw">AND</span> ROUND(s.lon / 30) * 30 = b.lon_sector
+    <span class="kw">WHERE</span> s.observation_date &gt;= <span class="st">'2015-01-01'</span>
+    <span class="kw">GROUP BY</span> lat_band, lon_sector, obs_year,
+             b.baseline_mean, b.baseline_sd
+)
+
+<span class="kw">SELECT</span>
+    lat_band,
+    lon_sector,
+    COUNT(<span class="kw">DISTINCT</span> obs_year)                           <span class="kw">AS</span> years_observed,
+    ROUND(AVG(z_score)::numeric, 3)                     <span class="kw">AS</span> mean_z_score,
+    COUNT(*) <span class="kw">FILTER</span> (
+        <span class="kw">WHERE</span> z_score &gt; 2.0
+    )                                                     <span class="kw">AS</span> years_above_2sigma,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> COUNT(*) <span class="kw">FILTER</span> (<span class="kw">WHERE</span> z_score &gt; 2.0)
+           &gt;= 0.6 * COUNT(<span class="kw">DISTINCT</span> obs_year)
+            <span class="kw">THEN</span> <span class="st">'persistent departure'</span>
+        <span class="kw">WHEN</span> COUNT(*) <span class="kw">FILTER</span> (<span class="kw">WHERE</span> z_score &gt; 1.5)
+           &gt;= 0.4 * COUNT(<span class="kw">DISTINCT</span> obs_year)
+            <span class="kw">THEN</span> <span class="st">'emerging departure'</span>
+        <span class="kw">ELSE</span>     <span class="st">'within historical variability'</span>
+    <span class="kw">END</span>                                                   <span class="kw">AS</span> regime_status
+<span class="kw">FROM</span> recent_departure
+<span class="kw">GROUP BY</span> lat_band, lon_sector
+<span class="kw">ORDER BY</span> mean_z_score <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">The baseline is the first thing you must build and the last thing you should trust. Twenty years of SST data (1985&ndash;2005) produce a distribution for each region &mdash; a mean and a standard deviation that encode what &ldquo;normal&rdquo; looked like before the acceleration. The z-score then asks a simple question: how many standard deviations has the present wandered from the past? Where the answer exceeds two sigma persistently &mdash; not once, not briefly, but year after year &mdash; the system has departed from its own history. The departure is not an anomaly. It is the new regime.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO II ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario II &mdash; The Salinity Departure</div>
+      <p class="scenario-question">Is the ocean&rsquo;s salt distribution shifting in ways that the temperature baseline alone cannot detect &mdash; and do salinity departures precede or follow thermal ones?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Salinity baseline by depth zone; lead/lag test against temperature</span>
+<span class="kw">WITH</span> salinity_departure <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                              <span class="kw">AS</span> lat_band,
+        <span class="kw">CASE</span>
+            <span class="kw">WHEN</span> pressure_dbar &lt; 200  <span class="kw">THEN</span> <span class="st">'upper'</span>
+            <span class="kw">WHEN</span> pressure_dbar &lt; 1000 <span class="kw">THEN</span> <span class="st">'mid'</span>
+            <span class="kw">ELSE</span>                             <span class="st">'deep'</span>
+        <span class="kw">END</span>                                               <span class="kw">AS</span> depth_zone,
+        DATE_TRUNC(<span class="st">'quarter'</span>, observation_ts)              <span class="kw">AS</span> obs_qtr,
+        AVG(salinity_psu)                                 <span class="kw">AS</span> mean_salinity,
+        STDDEV(salinity_psu)                              <span class="kw">AS</span> salinity_sd,
+        AVG(temperature_c)                                <span class="kw">AS</span> mean_temp,
+        COUNT(*)                                          <span class="kw">AS</span> n_obs
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> salinity_psu <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> lat_band, depth_zone, obs_qtr
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 30
+),
+
+baseline_stats <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        lat_band, depth_zone,
+        AVG(mean_salinity) <span class="kw">FILTER</span> (
+            <span class="kw">WHERE</span> obs_qtr &lt; <span class="st">'2020-01-01'</span>
+        )                                                 <span class="kw">AS</span> sal_baseline_mean,
+        STDDEV(mean_salinity) <span class="kw">FILTER</span> (
+            <span class="kw">WHERE</span> obs_qtr &lt; <span class="st">'2020-01-01'</span>
+        )                                                 <span class="kw">AS</span> sal_baseline_sd,
+        AVG(mean_temp) <span class="kw">FILTER</span> (
+            <span class="kw">WHERE</span> obs_qtr &lt; <span class="st">'2020-01-01'</span>
+        )                                                 <span class="kw">AS</span> temp_baseline_mean,
+        STDDEV(mean_temp) <span class="kw">FILTER</span> (
+            <span class="kw">WHERE</span> obs_qtr &lt; <span class="st">'2020-01-01'</span>
+        )                                                 <span class="kw">AS</span> temp_baseline_sd
+    <span class="kw">FROM</span> salinity_departure
+    <span class="kw">GROUP BY</span> lat_band, depth_zone
+),
+
+departure_series <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        d.lat_band, d.depth_zone, d.obs_qtr,
+        (d.mean_salinity - b.sal_baseline_mean)
+            / NULLIF(b.sal_baseline_sd, 0)                <span class="kw">AS</span> sal_z,
+        (d.mean_temp - b.temp_baseline_mean)
+            / NULLIF(b.temp_baseline_sd, 0)               <span class="kw">AS</span> temp_z,
+        LAG((d.mean_temp - b.temp_baseline_mean)
+            / NULLIF(b.temp_baseline_sd, 0), 2) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> d.lat_band, d.depth_zone
+            <span class="kw">ORDER BY</span> d.obs_qtr
+        )                                                 <span class="kw">AS</span> temp_z_lag2,
+        LEAD((d.mean_temp - b.temp_baseline_mean)
+            / NULLIF(b.temp_baseline_sd, 0), 2) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> d.lat_band, d.depth_zone
+            <span class="kw">ORDER BY</span> d.obs_qtr
+        )                                                 <span class="kw">AS</span> temp_z_lead2
+    <span class="kw">FROM</span> salinity_departure d
+    <span class="kw">JOIN</span> baseline_stats b
+        <span class="kw">ON</span> d.lat_band   = b.lat_band
+       <span class="kw">AND</span> d.depth_zone = b.depth_zone
+    <span class="kw">WHERE</span> d.obs_qtr &gt;= <span class="st">'2020-01-01'</span>
+)
+
+<span class="kw">SELECT</span>
+    lat_band, depth_zone,
+    ROUND(AVG(sal_z)::numeric, 3)                         <span class="kw">AS</span> mean_sal_z,
+    ROUND(AVG(temp_z)::numeric, 3)                        <span class="kw">AS</span> mean_temp_z,
+    <span class="cm">-- Does salinity lead temperature?</span>
+    ROUND(CORR(sal_z, temp_z_lead2)::numeric, 4)          <span class="kw">AS</span> sal_leads_temp_r,
+    <span class="cm">-- Does temperature lead salinity?</span>
+    ROUND(CORR(sal_z, temp_z_lag2)::numeric, 4)           <span class="kw">AS</span> temp_leads_sal_r,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> ABS(CORR(sal_z, temp_z_lead2))
+           &gt; ABS(CORR(sal_z, temp_z_lag2)) + 0.1
+            <span class="kw">THEN</span> <span class="st">'salinity leads temperature'</span>
+        <span class="kw">WHEN</span> ABS(CORR(sal_z, temp_z_lag2))
+           &gt; ABS(CORR(sal_z, temp_z_lead2)) + 0.1
+            <span class="kw">THEN</span> <span class="st">'temperature leads salinity'</span>
+        <span class="kw">ELSE</span>     <span class="st">'synchronous departure'</span>
+    <span class="kw">END</span>                                                   <span class="kw">AS</span> temporal_order
+<span class="kw">FROM</span> departure_series
+<span class="kw">WHERE</span> temp_z_lag2 <span class="kw">IS NOT NULL</span>
+  <span class="kw">AND</span> temp_z_lead2 <span class="kw">IS NOT NULL</span>
+<span class="kw">GROUP BY</span> lat_band, depth_zone
+<span class="kw">ORDER BY</span> ABS(AVG(sal_z)) <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">Temperature gets the headlines. Salinity carries the early warning. The evaporation-precipitation cycle concentrates salt in the subtropics and dilutes it at the poles &mdash; and when that gradient steepens beyond its historical range, the thermohaline circulation is under stress. The lead/lag test reveals whether salt departs before heat or after it. If salinity leads, the hydrological cycle is the driver. If temperature leads, radiative forcing dominates. Either answer is useful. Neither answer is available from a single-variable baseline. This is the first dividend of multi-view construction: a baseline that was invisible from the thermal view alone.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO III ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario III &mdash; The Early Warning Signal</div>
+      <p class="scenario-question">Can rising variance and rising autocorrelation &mdash; the twin signatures of critical slowing &mdash; be detected in ocean variables before a regime shift is visually apparent?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Critical slowing down: rolling variance + autocorrelation</span>
+<span class="kw">WITH</span> monthly_sst <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                              <span class="kw">AS</span> lat_band,
+        ROUND(lon / 30) * 30                              <span class="kw">AS</span> lon_sector,
+        DATE_TRUNC(<span class="st">'month'</span>, observation_date)             <span class="kw">AS</span> obs_month,
+        AVG(sst_c)                                        <span class="kw">AS</span> mean_sst,
+        COUNT(*)                                          <span class="kw">AS</span> n_obs
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> sst_c <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> lat_band, lon_sector, obs_month
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 20
+),
+
+early_warning <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        lat_band, lon_sector, obs_month, mean_sst,
+        <span class="cm">-- Rolling 5-year (60-month) variance</span>
+        STDDEV(mean_sst) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> lat_band, lon_sector
+            <span class="kw">ORDER BY</span> obs_month
+            <span class="kw">ROWS BETWEEN</span> 59 <span class="kw">PRECEDING AND CURRENT ROW</span>
+        )                                                 <span class="kw">AS</span> rolling_sd,
+        <span class="cm">-- 1-month autocorrelation (lag-1 correlation proxy)</span>
+        CORR(mean_sst, LAG(mean_sst, 1) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> lat_band, lon_sector
+            <span class="kw">ORDER BY</span> obs_month
+        )) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> lat_band, lon_sector
+            <span class="kw">ORDER BY</span> obs_month
+            <span class="kw">ROWS BETWEEN</span> 59 <span class="kw">PRECEDING AND CURRENT ROW</span>
+        )                                                 <span class="kw">AS</span> rolling_autocorr,
+        <span class="cm">-- Trend in variance: is it rising?</span>
+        REGR_SLOPE(
+            STDDEV(mean_sst) <span class="kw">OVER</span> (
+                <span class="kw">PARTITION BY</span> lat_band, lon_sector
+                <span class="kw">ORDER BY</span> obs_month
+                <span class="kw">ROWS BETWEEN</span> 59 <span class="kw">PRECEDING AND CURRENT ROW</span>
+            ),
+            EXTRACT(EPOCH <span class="kw">FROM</span> obs_month)
+        ) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> lat_band, lon_sector
+            <span class="kw">ORDER BY</span> obs_month
+            <span class="kw">ROWS BETWEEN</span> 59 <span class="kw">PRECEDING AND CURRENT ROW</span>
+        )                                                 <span class="kw">AS</span> variance_trend
+    <span class="kw">FROM</span> monthly_sst
+)
+
+<span class="kw">SELECT</span>
+    lat_band, lon_sector,
+    ROUND(AVG(rolling_sd)::numeric, 4)                    <span class="kw">AS</span> mean_rolling_sd,
+    ROUND(AVG(rolling_autocorr)::numeric, 4)              <span class="kw">AS</span> mean_autocorr,
+    ROUND(AVG(variance_trend)::numeric, 8)                <span class="kw">AS</span> variance_slope,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> AVG(variance_trend) &gt; 0
+         <span class="kw">AND</span> AVG(rolling_autocorr) &gt; 0.7
+            <span class="kw">THEN</span> <span class="st">'critical slowing detected'</span>
+        <span class="kw">WHEN</span> AVG(variance_trend) &gt; 0
+            <span class="kw">THEN</span> <span class="st">'rising variance only'</span>
+        <span class="kw">WHEN</span> AVG(rolling_autocorr) &gt; 0.7
+            <span class="kw">THEN</span> <span class="st">'high autocorrelation only'</span>
+        <span class="kw">ELSE</span>     <span class="st">'no early warning signal'</span>
+    <span class="kw">END</span>                                                   <span class="kw">AS</span> warning_status,
+    COUNT(*)                                              <span class="kw">AS</span> n_months
+<span class="kw">FROM</span> early_warning
+<span class="kw">WHERE</span> obs_month &gt;= <span class="st">'2010-01-01'</span>
+  <span class="kw">AND</span> rolling_sd <span class="kw">IS NOT NULL</span>
+<span class="kw">GROUP BY</span> lat_band, lon_sector
+<span class="kw">HAVING</span> COUNT(*) &gt;= 60
+<span class="kw">ORDER BY</span> variance_slope <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">Before a regime shift, the system remembers its perturbations longer (rising autocorrelation) and fluctuates more widely (rising variance). These twin signatures &mdash; critical slowing down &mdash; are the mathematical fingerprint of a system approaching a tipping point. The beauty of this diagnostic is that it requires no knowledge of what the tipping point is. It detects the approach from the time-series properties alone. Regions where both signals are simultaneously rising are the canaries. The regime shift has not yet arrived, but its shadow is already lengthening across the variance and autocorrelation of the monthly SST record.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread active">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO IV ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario IV &mdash; The Multi-Instrument Baseline</div>
+      <p class="scenario-question">Does a baseline constructed from multiple instruments &mdash; buoys, floats, and satellites &mdash; detect regime shifts that any single-instrument baseline misses?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Three instruments, three baselines, one parallactic composite</span>
+<span class="kw">WITH</span> buoy_baseline <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                              <span class="kw">AS</span> lat_band,
+        DATE_TRUNC(<span class="st">'month'</span>, observation_ts)               <span class="kw">AS</span> obs_month,
+        AVG(sea_surface_temp_c)                           <span class="kw">AS</span> buoy_sst,
+        STDDEV(sea_surface_temp_c)                        <span class="kw">AS</span> buoy_sd,
+        COUNT(*)                                          <span class="kw">AS</span> buoy_n
+    <span class="kw">FROM</span> noaa.buoy_observations
+    <span class="kw">WHERE</span> sea_surface_temp_c <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> lat_band, obs_month
+),
+
+float_baseline <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                              <span class="kw">AS</span> lat_band,
+        DATE_TRUNC(<span class="st">'month'</span>, observation_ts)               <span class="kw">AS</span> obs_month,
+        AVG(temperature_c)                                <span class="kw">AS</span> float_sst,
+        STDDEV(temperature_c)                             <span class="kw">AS</span> float_sd,
+        COUNT(*)                                          <span class="kw">AS</span> float_n
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> pressure_dbar &lt; 10
+      <span class="kw">AND</span> quality_flag <span class="kw">IN</span> (1, 2)
+    <span class="kw">GROUP BY</span> lat_band, obs_month
+),
+
+satellite_baseline <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                              <span class="kw">AS</span> lat_band,
+        DATE_TRUNC(<span class="st">'month'</span>, observation_date)             <span class="kw">AS</span> obs_month,
+        AVG(sst_c)                                        <span class="kw">AS</span> sat_sst,
+        STDDEV(sst_c)                                     <span class="kw">AS</span> sat_sd,
+        COUNT(*)                                          <span class="kw">AS</span> sat_n
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">GROUP BY</span> lat_band, obs_month
+),
+
+multi_instrument_baseline <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        COALESCE(b.lat_band, f.lat_band, s.lat_band)     <span class="kw">AS</span> lat_band,
+        COALESCE(b.obs_month, f.obs_month, s.obs_month)  <span class="kw">AS</span> obs_month,
+        b.buoy_sst, f.float_sst, s.sat_sst,
+        <span class="cm">-- Per-instrument z-scores against own 20-year mean</span>
+        (b.buoy_sst - AVG(b.buoy_sst) <span class="kw">OVER</span> w_b)
+            / NULLIF(STDDEV(b.buoy_sst) <span class="kw">OVER</span> w_b, 0)     <span class="kw">AS</span> buoy_z,
+        (f.float_sst - AVG(f.float_sst) <span class="kw">OVER</span> w_f)
+            / NULLIF(STDDEV(f.float_sst) <span class="kw">OVER</span> w_f, 0)   <span class="kw">AS</span> float_z,
+        (s.sat_sst - AVG(s.sat_sst) <span class="kw">OVER</span> w_s)
+            / NULLIF(STDDEV(s.sat_sst) <span class="kw">OVER</span> w_s, 0)     <span class="kw">AS</span> sat_z
+    <span class="kw">FROM</span> buoy_baseline b
+    <span class="kw">FULL OUTER JOIN</span> float_baseline f
+        <span class="kw">ON</span> b.lat_band  = f.lat_band
+       <span class="kw">AND</span> b.obs_month = f.obs_month
+    <span class="kw">FULL OUTER JOIN</span> satellite_baseline s
+        <span class="kw">ON</span> COALESCE(b.lat_band, f.lat_band) = s.lat_band
+       <span class="kw">AND</span> COALESCE(b.obs_month, f.obs_month) = s.obs_month
+    <span class="kw">WINDOW</span>
+        w_b <span class="kw">AS</span> (<span class="kw">PARTITION BY</span> b.lat_band <span class="kw">ORDER BY</span> b.obs_month
+                <span class="kw">ROWS BETWEEN</span> 240 <span class="kw">PRECEDING AND CURRENT ROW</span>),
+        w_f <span class="kw">AS</span> (<span class="kw">PARTITION BY</span> f.lat_band <span class="kw">ORDER BY</span> f.obs_month
+                <span class="kw">ROWS BETWEEN</span> 240 <span class="kw">PRECEDING AND CURRENT ROW</span>),
+        w_s <span class="kw">AS</span> (<span class="kw">PARTITION BY</span> s.lat_band <span class="kw">ORDER BY</span> s.obs_month
+                <span class="kw">ROWS BETWEEN</span> 240 <span class="kw">PRECEDING AND CURRENT ROW</span>)
+)
+
+<span class="kw">SELECT</span>
+    lat_band, obs_month,
+    ROUND(buoy_z::numeric, 3)                             <span class="kw">AS</span> buoy_z,
+    ROUND(float_z::numeric, 3)                            <span class="kw">AS</span> float_z,
+    ROUND(sat_z::numeric, 3)                              <span class="kw">AS</span> sat_z,
+    <span class="cm">-- Parallactic composite: mean of available z-scores</span>
+    ROUND((COALESCE(buoy_z, 0) + COALESCE(float_z, 0)
+         + COALESCE(sat_z, 0))::numeric
+         / NULLIF((CASE WHEN buoy_z  <span class="kw">IS NOT NULL</span> THEN 1 ELSE 0 END
+                 + CASE WHEN float_z <span class="kw">IS NOT NULL</span> THEN 1 ELSE 0 END
+                 + CASE WHEN sat_z   <span class="kw">IS NOT NULL</span> THEN 1 ELSE 0 END), 0),
+    3)                                                    <span class="kw">AS</span> parallactic_z,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> ABS(buoy_z) &gt; 2 <span class="kw">AND</span> ABS(float_z) &gt; 2
+         <span class="kw">AND</span> ABS(sat_z) &gt; 2
+            <span class="kw">THEN</span> <span class="st">'all instruments agree — confirmed shift'</span>
+        <span class="kw">WHEN</span> (ABS(buoy_z) &gt; 2)::int + (ABS(float_z) &gt; 2)::int
+           + (ABS(sat_z) &gt; 2)::int &gt;= 2
+            <span class="kw">THEN</span> <span class="st">'majority agreement — probable shift'</span>
+        <span class="kw">WHEN</span> (ABS(buoy_z) &gt; 2)::int + (ABS(float_z) &gt; 2)::int
+           + (ABS(sat_z) &gt; 2)::int = 1
+            <span class="kw">THEN</span> <span class="st">'single instrument — possible artifact'</span>
+        <span class="kw">ELSE</span>     <span class="st">'within variability'</span>
+    <span class="kw">END</span>                                                   <span class="kw">AS</span> consensus_status
+<span class="kw">FROM</span> multi_instrument_baseline
+<span class="kw">WHERE</span> obs_month &gt;= <span class="st">'2020-01-01'</span>
+<span class="kw">ORDER BY</span> lat_band, obs_month;</code></div>
+
+      <div class="scenario-reflection">A buoy measures one point with high temporal resolution. A float measures a vertical column with moderate spatial coverage. A satellite measures the entire surface with coarse depth resolution. Each instrument has a blind spot the others fill. When all three z-scores exceed the threshold, the shift is confirmed &mdash; no single instrument&rsquo;s calibration error or sampling bias can explain it. When only one instrument flags a departure, it is likely an artifact. This is the parallactic principle applied to measurement infrastructure: triangulate across independent views, and the truth emerges from the disagreements as much as from the agreements.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO V ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario V &mdash; The Biological Regime Shift</div>
+      <p class="scenario-question">When species assemblages change faster than their historical rate, does the shift correlate with physical oceanographic departures &mdash; and which physical variable provides the earliest warning?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Biological baseline + physical variable lead times</span>
+<span class="kw">WITH</span> bio_baseline <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                              <span class="kw">AS</span> lat_band,
+        EXTRACT(YEAR <span class="kw">FROM</span> observation_date)               <span class="kw">AS</span> obs_year,
+        COUNT(<span class="kw">DISTINCT</span> species_name)                      <span class="kw">AS</span> species_richness,
+        COUNT(<span class="kw">DISTINCT</span> phylum)                             <span class="kw">AS</span> phylum_count,
+        SUM(abundance)                                    <span class="kw">AS</span> total_abundance,
+        COUNT(*)                                          <span class="kw">AS</span> n_obs
+    <span class="kw">FROM</span> obis.biodiversity_observations
+    <span class="kw">GROUP BY</span> lat_band, obs_year
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 50
+),
+
+biological_shift <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        lat_band, obs_year, species_richness,
+        species_richness - LAG(species_richness, 1) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> lat_band <span class="kw">ORDER BY</span> obs_year
+        )                                                 <span class="kw">AS</span> richness_delta,
+        AVG(species_richness) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> lat_band <span class="kw">ORDER BY</span> obs_year
+            <span class="kw">ROWS BETWEEN</span> 10 <span class="kw">PRECEDING AND CURRENT ROW</span>
+        )                                                 <span class="kw">AS</span> decadal_mean,
+        STDDEV(species_richness) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> lat_band <span class="kw">ORDER BY</span> obs_year
+            <span class="kw">ROWS BETWEEN</span> 10 <span class="kw">PRECEDING AND CURRENT ROW</span>
+        )                                                 <span class="kw">AS</span> decadal_sd
+    <span class="kw">FROM</span> bio_baseline
+),
+
+physical_departures <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                              <span class="kw">AS</span> lat_band,
+        EXTRACT(YEAR <span class="kw">FROM</span> observation_date)               <span class="kw">AS</span> obs_year,
+        AVG(sst_anomaly_c)                                <span class="kw">AS</span> sst_anomaly
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">GROUP BY</span> lat_band, obs_year
+),
+
+argo_departures <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                              <span class="kw">AS</span> lat_band,
+        EXTRACT(YEAR <span class="kw">FROM</span> observation_ts)                 <span class="kw">AS</span> obs_year,
+        AVG(salinity_psu)                                 <span class="kw">AS</span> mean_salinity,
+        AVG(oxygen_umol_kg)                               <span class="kw">AS</span> mean_oxygen
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> pressure_dbar &lt; 200 <span class="kw">AND</span> quality_flag <span class="kw">IN</span> (1, 2)
+    <span class="kw">GROUP BY</span> lat_band, obs_year
+)
+
+<span class="kw">SELECT</span>
+    bs.lat_band,
+    COUNT(*) <span class="kw">FILTER</span> (
+        <span class="kw">WHERE</span> ABS(bs.richness_delta)
+            &gt; 2 * bs.decadal_sd
+    )                                                     <span class="kw">AS</span> bio_shift_years,
+    <span class="cm">-- Which physical variable best predicts the biological shift?</span>
+    ROUND(CORR(
+        bs.richness_delta,
+        LAG(p.sst_anomaly, 1) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> bs.lat_band <span class="kw">ORDER BY</span> bs.obs_year)
+    )::numeric, 4)                                        <span class="kw">AS</span> sst_leads_bio_r,
+    ROUND(CORR(
+        bs.richness_delta,
+        LAG(a.mean_salinity, 1) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> bs.lat_band <span class="kw">ORDER BY</span> bs.obs_year)
+    )::numeric, 4)                                        <span class="kw">AS</span> sal_leads_bio_r,
+    ROUND(CORR(
+        bs.richness_delta,
+        LAG(a.mean_oxygen, 1) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> bs.lat_band <span class="kw">ORDER BY</span> bs.obs_year)
+    )::numeric, 4)                                        <span class="kw">AS</span> oxy_leads_bio_r,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> GREATEST(
+            ABS(CORR(bs.richness_delta, LAG(p.sst_anomaly, 1) <span class="kw">OVER</span> w)),
+            ABS(CORR(bs.richness_delta, LAG(a.mean_salinity, 1) <span class="kw">OVER</span> w)),
+            ABS(CORR(bs.richness_delta, LAG(a.mean_oxygen, 1) <span class="kw">OVER</span> w))
+        ) = ABS(CORR(bs.richness_delta, LAG(p.sst_anomaly, 1) <span class="kw">OVER</span> w))
+            <span class="kw">THEN</span> <span class="st">'temperature is best early warning'</span>
+        <span class="kw">WHEN</span> GREATEST(
+            ABS(CORR(bs.richness_delta, LAG(p.sst_anomaly, 1) <span class="kw">OVER</span> w)),
+            ABS(CORR(bs.richness_delta, LAG(a.mean_salinity, 1) <span class="kw">OVER</span> w)),
+            ABS(CORR(bs.richness_delta, LAG(a.mean_oxygen, 1) <span class="kw">OVER</span> w))
+        ) = ABS(CORR(bs.richness_delta, LAG(a.mean_oxygen, 1) <span class="kw">OVER</span> w))
+            <span class="kw">THEN</span> <span class="st">'oxygen is best early warning'</span>
+        <span class="kw">ELSE</span>     <span class="st">'salinity is best early warning'</span>
+    <span class="kw">END</span>                                                   <span class="kw">AS</span> best_predictor
+<span class="kw">FROM</span> biological_shift bs
+<span class="kw">JOIN</span> physical_departures p
+    <span class="kw">ON</span> bs.lat_band = p.lat_band <span class="kw">AND</span> bs.obs_year = p.obs_year
+<span class="kw">JOIN</span> argo_departures a
+    <span class="kw">ON</span> bs.lat_band = a.lat_band <span class="kw">AND</span> bs.obs_year = a.obs_year
+<span class="kw">WINDOW</span> w <span class="kw">AS</span> (
+    <span class="kw">PARTITION BY</span> bs.lat_band <span class="kw">ORDER BY</span> bs.obs_year
+)
+<span class="kw">GROUP BY</span> bs.lat_band
+<span class="kw">ORDER BY</span> bio_shift_years <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">Biology is the ultimate integrator. Species assemblages encode decades of physical history in their composition &mdash; a living memory of temperature, salinity, oxygen, and current. When the assemblage shifts faster than its decadal standard deviation, the integrated signal has crossed a threshold that no single physical variable crossed on its own. The lead-time test then asks the practical question: which physical variable gives the most advance warning? If oxygen departure leads biological shift by a year, then oxygen monitoring is the early warning infrastructure. If temperature leads, then SST networks are the canaries. The answer varies by latitude &mdash; and that variation is itself a finding.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread active">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread active">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO VI ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario VI &mdash; The Parallactic Departure Score</div>
+      <p class="scenario-question">Can we construct a single composite departure score from multiple independent baselines &mdash; and does this parallactic score outperform any individual baseline at distinguishing genuine regime shifts from natural variability?</p>
+
+      <div class="sql-block"><code><span class="cm">-- The capstone: parallactic departure score from four independent views</span>
+<span class="kw">WITH</span> sst_z <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                              <span class="kw">AS</span> lat_band,
+        EXTRACT(YEAR <span class="kw">FROM</span> observation_date)               <span class="kw">AS</span> obs_year,
+        (AVG(sst_c) - AVG(AVG(sst_c)) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> ROUND(lat / 10) * 10
+            <span class="kw">ORDER BY</span> EXTRACT(YEAR <span class="kw">FROM</span> observation_date)
+            <span class="kw">ROWS BETWEEN</span> 20 <span class="kw">PRECEDING AND</span> 5 <span class="kw">PRECEDING</span>
+        )) / NULLIF(STDDEV(AVG(sst_c)) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> ROUND(lat / 10) * 10
+            <span class="kw">ORDER BY</span> EXTRACT(YEAR <span class="kw">FROM</span> observation_date)
+            <span class="kw">ROWS BETWEEN</span> 20 <span class="kw">PRECEDING AND</span> 5 <span class="kw">PRECEDING</span>
+        ), 0)                                             <span class="kw">AS</span> z_sst
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> sst_c <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> lat_band, obs_year
+),
+
+salinity_z <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                              <span class="kw">AS</span> lat_band,
+        EXTRACT(YEAR <span class="kw">FROM</span> observation_ts)                 <span class="kw">AS</span> obs_year,
+        (AVG(salinity_psu) - AVG(AVG(salinity_psu)) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> ROUND(lat / 10) * 10
+            <span class="kw">ORDER BY</span> EXTRACT(YEAR <span class="kw">FROM</span> observation_ts)
+            <span class="kw">ROWS BETWEEN</span> 20 <span class="kw">PRECEDING AND</span> 5 <span class="kw">PRECEDING</span>
+        )) / NULLIF(STDDEV(AVG(salinity_psu)) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> ROUND(lat / 10) * 10
+            <span class="kw">ORDER BY</span> EXTRACT(YEAR <span class="kw">FROM</span> observation_ts)
+            <span class="kw">ROWS BETWEEN</span> 20 <span class="kw">PRECEDING AND</span> 5 <span class="kw">PRECEDING</span>
+        ), 0)                                             <span class="kw">AS</span> z_sal
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2) <span class="kw">AND</span> pressure_dbar &lt; 200
+    <span class="kw">GROUP BY</span> lat_band, obs_year
+),
+
+oxygen_z <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                              <span class="kw">AS</span> lat_band,
+        EXTRACT(YEAR <span class="kw">FROM</span> observation_ts)                 <span class="kw">AS</span> obs_year,
+        (AVG(oxygen_umol_kg) - AVG(AVG(oxygen_umol_kg)) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> ROUND(lat / 10) * 10
+            <span class="kw">ORDER BY</span> EXTRACT(YEAR <span class="kw">FROM</span> observation_ts)
+            <span class="kw">ROWS BETWEEN</span> 20 <span class="kw">PRECEDING AND</span> 5 <span class="kw">PRECEDING</span>
+        )) / NULLIF(STDDEV(AVG(oxygen_umol_kg)) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> ROUND(lat / 10) * 10
+            <span class="kw">ORDER BY</span> EXTRACT(YEAR <span class="kw">FROM</span> observation_ts)
+            <span class="kw">ROWS BETWEEN</span> 20 <span class="kw">PRECEDING AND</span> 5 <span class="kw">PRECEDING</span>
+        ), 0)                                             <span class="kw">AS</span> z_oxy
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2) <span class="kw">AND</span> oxygen_umol_kg <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> lat_band, obs_year
+),
+
+bio_z <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                              <span class="kw">AS</span> lat_band,
+        EXTRACT(YEAR <span class="kw">FROM</span> observation_date)               <span class="kw">AS</span> obs_year,
+        (COUNT(<span class="kw">DISTINCT</span> species_name)::numeric
+          - AVG(COUNT(<span class="kw">DISTINCT</span> species_name)::numeric) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> ROUND(lat / 10) * 10
+            <span class="kw">ORDER BY</span> EXTRACT(YEAR <span class="kw">FROM</span> observation_date)
+            <span class="kw">ROWS BETWEEN</span> 10 <span class="kw">PRECEDING AND</span> 3 <span class="kw">PRECEDING</span>
+        )) / NULLIF(STDDEV(COUNT(<span class="kw">DISTINCT</span> species_name)::numeric) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> ROUND(lat / 10) * 10
+            <span class="kw">ORDER BY</span> EXTRACT(YEAR <span class="kw">FROM</span> observation_date)
+            <span class="kw">ROWS BETWEEN</span> 10 <span class="kw">PRECEDING AND</span> 3 <span class="kw">PRECEDING</span>
+        ), 0)                                             <span class="kw">AS</span> z_bio
+    <span class="kw">FROM</span> obis.biodiversity_observations
+    <span class="kw">GROUP BY</span> lat_band, obs_year
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 30
+),
+
+parallactic_score <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        t.lat_band, t.obs_year,
+        t.z_sst, s.z_sal, o.z_oxy, b.z_bio,
+        <span class="cm">-- Parallactic departure: mean of absolute z-scores</span>
+        (ABS(COALESCE(t.z_sst, 0)) + ABS(COALESCE(s.z_sal, 0))
+       + ABS(COALESCE(o.z_oxy, 0)) + ABS(COALESCE(b.z_bio, 0)))
+       / NULLIF(
+            (CASE WHEN t.z_sst <span class="kw">IS NOT NULL</span> THEN 1 ELSE 0 END
+           + CASE WHEN s.z_sal <span class="kw">IS NOT NULL</span> THEN 1 ELSE 0 END
+           + CASE WHEN o.z_oxy <span class="kw">IS NOT NULL</span> THEN 1 ELSE 0 END
+           + CASE WHEN b.z_bio <span class="kw">IS NOT NULL</span> THEN 1 ELSE 0 END
+        ), 0)                                             <span class="kw">AS</span> pds
+    <span class="kw">FROM</span> sst_z t
+    <span class="kw">LEFT JOIN</span> salinity_z s
+        <span class="kw">ON</span> t.lat_band = s.lat_band <span class="kw">AND</span> t.obs_year = s.obs_year
+    <span class="kw">LEFT JOIN</span> oxygen_z o
+        <span class="kw">ON</span> t.lat_band = o.lat_band <span class="kw">AND</span> t.obs_year = o.obs_year
+    <span class="kw">LEFT JOIN</span> bio_z b
+        <span class="kw">ON</span> t.lat_band = b.lat_band <span class="kw">AND</span> t.obs_year = b.obs_year
+)
+
+<span class="kw">SELECT</span>
+    lat_band,
+    ROUND(AVG(pds)::numeric, 3)                           <span class="kw">AS</span> mean_parallactic_score,
+    ROUND(MAX(pds)::numeric, 3)                           <span class="kw">AS</span> peak_parallactic_score,
+    <span class="cm">-- Compare composite vs. best single view</span>
+    ROUND(AVG(ABS(z_sst))::numeric, 3)                   <span class="kw">AS</span> mean_abs_sst_z,
+    ROUND(AVG(ABS(z_sal))::numeric, 3)                   <span class="kw">AS</span> mean_abs_sal_z,
+    ROUND(AVG(ABS(z_oxy))::numeric, 3)                   <span class="kw">AS</span> mean_abs_oxy_z,
+    ROUND(AVG(ABS(z_bio))::numeric, 3)                   <span class="kw">AS</span> mean_abs_bio_z,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> AVG(pds) &gt; GREATEST(
+            AVG(ABS(z_sst)), AVG(ABS(z_sal)),
+            AVG(ABS(z_oxy)), AVG(ABS(z_bio))
+        )
+            <span class="kw">THEN</span> <span class="st">'parallactic score outperforms all singles'</span>
+        <span class="kw">ELSE</span>     <span class="st">'single view dominates'</span>
+    <span class="kw">END</span>                                                   <span class="kw">AS</span> composite_verdict,
+    COUNT(*)                                              <span class="kw">AS</span> n_years
+<span class="kw">FROM</span> parallactic_score
+<span class="kw">WHERE</span> obs_year &gt;= 2015
+<span class="kw">GROUP BY</span> lat_band
+<span class="kw">ORDER BY</span> mean_parallactic_score <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">This is the infrastructure query. Four independent baselines &mdash; temperature, salinity, oxygen, biodiversity &mdash; each computed against its own historical distribution, each producing its own z-score, each blind to the others. The parallactic departure score is their mean absolute value: a single number that captures how far the system has wandered from normality across all available views simultaneously. The composite outperforms any single view for the same reason parallax outperforms monocular vision: no single baseline can be fooled in exactly the way another baseline can. A warm year with normal salinity and normal oxygen is weather. A warm year with departing salinity, declining oxygen, and shifting species composition is a regime shift. Only the parallactic score distinguishes the two.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread active">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- CODA -->
+    <section class="coda">
+      <h2>Coda</h2>
+
+      <p>Six baselines. One shifting ocean.</p>
+
+      <p>The thermal baseline shows where departure is already fact &mdash; latitudes where the present has persistently exceeded two standard deviations of the past, where &ldquo;anomaly&rdquo; has become the new mean. The salinity departure shows what temperature misses: a hydrological signal that may lead or follow the thermal one, depending on which forcing dominates, revealing structure invisible to any single-variable analysis.</p>
+
+      <p>The early warning signals detect approaching tipping points before they arrive. Rising variance and rising autocorrelation are the mathematical shadow of a regime shift &mdash; the system slowing down, remembering its perturbations longer, fluctuating more wildly as it approaches the edge. No knowledge of the tipping point itself is required. The time series announces its own instability.</p>
+
+      <p>The multi-instrument baseline proves that parallactic construction catches what single instruments miss. A buoy, a float, and a satellite each see the ocean through a different aperture. Where all three agree on a departure, the signal is real. Where only one flags it, the instrument&rsquo;s bias is the more parsimonious explanation. Consensus across independent views is the most robust form of evidence the observing system can produce.</p>
+
+      <p>The biological regime shift shows that physical and biological systems depart in concert &mdash; but at different speeds, with different lead times, through different mechanisms. Biology integrates physical history into species composition, and when that composition shifts faster than its decadal baseline, the integrated signal has crossed a threshold that no single physical measurement crossed alone.</p>
+
+      <p>The parallactic departure score combines all views into a single diagnostic that outperforms any component. Four z-scores, four independent baselines, one composite. The score is robust because it is hard to fool: a calibration error in one instrument, a sampling bias in one network, a natural fluctuation in one variable &mdash; none of these can elevate the composite without the other views concurring. This is the infrastructure the program was designed to produce. Not a model. Not a prediction. A monitoring framework that cannot be deceived by the limitations of any single instrument, any single variable, any single view.</p>
+
+      <p class="warning-line">The ocean is proof of concept. The concept is general.</p>
+
+      <div class="signature">
+        &mdash; Jeffrey J. Berg<br>
+        PARALLAX<span class="tm">&trade;</span> &middot; CONSTELLATION<span class="tm">&trade;</span><br>
+        Convergent Distributed Empirical Inferential Intelligence<span class="tm">&trade;</span>
+      </div>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <span>&copy; Jeffrey J. Berg. All rights reserved.</span>
+  <span>PARALLAX&trade; &middot; GAUGE&trade; &middot; CONSTELLATION&trade; &middot; CDEII&trade;</span>
+</footer>
+
+</body>
+</html>
