@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>Convergent Distributed Empirical Inferential Intelligence &mdash; PARALLAX&trade;</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='14'%3E%E2%97%87%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --surface: #111820;
+    --surface-raised: #171f28;
+    --text: #c8ccd0;
+    --text-muted: #6a7580;
+    --text-bright: #e8ecf0;
+    --amber: #d4a843;
+    --amber-dim: rgba(212, 168, 67, 0.08);
+    --amber-border: rgba(212, 168, 67, 0.35);
+    --green-soft: #8fbc8f;
+    --serif: "Cormorant Garamond", "EB Garamond", Garamond, "Hoefler Text", "Times New Roman", serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    --mono: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", "Consolas", monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    background: var(--bg);
+    color: var(--text);
+    font-size: 17px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--serif);
+    font-weight: 400;
+    line-height: 1.72;
+    letter-spacing: 0.005em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--amber-border); transition: border-color 0.3s; }
+  a:hover { border-color: var(--amber); }
+  a:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+  /* --- NAV --- */
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 14, 20, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0.6rem clamp(1rem, 4vw, 2rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+  }
+  .site-nav a { color: var(--text-muted); border: none; }
+  .site-nav a:hover { color: var(--text-bright); }
+  .nav-brand { font-weight: 600; color: var(--text); letter-spacing: 0.22em; }
+  .nav-links { display: flex; gap: 1.2rem; }
+
+  /* --- MAIN --- */
+  #main {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem) 4rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    border: none;
+  }
+  .back-link::before { content: "\2190\00a0"; }
+
+  /* --- ARTICLE HEADER --- */
+  .article-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .article-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text-bright);
+    margin-bottom: 0.4rem;
+  }
+  .article-subtitle {
+    font-family: var(--serif);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+  .article-meta {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: lowercase;
+  }
+  .article-meta .tm { font-size: 0.6em; vertical-align: super; }
+
+  /* --- EPIGRAPH --- */
+  .epigraph {
+    text-align: center;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 2.5rem 2rem 0.5rem;
+    line-height: 1.6;
+  }
+  .epigraph-attribution {
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+  }
+
+  /* --- PREAMBLE --- */
+  .preamble {
+    margin-bottom: 3rem;
+  }
+  .preamble h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .preamble p {
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  /* --- SCHEMA SECTION --- */
+  .schema-section {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .schema-section h3 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .schema-table {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+  .schema-table .table-name {
+    color: var(--text-bright);
+    font-weight: 600;
+  }
+  .schema-table .columns {
+    color: var(--text-muted);
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* --- TRANSITION --- */
+  .transition {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+    margin: 3rem 0;
+    opacity: 0.4;
+  }
+
+  /* --- SCENARIO --- */
+  .scenario {
+    margin-bottom: 3.5rem;
+  }
+  .scenario-label {
+    font-family: var(--sans);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.8rem;
+  }
+  .scenario-question {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--text-bright);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--amber-border);
+  }
+
+  /* --- SQL BLOCK --- */
+  .sql-block {
+    background: var(--surface);
+    border-left: 3px solid var(--amber-border);
+    border-radius: 0 4px 4px 0;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sql-block code {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--text);
+    white-space: pre;
+    tab-size: 4;
+  }
+  .sql-block .kw { color: var(--amber); font-weight: 500; }
+  .sql-block .st { color: var(--green-soft); }
+  .sql-block .cm { color: var(--text-muted); font-style: italic; }
+
+  /* --- REFLECTION --- */
+  .scenario-reflection {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding: 1rem 1.2rem;
+    background: var(--amber-dim);
+    border-radius: 4px;
+    margin-bottom: 0.8rem;
+  }
+
+  /* --- DNA THREADS --- */
+  .dna-threads {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+  }
+  .dna-thread {
+    font-family: var(--sans);
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 2px;
+    padding: 0.15rem 0.5rem;
+  }
+  .dna-thread.active {
+    color: var(--amber);
+    border-color: var(--amber-border);
+    background: var(--amber-dim);
+  }
+
+  /* --- CODA --- */
+  .coda {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .coda h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.5rem;
+  }
+  .coda p { margin-bottom: 1rem; }
+  .coda .warning-line {
+    font-style: italic;
+    color: var(--text-bright);
+    font-size: 1.05rem;
+  }
+  .coda .signature {
+    margin-top: 2.5rem;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* --- FOOTER --- */
+  .site-footer {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-family: var(--sans);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 768px) {
+    .sql-block { padding: 1rem; }
+    .sql-block code { font-size: 0.72rem; }
+    .schema-table { font-size: 0.72rem; }
+    .scenario-question { font-size: 1.05rem; }
+  }
+
+  @media (max-width: 480px) {
+    .sql-block { padding: 0.8rem; margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+    .schema-section { margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  @media print {
+    .site-nav { display: none; }
+    :root { --bg: #fff; --text: #111; --text-bright: #000; --text-muted: #555; --surface: #f5f5f5; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <span class="nav-brand">parallax&trade;</span>
+  <div class="nav-links">
+    <a href="/">home</a>
+    <a href="/cv">cv</a>
+  </div>
+</nav>
+
+<div id="main">
+  <a href="/" class="back-link">home</a>
+
+  <header class="article-header">
+    <h1>Convergent Distributed Empirical Inferential Intelligence</h1>
+    <div class="article-subtitle">A Unified Stance Across Eight Domains of Ensemble Cognition</div>
+    <div class="article-meta">
+      Jeffrey J. Berg &middot; PARALLAX<span class="tm">&trade;</span> &middot; CONSTELLATION<span class="tm">&trade;</span> &middot; paper 4 of 10 &middot; target: <em>Nature Computational Science</em>
+    </div>
+  </header>
+
+  <article class="article-content">
+
+    <!-- EPIGRAPH -->
+    <p class="epigraph">&ldquo;No neuron is an island; no algorithm, a universe.&rdquo;</p>
+    <p class="epigraph-attribution">&mdash; Jeffrey J. Berg</p>
+
+    <!-- PREAMBLE -->
+    <section class="preamble">
+      <h2>The CDEII&trade; Stance</h2>
+      <p>Intelligence &mdash; at every scale from cortical column to cultural movement &mdash; is irreducibly ensemble. No single neuron, algorithm, perspective, or cultural lens produces knowledge. Intelligence converges from the distributed coordination of multiple empirical inferences. This paper names the stance: Convergent Distributed Empirical Inferential Intelligence&trade; (CDEII&trade;). It bridges eight domains &mdash; cognitive science, brain science, machine intelligence, machine inference, orchestration, deep neural networks, social networks, and cultural zeitgeist prediction &mdash; under one claim: that the pattern of convergent multi-view intelligence is not a metaphor but a formal structural homology.</p>
+      <p>The word <em>convergent</em> carries the weight. Not consensus &mdash; convergence. Independent instruments, measuring independently, arriving at compatible structure through different empirical channels. Not because they agree on method, but because the phenomenon they observe has shape. The distributed quality is not a design choice but a precondition: no single vantage point possesses sufficient information to recover the whole. The empirical grounding is non-negotiable: every inference must trace back to observation. And the inferential act &mdash; the leap from measurement to meaning &mdash; is what separates data collection from intelligence.</p>
+      <p>What follows are seven scenarios enacted on public oceanographic data. Each scenario mirrors one domain of CDEII&trade;. The ocean was chosen not for its novelty but for its legibility: seven independent instrument networks, seven independent data tables, one shared geography. The claim is structural. The ocean makes it visible.</p>
+    </section>
+
+    <!-- SCHEMA REFERENCE -->
+    <section class="schema-section">
+      <h3>The Shared Schema &mdash; Seven Tables, One Ocean</h3>
+      <div class="schema-table">
+        <div><span class="table-name">argo.float_profiles</span></div>
+        <div class="columns">profile_id, float_id, cycle_number, lat, lon, observation_ts, pressure_dbar, temperature_c, salinity_psu, oxygen_umol_kg, quality_flag, data_mode</div>
+
+        <div><span class="table-name">argo.float_metadata</span></div>
+        <div class="columns">float_id, deploy_date, deploy_lat, deploy_lon, country, project_name, float_model, status</div>
+
+        <div><span class="table-name">noaa.buoy_observations</span></div>
+        <div class="columns">station_id, station_name, lat, lon, observation_ts, wind_speed_ms, wave_height_m, sea_surface_temp_c, air_temp_c, air_pressure_hpa</div>
+
+        <div><span class="table-name">noaa.sea_surface_temperature</span></div>
+        <div class="columns">grid_id, lat, lon, observation_date, sst_c, sst_anomaly_c, ice_concentration_pct, source</div>
+
+        <div><span class="table-name">ocean.current_measurements</span></div>
+        <div class="columns">measurement_id, platform_type, lat, lon, depth_m, observation_ts, velocity_east_ms, velocity_north_ms, speed_ms</div>
+
+        <div><span class="table-name">gebco.bathymetry</span></div>
+        <div class="columns">cell_id, lat, lon, depth_m, feature_name, feature_type</div>
+
+        <div><span class="table-name">obis.biodiversity_observations</span></div>
+        <div class="columns">occurrence_id, species_name, phylum, observation_date, lat, lon, depth_m, abundance, dataset_id</div>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO I ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario I &mdash; Distributed Sensing (Brain Science Analog)</div>
+      <p class="scenario-question">When thousands of instruments are scattered across the ocean, each measuring locally, does their collective signal contain structure that no individual instrument can detect?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Distributed sensing: individual floats vs. the ensemble</span>
+<span class="cm">-- Each float sees noise. The collective sees signal.</span>
+
+<span class="kw">WITH</span> float_local_view <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        float_id,
+        ROUND(lat / 10) * 10                            <span class="kw">AS</span> basin_lat,
+        ROUND(lon / 10) * 10                            <span class="kw">AS</span> basin_lon,
+        AVG(temperature_c)                              <span class="kw">AS</span> float_mean_temp,
+        STDDEV(temperature_c)                           <span class="kw">AS</span> float_variability,
+        COUNT(*)                                        <span class="kw">AS</span> n_profiles
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> pressure_dbar <span class="kw">BETWEEN</span> 100 <span class="kw">AND</span> 500
+    <span class="kw">GROUP BY</span> float_id, ROUND(lat / 10) * 10, ROUND(lon / 10) * 10
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 20
+),
+
+ensemble_basin_view <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        basin_lat,
+        basin_lon,
+        COUNT(<span class="kw">DISTINCT</span> float_id)                       <span class="kw">AS</span> n_floats,
+        AVG(float_mean_temp)                            <span class="kw">AS</span> ensemble_mean,
+        STDDEV(float_mean_temp)                         <span class="kw">AS</span> between_float_var,
+        AVG(float_variability)                          <span class="kw">AS</span> avg_within_float_var
+    <span class="kw">FROM</span> float_local_view
+    <span class="kw">GROUP BY</span> basin_lat, basin_lon
+    <span class="kw">HAVING</span> COUNT(<span class="kw">DISTINCT</span> float_id) &gt;= 5
+),
+
+emergence_metric <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        basin_lat,
+        basin_lon,
+        n_floats,
+        ensemble_mean,
+        between_float_var,
+        avg_within_float_var,
+        between_float_var
+            / NULLIF(avg_within_float_var, 0)           <span class="kw">AS</span> signal_to_noise,
+        1.0 - (avg_within_float_var
+            / NULLIF(between_float_var
+                   + avg_within_float_var, 0))          <span class="kw">AS</span> ensemble_information_gain
+    <span class="kw">FROM</span> ensemble_basin_view
+)
+
+<span class="kw">SELECT</span>
+    basin_lat,
+    basin_lon,
+    n_floats,
+    ROUND(ensemble_mean::numeric, 2)                    <span class="kw">AS</span> basin_temperature,
+    ROUND(avg_within_float_var::numeric, 4)             <span class="kw">AS</span> individual_noise,
+    ROUND(between_float_var::numeric, 4)                <span class="kw">AS</span> collective_signal,
+    ROUND(signal_to_noise::numeric, 3)                  <span class="kw">AS</span> snr,
+    ROUND(ensemble_information_gain::numeric, 3)        <span class="kw">AS</span> information_gain,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> ensemble_information_gain &gt; 0.7
+            <span class="kw">THEN</span> <span class="st">'strong emergent structure'</span>
+        <span class="kw">WHEN</span> ensemble_information_gain &gt; 0.4
+            <span class="kw">THEN</span> <span class="st">'moderate emergence'</span>
+        <span class="kw">ELSE</span>     <span class="st">'local dominates collective'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> emergence_verdict
+<span class="kw">FROM</span> emergence_metric
+<span class="kw">ORDER BY</span> ensemble_information_gain <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">A single neuron fires or does not fire. A single float records 4.7&deg;C at 300 meters. Both carry information, but neither carries knowledge. Knowledge emerges when thousands of such local signals are held together &mdash; not averaged away, but compared. The between-float variance is not error. It is the spatial structure of the basin made legible by the ensemble. The information gain column measures exactly how much the collective knows that no individual member does. Where emergence is strong, the ocean has structure that only a distributed population can detect. This is the foundational claim of brain science applied to instrumentation: intelligence is not in any one unit. It is in the pattern across units.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO II ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario II &mdash; Convergent Measurement (Cognitive Science Analog)</div>
+      <p class="scenario-question">When different instrument types observe the same phenomenon through different sensory channels, do their independent estimates converge &mdash; and what does convergence itself reveal?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Convergent measurement: three instruments, one construct</span>
+<span class="cm">-- Do independent channels agree about what they observe?</span>
+
+<span class="kw">WITH</span> argo_sst <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> region_lat,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> region_lon,
+        DATE_TRUNC(<span class="st">'month'</span>, observation_ts)              <span class="kw">AS</span> obs_month,
+        AVG(temperature_c)                              <span class="kw">AS</span> argo_temp,
+        COUNT(*)                                        <span class="kw">AS</span> argo_n
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> pressure_dbar &lt; 10
+      <span class="kw">AND</span> quality_flag <span class="kw">IN</span> (1, 2)
+    <span class="kw">GROUP BY</span> region_lat, region_lon, obs_month
+),
+
+buoy_sst <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> region_lat,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> region_lon,
+        DATE_TRUNC(<span class="st">'month'</span>, observation_ts)              <span class="kw">AS</span> obs_month,
+        AVG(sea_surface_temp_c)                         <span class="kw">AS</span> buoy_temp,
+        COUNT(*)                                        <span class="kw">AS</span> buoy_n
+    <span class="kw">FROM</span> noaa.buoy_observations
+    <span class="kw">GROUP BY</span> region_lat, region_lon, obs_month
+),
+
+satellite_sst <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> region_lat,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> region_lon,
+        DATE_TRUNC(<span class="st">'month'</span>, observation_date)            <span class="kw">AS</span> obs_month,
+        AVG(sst_c)                                      <span class="kw">AS</span> satellite_temp,
+        COUNT(*)                                        <span class="kw">AS</span> satellite_n
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">GROUP BY</span> region_lat, region_lon, obs_month
+)
+
+<span class="kw">SELECT</span>
+    a.region_lat,
+    a.region_lon,
+    COUNT(*)                                            <span class="kw">AS</span> n_months,
+    ROUND(CORR(a.argo_temp, b.buoy_temp)::numeric, 4)  <span class="kw">AS</span> r_argo_buoy,
+    ROUND(CORR(a.argo_temp, s.satellite_temp)::numeric, 4)
+                                                        <span class="kw">AS</span> r_argo_satellite,
+    ROUND(CORR(b.buoy_temp, s.satellite_temp)::numeric, 4)
+                                                        <span class="kw">AS</span> r_buoy_satellite,
+    ROUND(
+        (CORR(a.argo_temp, b.buoy_temp)
+       + CORR(a.argo_temp, s.satellite_temp)
+       + CORR(b.buoy_temp, s.satellite_temp)) / 3.0
+    ::numeric, 4)                                       <span class="kw">AS</span> mean_convergence,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> (CORR(a.argo_temp, b.buoy_temp)
+            + CORR(a.argo_temp, s.satellite_temp)
+            + CORR(b.buoy_temp, s.satellite_temp)) / 3.0 &gt; 0.90
+            <span class="kw">THEN</span> <span class="st">'strong convergence'</span>
+        <span class="kw">WHEN</span> (CORR(a.argo_temp, b.buoy_temp)
+            + CORR(a.argo_temp, s.satellite_temp)
+            + CORR(b.buoy_temp, s.satellite_temp)) / 3.0 &gt; 0.70
+            <span class="kw">THEN</span> <span class="st">'moderate convergence'</span>
+        <span class="kw">ELSE</span>     <span class="st">'channels diverge'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> convergence_verdict
+<span class="kw">FROM</span> argo_sst a
+<span class="kw">JOIN</span> buoy_sst b
+    <span class="kw">ON</span> a.region_lat = b.region_lat
+   <span class="kw">AND</span> a.region_lon = b.region_lon
+   <span class="kw">AND</span> a.obs_month  = b.obs_month
+<span class="kw">JOIN</span> satellite_sst s
+    <span class="kw">ON</span> a.region_lat = s.region_lat
+   <span class="kw">AND</span> a.region_lon = s.region_lon
+   <span class="kw">AND</span> a.obs_month  = s.obs_month
+<span class="kw">GROUP BY</span> a.region_lat, a.region_lon
+<span class="kw">HAVING</span> COUNT(*) &gt;= 12
+<span class="kw">ORDER BY</span> mean_convergence <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">Cognitive science teaches that perception is not a single channel but a tribunal. Vision, audition, and proprioception each submit independent estimates of the world, and the brain fuses them &mdash; weighting each by its reliability in context. This query enacts the same tribunal for sea surface temperature: three independent instruments (Argo float, moored buoy, satellite radiometer), three different physical measurement principles, three independent estimates of the same construct. Where all three converge, we have something stronger than any single measurement: we have convergent validity. Where they diverge, we have discovered that &ldquo;sea surface temperature&rdquo; is not one thing but three, each shaped by the instrument that measures it. The convergence itself is the intelligence.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO III ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario III &mdash; Empirical Accumulation (Machine Inference Analog)</div>
+      <p class="scenario-question">As observations accumulate over time, does uncertainty shrink monotonically &mdash; or are there regions where more data paradoxically increases ambiguity?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Empirical accumulation: when does more data reduce uncertainty?</span>
+<span class="cm">-- And when does it not?</span>
+
+<span class="kw">WITH</span> temporal_windows <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> region_lat,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> region_lon,
+        <span class="kw">CASE</span>
+            <span class="kw">WHEN</span> observation_date &lt; <span class="st">'2005-01-01'</span>
+                <span class="kw">THEN</span> <span class="st">'era_1_early'</span>
+            <span class="kw">WHEN</span> observation_date &lt; <span class="st">'2012-01-01'</span>
+                <span class="kw">THEN</span> <span class="st">'era_2_growth'</span>
+            <span class="kw">WHEN</span> observation_date &lt; <span class="st">'2019-01-01'</span>
+                <span class="kw">THEN</span> <span class="st">'era_3_mature'</span>
+            <span class="kw">ELSE</span>     <span class="st">'era_4_dense'</span>
+        <span class="kw">END</span>                                             <span class="kw">AS</span> accumulation_era,
+        sst_c,
+        sst_anomaly_c
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+),
+
+era_statistics <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        region_lat,
+        region_lon,
+        accumulation_era,
+        COUNT(*)                                        <span class="kw">AS</span> n_obs,
+        AVG(sst_c)                                      <span class="kw">AS</span> mean_sst,
+        STDDEV(sst_c)                                   <span class="kw">AS</span> sst_spread,
+        STDDEV(sst_c) / SQRT(COUNT(*))                  <span class="kw">AS</span> standard_error,
+        STDDEV(sst_anomaly_c)                           <span class="kw">AS</span> anomaly_spread
+    <span class="kw">FROM</span> temporal_windows
+    <span class="kw">GROUP BY</span> region_lat, region_lon, accumulation_era
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 50
+),
+
+uncertainty_trajectory <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        region_lat,
+        region_lon,
+        accumulation_era,
+        n_obs,
+        standard_error,
+        anomaly_spread,
+        LAG(standard_error) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> region_lat, region_lon
+            <span class="kw">ORDER BY</span> accumulation_era
+        )                                               <span class="kw">AS</span> prev_se,
+        LAG(anomaly_spread) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> region_lat, region_lon
+            <span class="kw">ORDER BY</span> accumulation_era
+        )                                               <span class="kw">AS</span> prev_anomaly_spread
+    <span class="kw">FROM</span> era_statistics
+)
+
+<span class="kw">SELECT</span>
+    region_lat,
+    region_lon,
+    accumulation_era,
+    n_obs,
+    ROUND(standard_error::numeric, 5)                   <span class="kw">AS</span> uncertainty,
+    ROUND(anomaly_spread::numeric, 4)                   <span class="kw">AS</span> anomaly_variance,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> standard_error &lt; prev_se
+         <span class="kw">AND</span> anomaly_spread &lt; prev_anomaly_spread
+            <span class="kw">THEN</span> <span class="st">'uncertainty shrinks'</span>
+        <span class="kw">WHEN</span> standard_error &lt; prev_se
+         <span class="kw">AND</span> anomaly_spread &gt;= prev_anomaly_spread
+            <span class="kw">THEN</span> <span class="st">'precision rises, variability grows'</span>
+        <span class="kw">WHEN</span> standard_error &gt;= prev_se
+            <span class="kw">THEN</span> <span class="st">'paradoxical ambiguity'</span>
+        <span class="kw">ELSE</span>     <span class="st">'baseline era'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> accumulation_verdict
+<span class="kw">FROM</span> uncertainty_trajectory
+<span class="kw">ORDER BY</span> region_lat, region_lon, accumulation_era;</code></div>
+
+      <div class="scenario-reflection">Machine inference rests on a Bayesian article of faith: more evidence, less uncertainty. The posterior tightens as observations accumulate. But this query reveals an uncomfortable truth. In certain ocean regions &mdash; the boundary currents, the upwelling zones, the margins where regimes shift &mdash; more data does not tighten the estimate. It widens it. The standard error drops (precision rises), but the anomaly spread grows (the phenomenon itself is becoming more variable). The system is not converging on a stable truth. It is documenting a truth in motion. This is the empirical accumulation problem that haunts every inference engine: when the generating process is non-stationary, accumulation does not resolve uncertainty. It reveals it.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO IV ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario IV &mdash; Inferential Diversity (Machine Intelligence Analog)</div>
+      <p class="scenario-question">Do different analytical methods applied to the same data agree about what is anomalous &mdash; or does each method discover a different set of outliers?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Inferential diversity: three detectors, one dataset</span>
+<span class="cm">-- Does anomaly depend on the eye of the beholder?</span>
+
+<span class="kw">WITH</span> profile_stats <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        profile_id,
+        float_id,
+        lat,
+        lon,
+        temperature_c,
+        AVG(temperature_c) <span class="kw">OVER</span> ()                     <span class="kw">AS</span> global_mean,
+        STDDEV(temperature_c) <span class="kw">OVER</span> ()                  <span class="kw">AS</span> global_sd,
+        PERCENTILE_CONT(0.25) <span class="kw">WITHIN GROUP</span>
+            (<span class="kw">ORDER BY</span> temperature_c) <span class="kw">OVER</span> ()         <span class="kw">AS</span> q1,
+        PERCENTILE_CONT(0.75) <span class="kw">WITHIN GROUP</span>
+            (<span class="kw">ORDER BY</span> temperature_c) <span class="kw">OVER</span> ()         <span class="kw">AS</span> q3,
+        AVG(temperature_c) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> ROUND(lat / 5) * 5,
+                          ROUND(lon / 5) * 5
+        )                                               <span class="kw">AS</span> neighbor_mean,
+        STDDEV(temperature_c) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> ROUND(lat / 5) * 5,
+                          ROUND(lon / 5) * 5
+        )                                               <span class="kw">AS</span> neighbor_sd
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> pressure_dbar <span class="kw">BETWEEN</span> 200 <span class="kw">AND</span> 600
+),
+
+triple_detection <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        profile_id,
+        lat,
+        lon,
+        temperature_c,
+        <span class="kw">CASE</span> <span class="kw">WHEN</span> ABS(temperature_c - global_mean)
+            &gt; 2.5 * global_sd
+            <span class="kw">THEN</span> 1 <span class="kw">ELSE</span> 0
+        <span class="kw">END</span>                                             <span class="kw">AS</span> flag_zscore,
+        <span class="kw">CASE</span> <span class="kw">WHEN</span> temperature_c &lt; q1 - 1.5 * (q3 - q1)
+                <span class="kw">OR</span> temperature_c &gt; q3 + 1.5 * (q3 - q1)
+            <span class="kw">THEN</span> 1 <span class="kw">ELSE</span> 0
+        <span class="kw">END</span>                                             <span class="kw">AS</span> flag_iqr,
+        <span class="kw">CASE</span> <span class="kw">WHEN</span> neighbor_sd &gt; 0
+         <span class="kw">AND</span> ABS(temperature_c - neighbor_mean)
+            &gt; 2.0 * neighbor_sd
+            <span class="kw">THEN</span> 1 <span class="kw">ELSE</span> 0
+        <span class="kw">END</span>                                             <span class="kw">AS</span> flag_spatial
+    <span class="kw">FROM</span> profile_stats
+)
+
+<span class="kw">SELECT</span>
+    flag_zscore + flag_iqr + flag_spatial                <span class="kw">AS</span> methods_agreeing,
+    COUNT(*)                                            <span class="kw">AS</span> n_profiles,
+    ROUND(100.0 * COUNT(*)
+        / SUM(COUNT(*)) <span class="kw">OVER</span> (), 2)                    <span class="kw">AS</span> pct_of_total,
+    ROUND(AVG(temperature_c)::numeric, 2)               <span class="kw">AS</span> avg_temp,
+    ROUND(AVG(lat)::numeric, 1)                         <span class="kw">AS</span> mean_lat,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> flag_zscore + flag_iqr + flag_spatial = 3
+            <span class="kw">THEN</span> <span class="st">'consensus anomaly'</span>
+        <span class="kw">WHEN</span> flag_zscore + flag_iqr + flag_spatial = 2
+            <span class="kw">THEN</span> <span class="st">'majority-flagged'</span>
+        <span class="kw">WHEN</span> flag_zscore + flag_iqr + flag_spatial = 1
+            <span class="kw">THEN</span> <span class="st">'single-method outlier'</span>
+        <span class="kw">ELSE</span>     <span class="st">'consensus normal'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> agreement_class
+<span class="kw">FROM</span> triple_detection
+<span class="kw">GROUP BY</span> flag_zscore + flag_iqr + flag_spatial
+<span class="kw">ORDER BY</span> methods_agreeing <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">Machine intelligence has converged on a sobering finding: ensemble methods outperform individual models not because any single model is wrong, but because each model is wrong <em>differently</em>. This query applies the same insight to anomaly detection. A z-score detector, an IQR detector, and a spatial-deviation detector each carry different assumptions about what &ldquo;normal&rdquo; means. The profiles flagged by all three are true anomalies &mdash; structurally unusual by any definition. The profiles flagged by only one are artifacts of that method&rsquo;s assumptions. The gap between consensus anomalies and single-method outliers is the gap between intelligence and mere computation. An intelligent system does not trust any single detector. It asks: how many independent inferences agree?</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO V ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario V &mdash; Orchestrated Coordination (Orchestration Analog)</div>
+      <p class="scenario-question">When instruments are deployed according to a coordinated plan versus randomly, does the coordinated deployment capture more total information &mdash; and at what cost?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Orchestrated vs. opportunistic: does planning pay off?</span>
+<span class="cm">-- Argo (coordinated) vs. drifters (ad hoc)</span>
+
+<span class="kw">WITH</span> argo_coverage <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 3) * 3                              <span class="kw">AS</span> cell_lat,
+        ROUND(lon / 3) * 3                              <span class="kw">AS</span> cell_lon,
+        COUNT(*)                                        <span class="kw">AS</span> n_obs,
+        COUNT(<span class="kw">DISTINCT</span> float_id)                       <span class="kw">AS</span> n_instruments,
+        STDDEV(temperature_c)                           <span class="kw">AS</span> info_density,
+        <span class="st">'coordinated'</span>                                   <span class="kw">AS</span> deployment_type
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> pressure_dbar &lt; 50
+    <span class="kw">GROUP BY</span> cell_lat, cell_lon
+),
+
+drifter_coverage <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 3) * 3                              <span class="kw">AS</span> cell_lat,
+        ROUND(lon / 3) * 3                              <span class="kw">AS</span> cell_lon,
+        COUNT(*)                                        <span class="kw">AS</span> n_obs,
+        COUNT(<span class="kw">DISTINCT</span> measurement_id)                 <span class="kw">AS</span> n_instruments,
+        STDDEV(speed_ms)                                <span class="kw">AS</span> info_density,
+        <span class="st">'opportunistic'</span>                                 <span class="kw">AS</span> deployment_type
+    <span class="kw">FROM</span> ocean.current_measurements
+    <span class="kw">WHERE</span> depth_m &lt; 50
+      <span class="kw">AND</span> platform_type = <span class="st">'drifter'</span>
+    <span class="kw">GROUP BY</span> cell_lat, cell_lon
+),
+
+comparative_coverage <span class="kw">AS</span> (
+    <span class="kw">SELECT</span> * <span class="kw">FROM</span> argo_coverage
+    <span class="kw">UNION ALL</span>
+    <span class="kw">SELECT</span> * <span class="kw">FROM</span> drifter_coverage
+)
+
+<span class="kw">SELECT</span>
+    deployment_type,
+    COUNT(<span class="kw">DISTINCT</span> (cell_lat, cell_lon))              <span class="kw">AS</span> cells_covered,
+    SUM(n_obs)                                          <span class="kw">AS</span> total_observations,
+    ROUND(AVG(n_obs)::numeric, 1)                       <span class="kw">AS</span> avg_obs_per_cell,
+    ROUND(AVG(n_instruments)::numeric, 1)               <span class="kw">AS</span> avg_instruments_per_cell,
+    ROUND(AVG(info_density)::numeric, 4)                <span class="kw">AS</span> mean_info_density,
+    ROUND(
+        SUM(n_obs)::numeric
+        / NULLIF(COUNT(<span class="kw">DISTINCT</span> (cell_lat, cell_lon)), 0),
+        1
+    )                                                   <span class="kw">AS</span> efficiency_ratio,
+    ROUND(
+        STDDEV(n_obs)::numeric / NULLIF(AVG(n_obs), 0),
+        3
+    )                                                   <span class="kw">AS</span> coverage_uniformity
+<span class="kw">FROM</span> comparative_coverage
+<span class="kw">GROUP BY</span> deployment_type
+<span class="kw">ORDER BY</span> cells_covered <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">Orchestration is the least glamorous domain of intelligence and the most consequential. The Argo program does not merely deploy floats &mdash; it deploys them according to a global plan: one float per three-degree cell, evenly distributed, replenished on a schedule. Drifters, by contrast, go where the currents take them. The comparison is stark. Coordinated deployment produces uniform coverage &mdash; fewer blind spots, more stable information density, lower coefficient of variation across cells. Opportunistic deployment produces clusters and deserts. The total observation count may be comparable; the spatial information captured is not. This is the orchestration lesson: intelligence is not just what you measure, but how you decide where to measure next. The conductor shapes the symphony as much as any instrument.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread active">sociometric</span>
+        <span class="dna-thread active">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO VI ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario VI &mdash; Network Emergence (Social Network Analog)</div>
+      <p class="scenario-question">Does the topology of ocean observation &mdash; who measures where, how information flows between institutions &mdash; create blind spots that mirror the social structure of the scientific community?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Network emergence: institutional topology meets spatial coverage</span>
+<span class="cm">-- The social graph of science shapes the data it produces</span>
+
+<span class="kw">WITH</span> institutional_footprint <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        m.country,
+        m.project_name,
+        ROUND(f.lat / 10) * 10                          <span class="kw">AS</span> zone_lat,
+        ROUND(f.lon / 10) * 10                          <span class="kw">AS</span> zone_lon,
+        COUNT(<span class="kw">DISTINCT</span> f.float_id)                    <span class="kw">AS</span> n_floats,
+        COUNT(*)                                        <span class="kw">AS</span> n_profiles
+    <span class="kw">FROM</span> argo.float_profiles f
+    <span class="kw">JOIN</span> argo.float_metadata m <span class="kw">USING</span> (float_id)
+    <span class="kw">WHERE</span> f.quality_flag <span class="kw">IN</span> (1, 2)
+    <span class="kw">GROUP BY</span> m.country, m.project_name, zone_lat, zone_lon
+),
+
+zone_concentration <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        zone_lat,
+        zone_lon,
+        COUNT(<span class="kw">DISTINCT</span> country)                        <span class="kw">AS</span> n_countries,
+        COUNT(<span class="kw">DISTINCT</span> project_name)                    <span class="kw">AS</span> n_projects,
+        SUM(n_profiles)                                 <span class="kw">AS</span> total_profiles,
+        MAX(n_profiles)::numeric
+            / NULLIF(SUM(n_profiles), 0)                <span class="kw">AS</span> dominant_share
+    <span class="kw">FROM</span> institutional_footprint
+    <span class="kw">GROUP BY</span> zone_lat, zone_lon
+),
+
+global_equity <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        zone_lat,
+        zone_lon,
+        n_countries,
+        n_projects,
+        total_profiles,
+        dominant_share,
+        <span class="cm">-- Approximate Gini via mean absolute difference</span>
+        AVG(ABS(total_profiles - avg_profiles.global_avg))
+            / NULLIF(avg_profiles.global_avg, 0)        <span class="kw">AS</span> coverage_gini_proxy
+    <span class="kw">FROM</span> zone_concentration,
+         (<span class="kw">SELECT</span> AVG(total_profiles) <span class="kw">AS</span> global_avg
+          <span class="kw">FROM</span> zone_concentration) avg_profiles
+    <span class="kw">GROUP BY</span> zone_lat, zone_lon, n_countries, n_projects,
+             total_profiles, dominant_share, avg_profiles.global_avg
+)
+
+<span class="kw">SELECT</span>
+    zone_lat,
+    zone_lon,
+    n_countries,
+    n_projects,
+    total_profiles,
+    ROUND(dominant_share::numeric, 3)                   <span class="kw">AS</span> hegemony_index,
+    ROUND(coverage_gini_proxy::numeric, 3)              <span class="kw">AS</span> equity_deviation,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> n_countries = 1
+            <span class="kw">THEN</span> <span class="st">'single-nation monopoly'</span>
+        <span class="kw">WHEN</span> dominant_share &gt; 0.6
+            <span class="kw">THEN</span> <span class="st">'hegemon-dominated'</span>
+        <span class="kw">WHEN</span> n_countries &gt;= 5 <span class="kw">AND</span> dominant_share &lt; 0.3
+            <span class="kw">THEN</span> <span class="st">'distributed governance'</span>
+        <span class="kw">ELSE</span>     <span class="st">'partial distribution'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> governance_topology
+<span class="kw">FROM</span> global_equity
+<span class="kw">ORDER BY</span> total_profiles <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">Social network analysis reveals that the structure of a network shapes what flows through it. Here, the network is institutional: nations fund programs, programs deploy floats, floats observe ocean cells. The query exposes the topology. Zones dominated by a single nation have high hegemony indices &mdash; their data reflects one government&rsquo;s priorities, one agency&rsquo;s quality standards, one political cycle&rsquo;s funding decisions. Zones with distributed governance have multiple independent observers, each correcting the other&rsquo;s blind spots. The Gini-like equity deviation measures the global asymmetry: some ocean zones are observed by a dozen nations; others, by one or none. The data are not biased in the statistical sense. They are biased in the sociological sense. The social structure of the observing community is inscribed in the spatial structure of the observations.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread active">econometric</span>
+        <span class="dna-thread active">sociometric</span>
+        <span class="dna-thread active">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO VII ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario VII &mdash; Cross-Scale Coherence (Cultural Zeitgeist Analog)</div>
+      <p class="scenario-question">When patterns detected at the surface, at depth, in currents, and in biology all point the same direction independently &mdash; is that convergence evidence or coincidence?</p>
+
+      <div class="sql-block"><code><span class="cm">-- The capstone: seven tables, seven voices, one question</span>
+<span class="cm">-- CDEII made visible. Convergent. Distributed. Empirical.</span>
+<span class="cm">-- Inferential. Intelligent.</span>
+
+<span class="kw">WITH</span> region_grid <span class="kw">AS</span> (
+    <span class="cm">-- Define a common 10-degree grid across all sources</span>
+    <span class="kw">SELECT</span> <span class="kw">DISTINCT</span>
+        ROUND(lat / 10) * 10                            <span class="kw">AS</span> grid_lat,
+        ROUND(lon / 10) * 10                            <span class="kw">AS</span> grid_lon
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> lat <span class="kw">BETWEEN</span> -70 <span class="kw">AND</span> 70
+),
+
+<span class="cm">-- Voice 1: Argo subsurface temperature trend</span>
+argo_voice <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                            <span class="kw">AS</span> grid_lat,
+        ROUND(lon / 10) * 10                            <span class="kw">AS</span> grid_lon,
+        REGR_SLOPE(
+            temperature_c,
+            EXTRACT(EPOCH <span class="kw">FROM</span> observation_ts)
+        ) * 86400 * 365.25                              <span class="kw">AS</span> argo_trend_c_yr
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> pressure_dbar <span class="kw">BETWEEN</span> 100 <span class="kw">AND</span> 500
+    <span class="kw">GROUP BY</span> grid_lat, grid_lon
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 100
+),
+
+<span class="cm">-- Voice 2: Satellite SST anomaly trend</span>
+satellite_voice <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                            <span class="kw">AS</span> grid_lat,
+        ROUND(lon / 10) * 10                            <span class="kw">AS</span> grid_lon,
+        REGR_SLOPE(
+            sst_anomaly_c,
+            EXTRACT(EPOCH <span class="kw">FROM</span> observation_date)
+        ) * 86400 * 365.25                              <span class="kw">AS</span> satellite_trend_c_yr
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">GROUP BY</span> grid_lat, grid_lon
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 200
+),
+
+<span class="cm">-- Voice 3: Buoy atmospheric-oceanic coupling trend</span>
+buoy_voice <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                            <span class="kw">AS</span> grid_lat,
+        ROUND(lon / 10) * 10                            <span class="kw">AS</span> grid_lon,
+        REGR_SLOPE(
+            sea_surface_temp_c - air_temp_c,
+            EXTRACT(EPOCH <span class="kw">FROM</span> observation_ts)
+        ) * 86400 * 365.25                              <span class="kw">AS</span> coupling_trend_yr
+    <span class="kw">FROM</span> noaa.buoy_observations
+    <span class="kw">WHERE</span> sea_surface_temp_c <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> air_temp_c <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> grid_lat, grid_lon
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 50
+),
+
+<span class="cm">-- Voice 4: Current speed trend (kinetic energy proxy)</span>
+current_voice <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                            <span class="kw">AS</span> grid_lat,
+        ROUND(lon / 10) * 10                            <span class="kw">AS</span> grid_lon,
+        REGR_SLOPE(
+            speed_ms,
+            EXTRACT(EPOCH <span class="kw">FROM</span> observation_ts)
+        ) * 86400 * 365.25                              <span class="kw">AS</span> speed_trend_yr
+    <span class="kw">FROM</span> ocean.current_measurements
+    <span class="kw">WHERE</span> depth_m &lt; 200
+    <span class="kw">GROUP BY</span> grid_lat, grid_lon
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 50
+),
+
+<span class="cm">-- Voice 5: Biodiversity abundance trend</span>
+biology_voice <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                            <span class="kw">AS</span> grid_lat,
+        ROUND(lon / 10) * 10                            <span class="kw">AS</span> grid_lon,
+        REGR_SLOPE(
+            abundance,
+            EXTRACT(EPOCH <span class="kw">FROM</span> observation_date)
+        ) * 86400 * 365.25                              <span class="kw">AS</span> abundance_trend_yr,
+        COUNT(<span class="kw">DISTINCT</span> species_name)                    <span class="kw">AS</span> species_richness
+    <span class="kw">FROM</span> obis.biodiversity_observations
+    <span class="kw">WHERE</span> abundance &gt; 0
+    <span class="kw">GROUP BY</span> grid_lat, grid_lon
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 30
+),
+
+<span class="cm">-- Voice 6: Deployment intensity trend (institutional attention)</span>
+institutional_voice <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(deploy_lat / 10) * 10                     <span class="kw">AS</span> grid_lat,
+        ROUND(deploy_lon / 10) * 10                     <span class="kw">AS</span> grid_lon,
+        REGR_SLOPE(
+            1.0,
+            EXTRACT(EPOCH <span class="kw">FROM</span> deploy_date)
+        ) * 86400 * 365.25                              <span class="kw">AS</span> deployment_trend_yr,
+        COUNT(<span class="kw">DISTINCT</span> country)                        <span class="kw">AS</span> n_nations
+    <span class="kw">FROM</span> argo.float_metadata
+    <span class="kw">WHERE</span> deploy_date <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> grid_lat, grid_lon
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 10
+),
+
+<span class="cm">-- Voice 7: Bathymetric context (the fixed stage)</span>
+terrain_voice <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                            <span class="kw">AS</span> grid_lat,
+        ROUND(lon / 10) * 10                            <span class="kw">AS</span> grid_lon,
+        AVG(depth_m)                                    <span class="kw">AS</span> mean_depth,
+        STDDEV(depth_m)                                 <span class="kw">AS</span> terrain_roughness,
+        COUNT(<span class="kw">DISTINCT</span> feature_type)                    <span class="kw">AS</span> n_feature_types
+    <span class="kw">FROM</span> gebco.bathymetry
+    <span class="kw">GROUP BY</span> grid_lat, grid_lon
+),
+
+<span class="cm">-- Convergence tribunal: join all seven voices</span>
+convergence_tribunal <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        r.grid_lat,
+        r.grid_lon,
+        a.argo_trend_c_yr,
+        s.satellite_trend_c_yr,
+        b.coupling_trend_yr,
+        c.speed_trend_yr,
+        bio.abundance_trend_yr,
+        bio.species_richness,
+        i.n_nations,
+        t.mean_depth,
+        t.terrain_roughness,
+        <span class="cm">-- Directional agreement: how many voices say "warming"?</span>
+        (  (<span class="kw">CASE</span> <span class="kw">WHEN</span> a.argo_trend_c_yr      &gt; 0 <span class="kw">THEN</span> 1 <span class="kw">ELSE</span> 0 <span class="kw">END</span>)
+         + (<span class="kw">CASE</span> <span class="kw">WHEN</span> s.satellite_trend_c_yr &gt; 0 <span class="kw">THEN</span> 1 <span class="kw">ELSE</span> 0 <span class="kw">END</span>)
+         + (<span class="kw">CASE</span> <span class="kw">WHEN</span> b.coupling_trend_yr    &gt; 0 <span class="kw">THEN</span> 1 <span class="kw">ELSE</span> 0 <span class="kw">END</span>)
+         + (<span class="kw">CASE</span> <span class="kw">WHEN</span> c.speed_trend_yr       &gt; 0 <span class="kw">THEN</span> 1 <span class="kw">ELSE</span> 0 <span class="kw">END</span>)
+        )                                               <span class="kw">AS</span> warming_votes,
+        <span class="cm">-- Biological response alignment</span>
+        (<span class="kw">CASE</span> <span class="kw">WHEN</span> bio.abundance_trend_yr &lt; 0
+              <span class="kw">AND</span> a.argo_trend_c_yr &gt; 0
+              <span class="kw">THEN</span> 1 <span class="kw">ELSE</span> 0 <span class="kw">END</span>)                          <span class="kw">AS</span> thermal_stress_signal
+    <span class="kw">FROM</span> region_grid r
+    <span class="kw">JOIN</span> argo_voice a
+        <span class="kw">ON</span> r.grid_lat = a.grid_lat <span class="kw">AND</span> r.grid_lon = a.grid_lon
+    <span class="kw">JOIN</span> satellite_voice s
+        <span class="kw">ON</span> r.grid_lat = s.grid_lat <span class="kw">AND</span> r.grid_lon = s.grid_lon
+    <span class="kw">JOIN</span> buoy_voice b
+        <span class="kw">ON</span> r.grid_lat = b.grid_lat <span class="kw">AND</span> r.grid_lon = b.grid_lon
+    <span class="kw">JOIN</span> current_voice c
+        <span class="kw">ON</span> r.grid_lat = c.grid_lat <span class="kw">AND</span> r.grid_lon = c.grid_lon
+    <span class="kw">JOIN</span> biology_voice bio
+        <span class="kw">ON</span> r.grid_lat = bio.grid_lat <span class="kw">AND</span> r.grid_lon = bio.grid_lon
+    <span class="kw">JOIN</span> institutional_voice i
+        <span class="kw">ON</span> r.grid_lat = i.grid_lat <span class="kw">AND</span> r.grid_lon = i.grid_lon
+    <span class="kw">JOIN</span> terrain_voice t
+        <span class="kw">ON</span> r.grid_lat = t.grid_lat <span class="kw">AND</span> r.grid_lon = t.grid_lon
+)
+
+<span class="kw">SELECT</span>
+    grid_lat,
+    grid_lon,
+    ROUND(argo_trend_c_yr::numeric, 5)                  <span class="kw">AS</span> subsurface_trend,
+    ROUND(satellite_trend_c_yr::numeric, 5)             <span class="kw">AS</span> surface_trend,
+    ROUND(coupling_trend_yr::numeric, 5)                <span class="kw">AS</span> coupling_trend,
+    ROUND(speed_trend_yr::numeric, 5)                   <span class="kw">AS</span> kinetic_trend,
+    ROUND(abundance_trend_yr::numeric, 2)               <span class="kw">AS</span> biology_trend,
+    species_richness,
+    n_nations                                           <span class="kw">AS</span> observing_nations,
+    ROUND(mean_depth::numeric, 0)                       <span class="kw">AS</span> depth_m,
+    ROUND(terrain_roughness::numeric, 0)                <span class="kw">AS</span> roughness,
+    warming_votes                                       <span class="kw">AS</span> convergent_signals,
+    thermal_stress_signal,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> warming_votes = 4 <span class="kw">AND</span> thermal_stress_signal = 1
+            <span class="kw">THEN</span> <span class="st">'full convergence + biotic stress'</span>
+        <span class="kw">WHEN</span> warming_votes = 4
+            <span class="kw">THEN</span> <span class="st">'full physical convergence'</span>
+        <span class="kw">WHEN</span> warming_votes &gt;= 3
+            <span class="kw">THEN</span> <span class="st">'strong convergence'</span>
+        <span class="kw">WHEN</span> warming_votes = 2
+            <span class="kw">THEN</span> <span class="st">'split signal'</span>
+        <span class="kw">ELSE</span>     <span class="st">'no convergence'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> cdeii_verdict
+<span class="kw">FROM</span> convergence_tribunal
+<span class="kw">ORDER BY</span> warming_votes <span class="kw">DESC</span>, thermal_stress_signal <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">This is CDEII&trade; made visible. Seven tables. Seven independent voices. One geographic grid. Each voice carries a different empirical signal: subsurface warming from Argo floats, surface anomaly trends from satellite radiometry, atmosphere-ocean coupling from buoy networks, kinetic energy shifts from current meters, abundance trajectories from biodiversity surveys, institutional attention from deployment metadata, and the fixed bathymetric stage on which it all unfolds. No voice was designed to agree with the others. They were built by different agencies, for different purposes, using different instruments, on different timescales. And yet &mdash; in certain ocean zones &mdash; they converge. All four physical trends point the same direction. Biology responds with declining abundance. The institutions are watching. The terrain is rough, complex, dynamic. This convergence is not programmed. It is not forced. It is the structural signature of a real phenomenon observed through distributed, empirical, inferential channels. The convergence <em>is</em> the intelligence. Not any single voice. Not any single trend. The pattern across all of them. This is the CDEII&trade; stance: that intelligence, at every scale, is the convergence of distributed empirical inferences &mdash; and that the ocean, with its seven independent instrument networks, proves the pattern legible.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread active">econometric</span>
+        <span class="dna-thread active">sociometric</span>
+        <span class="dna-thread active">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- CODA -->
+    <section class="coda">
+      <h2>Coda</h2>
+
+      <p>Seven instruments of intelligence. One ocean as laboratory. Each scenario mirrors a domain of CDEII&trade; &mdash; from the distributed sensing of neural populations to the cultural convergence of independent trend lines.</p>
+
+      <p>Scenario I demonstrated that individual floats carry noise but the ensemble carries signal &mdash; the brain science of distributed sensing. Scenario II showed that different instrument types, measuring independently, converge on the same construct &mdash; the cognitive science of multi-channel perception. Scenario III revealed that empirical accumulation does not always reduce uncertainty, that non-stationary phenomena resist Bayesian comfort &mdash; the machine inference problem of posterior instability. Scenario IV proved that different analytical methods flag different anomalies, and that consensus among diverse detectors is the hallmark of true outliers &mdash; the machine intelligence principle of ensemble superiority. Scenario V measured the information advantage of coordinated deployment over opportunistic observation &mdash; the orchestration principle that intelligence requires not just measurement but the planning of measurement. Scenario VI exposed the institutional topology inscribed in the spatial structure of ocean data &mdash; the social network insight that who observes shapes what is observed. And Scenario VII joined all seven tables to show that when independent voices converge on the same geographic verdict, the convergence itself constitutes evidence of a kind no single instrument can produce.</p>
+
+      <p>The claim is not that these domains are alike by metaphor. The claim is that they share formal structural properties: distributed input, empirical grounding, inferential aggregation, convergent output. A cortical column aggregates distributed synaptic inputs. A random forest aggregates distributed decision trees. A cultural movement aggregates distributed individual sentiments. The structure is the same. The substrate changes. The homology persists.</p>
+
+      <p>The ocean proves the pattern legible. Seven tables, seven data sources, seven independent instrument networks &mdash; each designed without knowledge of the others, each capturing a different empirical channel. When they agree, it is not because they were told to agree. It is because the phenomenon has shape, and shape impresses itself on every sufficiently sensitive observer.</p>
+
+      <p>This is the CDEII&trade; stance. Not a theory to be tested but a lens to be applied. Not a model of intelligence but a recognition that intelligence &mdash; wherever it appears, at whatever scale &mdash; is convergent, distributed, empirical, and inferential. The word was always plural.</p>
+
+      <p class="warning-line">They were built for deeper things.</p>
+
+      <div class="signature">
+        &mdash; Jeffrey J. Berg<br>
+        PARALLAX<span class="tm">&trade;</span> &middot; CONSTELLATION<span class="tm">&trade;</span><br>
+        Convergent Distributed Empirical Inferential Intelligence<span class="tm">&trade;</span>
+      </div>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <span>&copy; Jeffrey J. Berg. All rights reserved.</span>
+  <span>PARALLAX&trade; &middot; GAUGE&trade; &middot; CONSTELLATION&trade; &middot; CDEII&trade;</span>
+</footer>
+
+</body>
+</html>
