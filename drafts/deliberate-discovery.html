@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>Deliberate Discovery &mdash; PARALLAX&trade;</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='14'%3E%E2%97%87%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --surface: #111820;
+    --surface-raised: #171f28;
+    --text: #c8ccd0;
+    --text-muted: #6a7580;
+    --text-bright: #e8ecf0;
+    --amber: #d4a843;
+    --amber-dim: rgba(212, 168, 67, 0.08);
+    --amber-border: rgba(212, 168, 67, 0.35);
+    --green-soft: #8fbc8f;
+    --serif: "Cormorant Garamond", "EB Garamond", Garamond, "Hoefler Text", "Times New Roman", serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    --mono: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", "Consolas", monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    background: var(--bg);
+    color: var(--text);
+    font-size: 17px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--serif);
+    font-weight: 400;
+    line-height: 1.72;
+    letter-spacing: 0.005em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--amber-border); transition: border-color 0.3s; }
+  a:hover { border-color: var(--amber); }
+  a:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+  /* --- NAV --- */
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 14, 20, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0.6rem clamp(1rem, 4vw, 2rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+  }
+  .site-nav a { color: var(--text-muted); border: none; }
+  .site-nav a:hover { color: var(--text-bright); }
+  .nav-brand { font-weight: 600; color: var(--text); letter-spacing: 0.22em; }
+  .nav-links { display: flex; gap: 1.2rem; }
+
+  /* --- MAIN --- */
+  #main {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem) 4rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    border: none;
+  }
+  .back-link::before { content: "\2190\00a0"; }
+
+  /* --- ARTICLE HEADER --- */
+  .article-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .article-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text-bright);
+    margin-bottom: 0.4rem;
+  }
+  .article-subtitle {
+    font-family: var(--serif);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+  .article-meta {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: lowercase;
+  }
+  .article-meta .tm { font-size: 0.6em; vertical-align: super; }
+
+  /* --- EPIGRAPH --- */
+  .epigraph {
+    text-align: center;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 2.5rem 2rem 0.5rem;
+    line-height: 1.6;
+  }
+  .epigraph-attribution {
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+  }
+
+  /* --- PREAMBLE --- */
+  .preamble {
+    margin-bottom: 3rem;
+  }
+  .preamble h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .preamble p {
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  /* --- SCHEMA SECTION --- */
+  .schema-section {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .schema-section h3 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .schema-table {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+  .schema-table .table-name {
+    color: var(--text-bright);
+    font-weight: 600;
+  }
+  .schema-table .columns {
+    color: var(--text-muted);
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* --- TRANSITION --- */
+  .transition {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+    margin: 3rem 0;
+    opacity: 0.4;
+  }
+
+  /* --- SCENARIO --- */
+  .scenario {
+    margin-bottom: 3.5rem;
+  }
+  .scenario-label {
+    font-family: var(--sans);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.8rem;
+  }
+  .scenario-question {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--text-bright);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--amber-border);
+  }
+
+  /* --- SQL BLOCK --- */
+  .sql-block {
+    background: var(--surface);
+    border-left: 3px solid var(--amber-border);
+    border-radius: 0 4px 4px 0;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sql-block code {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--text);
+    white-space: pre;
+    tab-size: 4;
+  }
+  .sql-block .kw { color: var(--amber); font-weight: 500; }
+  .sql-block .st { color: var(--green-soft); }
+  .sql-block .cm { color: var(--text-muted); font-style: italic; }
+
+  /* --- REFLECTION --- */
+  .scenario-reflection {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding: 1rem 1.2rem;
+    background: var(--amber-dim);
+    border-radius: 4px;
+    margin-bottom: 0.8rem;
+  }
+
+  /* --- DNA THREADS --- */
+  .dna-threads {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+  }
+  .dna-thread {
+    font-family: var(--sans);
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 2px;
+    padding: 0.15rem 0.5rem;
+  }
+  .dna-thread.active {
+    color: var(--amber);
+    border-color: var(--amber-border);
+    background: var(--amber-dim);
+  }
+
+  /* --- CODA --- */
+  .coda {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .coda h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.5rem;
+  }
+  .coda p { margin-bottom: 1rem; }
+  .coda .warning-line {
+    font-style: italic;
+    color: var(--text-bright);
+    font-size: 1.05rem;
+  }
+  .coda .signature {
+    margin-top: 2.5rem;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* --- FOOTER --- */
+  .site-footer {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-family: var(--sans);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 768px) {
+    .sql-block { padding: 1rem; }
+    .sql-block code { font-size: 0.72rem; }
+    .schema-table { font-size: 0.72rem; }
+    .scenario-question { font-size: 1.05rem; }
+  }
+
+  @media (max-width: 480px) {
+    .sql-block { padding: 0.8rem; margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+    .schema-section { margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  @media print {
+    .site-nav { display: none; }
+    :root { --bg: #fff; --text: #111; --text-bright: #000; --text-muted: #555; --surface: #f5f5f5; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <span class="nav-brand">parallax&trade;</span>
+  <div class="nav-links">
+    <a href="/">home</a>
+    <a href="/cv">cv</a>
+  </div>
+</nav>
+
+<div id="main">
+  <a href="/" class="back-link">home</a>
+
+  <header class="article-header">
+    <h1>Deliberate Discovery</h1>
+    <div class="article-subtitle">Principled Exploration Under Parallactic Constraint</div>
+    <div class="article-meta">
+      Jeffrey J. Berg &middot; PARALLAX<span class="tm">&trade;</span> &middot; CONSTELLATION<span class="tm">&trade;</span> &middot; Paper 7 of 10 &middot; Target: PNAS
+    </div>
+  </header>
+
+  <article class="article-content">
+
+    <!-- EPIGRAPH -->
+    <p class="epigraph">&ldquo;The voyage of discovery consists not in seeking new landscapes, but in having new eyes.&rdquo;</p>
+    <p class="epigraph-attribution">&mdash; Marcel Proust, <em>In Search of Lost Time</em> (c. 1913)</p>
+
+    <!-- PREAMBLE -->
+    <section class="preamble">
+      <h2>A Note Before the Dive</h2>
+      <p>Discovery is not accident. It is structured attention &mdash; the deliberate choice of where to look, with what instrument, at what resolution. The replication crisis taught science that undisciplined exploration produces false positives at scale. The parallax framework offers a remedy: explore freely, but require that any discovered pattern be visible from more than one analytical lens before it is trusted.</p>
+      <p>This paper demonstrates deliberate discovery &mdash; principled exploration that generates hypotheses from one view and immediately tests them against another. The constraint is not conservatism. It is rigor. Six scenarios show the method in action: anomalies that survive cross-validation, hypotheses that data arbitrate without analyst bias, sweeps that separate robust structure from configuration artifacts, cross-domain predictions that test whether physics forecasts biology, replication across spatial partitions, and the deliberate pointing of instruments at the places no one has looked.</p>
+      <p>The ocean was chosen because it is legible, public, and patient. The method was engineered for systems where discovery is harder to distinguish from hallucination.</p>
+    </section>
+
+    <!-- SCHEMA REFERENCE -->
+    <section class="schema-section">
+      <h3>The Shared Schema &mdash; Seven Tables, One Ocean</h3>
+      <div class="schema-table">
+        <div><span class="table-name">argo.float_profiles</span></div>
+        <div class="columns">profile_id, float_id, cycle_number, lat, lon, observation_ts, pressure_dbar, temperature_c, salinity_psu, oxygen_umol_kg, quality_flag, data_mode</div>
+
+        <div><span class="table-name">argo.float_metadata</span></div>
+        <div class="columns">float_id, deploy_date, deploy_lat, deploy_lon, country, project_name, float_model, status</div>
+
+        <div><span class="table-name">noaa.buoy_observations</span></div>
+        <div class="columns">station_id, station_name, lat, lon, observation_ts, wind_speed_ms, wave_height_m, sea_surface_temp_c, air_temp_c, air_pressure_hpa</div>
+
+        <div><span class="table-name">noaa.sea_surface_temperature</span></div>
+        <div class="columns">grid_id, lat, lon, observation_date, sst_c, sst_anomaly_c, ice_concentration_pct, source</div>
+
+        <div><span class="table-name">ocean.current_measurements</span></div>
+        <div class="columns">measurement_id, platform_type, lat, lon, depth_m, observation_ts, velocity_east_ms, velocity_north_ms, speed_ms</div>
+
+        <div><span class="table-name">gebco.bathymetry</span></div>
+        <div class="columns">cell_id, lat, lon, depth_m, feature_name, feature_type</div>
+
+        <div><span class="table-name">obis.biodiversity_observations</span></div>
+        <div class="columns">occurrence_id, species_name, phylum, observation_date, lat, lon, depth_m, abundance, dataset_id</div>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO I ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario I &mdash; The Anomaly Hunt</div>
+      <p class="scenario-question">Where in the ocean does temperature behave unexpectedly &mdash; and does the unexpected pattern survive when checked against an independent data source?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Generate anomaly candidates from subsurface profiles,</span>
+<span class="cm">-- then cross-validate against satellite SST</span>
+<span class="kw">WITH</span> anomaly_candidates <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> lat_bin,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> lon_bin,
+        AVG(temperature_c)                              <span class="kw">AS</span> mean_temp,
+        STDDEV(temperature_c)                           <span class="kw">AS</span> sd_temp,
+        COUNT(*)                                        <span class="kw">AS</span> n_profiles
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> pressure_dbar <span class="kw">BETWEEN</span> 50 <span class="kw">AND</span> 500
+      <span class="kw">AND</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> observation_ts &gt;= <span class="st">'2018-01-01'</span>
+    <span class="kw">GROUP BY</span> lat_bin, lon_bin
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 30
+),
+
+satellite_check <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> lat_bin,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> lon_bin,
+        AVG(sst_anomaly_c)                              <span class="kw">AS</span> sat_anomaly,
+        STDDEV(sst_anomaly_c)                           <span class="kw">AS</span> sat_sd
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> observation_date &gt;= <span class="st">'2018-01-01'</span>
+    <span class="kw">GROUP BY</span> lat_bin, lon_bin
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 50
+)
+
+<span class="kw">SELECT</span>
+    a.lat_bin,
+    a.lon_bin,
+    ROUND(a.mean_temp::numeric, 2)                      <span class="kw">AS</span> argo_mean_c,
+    ROUND(a.sd_temp::numeric, 3)                        <span class="kw">AS</span> argo_sd,
+    ROUND(s.sat_anomaly::numeric, 3)                    <span class="kw">AS</span> satellite_anomaly,
+    ROUND(
+        ABS(a.mean_temp - AVG(a.mean_temp) <span class="kw">OVER</span> ())
+        / NULLIF(a.sd_temp, 0)::numeric, 2
+    )                                                   <span class="kw">AS</span> argo_z_score,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> ABS(a.mean_temp - AVG(a.mean_temp) <span class="kw">OVER</span> ())
+                 / NULLIF(a.sd_temp, 0) &gt; 2
+         <span class="kw">AND</span> ABS(s.sat_anomaly) / NULLIF(s.sat_sd, 0) &gt; 2
+            <span class="kw">THEN</span> <span class="st">'parallactic discovery'</span>
+        <span class="kw">WHEN</span> ABS(a.mean_temp - AVG(a.mean_temp) <span class="kw">OVER</span> ())
+                 / NULLIF(a.sd_temp, 0) &gt; 2
+            <span class="kw">THEN</span> <span class="st">'monoptic artifact'</span>
+        <span class="kw">ELSE</span>     <span class="st">'within expectations'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> discovery_verdict
+<span class="kw">FROM</span> anomaly_candidates a
+<span class="kw">LEFT JOIN</span> satellite_check s <span class="kw">USING</span> (lat_bin, lon_bin)
+<span class="kw">ORDER BY</span> argo_z_score <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> 30;</code></div>
+
+      <div class="scenario-reflection">The anomaly hunt is the oldest form of exploration &mdash; and the most dangerous. Without cross-validation, every outlier looks like a discovery. This query generates candidates from one instrument (Argo subsurface floats) and immediately tests each against an independent source (NOAA satellite SST). The verdict is ternary: patterns visible from both views are parallactic discoveries; patterns visible from only one are monoptic artifacts; everything else is noise. The discipline is in the immediate check, not in the original detection.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO II ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario II &mdash; The Hypothesis Fork</div>
+      <p class="scenario-question">When an exploratory analysis suggests two competing explanations, can the data itself arbitrate &mdash; without the analyst choosing favorites?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Fork: is regional SST rise a secular warming trend</span>
+<span class="cm">-- or an El Ni&ntilde;o artifact? Let residuals decide.</span>
+<span class="kw">WITH</span> regional_trends <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 10) * 10                            <span class="kw">AS</span> lat_band,
+        ROUND(lon / 10) * 10                            <span class="kw">AS</span> lon_band,
+        EXTRACT(YEAR <span class="kw">FROM</span> observation_date)              <span class="kw">AS</span> yr,
+        AVG(sst_anomaly_c)                              <span class="kw">AS</span> mean_anomaly,
+        COUNT(*)                                        <span class="kw">AS</span> n_obs
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> observation_date <span class="kw">BETWEEN</span> <span class="st">'2000-01-01'</span> <span class="kw">AND</span> <span class="st">'2024-12-31'</span>
+    <span class="kw">GROUP BY</span> lat_band, lon_band, yr
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 50
+),
+
+hypothesis_fork <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        lat_band,
+        lon_band,
+        <span class="cm">-- Hypothesis A: linear warming trend</span>
+        REGR_SLOPE(mean_anomaly, yr)                    <span class="kw">AS</span> linear_slope,
+        REGR_R2(mean_anomaly, yr)                       <span class="kw">AS</span> linear_r2,
+        <span class="cm">-- Hypothesis B: El Ni&ntilde;o cycle (peaks near 2015-16, 2023-24)</span>
+        CORR(mean_anomaly,
+            <span class="kw">CASE</span> <span class="kw">WHEN</span> yr <span class="kw">IN</span> (2002,2004,2009,2015,2016,2023,2024)
+                 <span class="kw">THEN</span> 1.0 <span class="kw">ELSE</span> 0.0 <span class="kw">END</span>)                   <span class="kw">AS</span> enso_corr,
+        POWER(CORR(mean_anomaly,
+            <span class="kw">CASE</span> <span class="kw">WHEN</span> yr <span class="kw">IN</span> (2002,2004,2009,2015,2016,2023,2024)
+                 <span class="kw">THEN</span> 1.0 <span class="kw">ELSE</span> 0.0 <span class="kw">END</span>), 2)              <span class="kw">AS</span> enso_r2,
+        COUNT(*)                                        <span class="kw">AS</span> n_years
+    <span class="kw">FROM</span> regional_trends
+    <span class="kw">GROUP BY</span> lat_band, lon_band
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 15
+)
+
+<span class="kw">SELECT</span>
+    lat_band,
+    lon_band,
+    ROUND(linear_slope::numeric, 5)                     <span class="kw">AS</span> warming_slope,
+    ROUND(linear_r2::numeric, 3)                        <span class="kw">AS</span> trend_fit,
+    ROUND(enso_corr::numeric, 3)                        <span class="kw">AS</span> enso_correlation,
+    ROUND(enso_r2::numeric, 3)                          <span class="kw">AS</span> enso_fit,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> linear_r2 &gt; enso_r2 * 1.5
+            <span class="kw">THEN</span> <span class="st">'data favors warming trend'</span>
+        <span class="kw">WHEN</span> enso_r2 &gt; linear_r2 * 1.5
+            <span class="kw">THEN</span> <span class="st">'data favors ENSO artifact'</span>
+        <span class="kw">ELSE</span>     <span class="st">'models indistinguishable'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> arbitration
+<span class="kw">FROM</span> hypothesis_fork
+<span class="kw">ORDER BY</span> ABS(linear_r2 - enso_r2) <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> 30;</code></div>
+
+      <div class="scenario-reflection">The hypothesis fork is the antidote to confirmation bias. When exploration surfaces a pattern &mdash; rising SST anomalies in a region &mdash; the analyst&rsquo;s instinct is to pick the most exciting explanation. This query refuses. It fits two competing models to the same data (linear warming vs. ENSO cycling), compares their residuals, and lets the fit statistics arbitrate per region. Some regions will show secular warming. Others will show cyclic behavior masquerading as trend. The analyst learns which explanation the data prefer &mdash; not which explanation the analyst preferred before looking.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread active">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO III ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario III &mdash; The Structured Sweep</div>
+      <p class="scenario-question">If we systematically vary the analytical lens &mdash; resolution, time window, variable &mdash; how many distinct patterns emerge, and which survive across multiple configurations?</p>
+
+      <div class="sql-block"><code><span class="cm">-- 9 configurations: 3 resolutions x 3 time windows</span>
+<span class="cm">-- Count which thermal patterns survive across configs</span>
+<span class="kw">WITH</span> configuration_sweep <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        res.bin_size,
+        tw.start_year,
+        tw.end_year,
+        ROUND(fp.lat / res.bin_size) * res.bin_size     <span class="kw">AS</span> lat_bin,
+        ROUND(fp.lon / res.bin_size) * res.bin_size     <span class="kw">AS</span> lon_bin,
+        AVG(fp.temperature_c)                           <span class="kw">AS</span> mean_temp,
+        STDDEV(fp.temperature_c)                        <span class="kw">AS</span> sd_temp,
+        COUNT(*)                                        <span class="kw">AS</span> n_obs
+    <span class="kw">FROM</span> argo.float_profiles fp
+    <span class="kw">CROSS JOIN</span> (
+        <span class="kw">VALUES</span> (2), (5), (10)
+    ) <span class="kw">AS</span> res(bin_size)
+    <span class="kw">CROSS JOIN</span> (
+        <span class="kw">VALUES</span> (2015, 2018), (2018, 2021), (2021, 2024)
+    ) <span class="kw">AS</span> tw(start_year, end_year)
+    <span class="kw">WHERE</span> fp.quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> fp.pressure_dbar <span class="kw">BETWEEN</span> 100 <span class="kw">AND</span> 500
+      <span class="kw">AND</span> EXTRACT(YEAR <span class="kw">FROM</span> fp.observation_ts)
+          <span class="kw">BETWEEN</span> tw.start_year <span class="kw">AND</span> tw.end_year
+    <span class="kw">GROUP BY</span> res.bin_size, tw.start_year, tw.end_year,
+             lat_bin, lon_bin
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 20
+),
+
+anomaly_flags <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        lat_bin,
+        lon_bin,
+        bin_size,
+        start_year,
+        <span class="kw">CASE</span>
+            <span class="kw">WHEN</span> ABS(mean_temp - AVG(mean_temp)
+                <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> bin_size, start_year))
+                / NULLIF(sd_temp, 0) &gt; 1.5
+            <span class="kw">THEN</span> 1 <span class="kw">ELSE</span> 0
+        <span class="kw">END</span>                                             <span class="kw">AS</span> is_anomaly
+    <span class="kw">FROM</span> configuration_sweep
+)
+
+<span class="kw">SELECT</span>
+    lat_bin,
+    lon_bin,
+    SUM(is_anomaly)                                     <span class="kw">AS</span> configs_flagged,
+    COUNT(*)                                            <span class="kw">AS</span> configs_tested,
+    ROUND(100.0 * SUM(is_anomaly) / COUNT(*), 1)       <span class="kw">AS</span> pct_flagged,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> SUM(is_anomaly) &gt;= 5 <span class="kw">THEN</span> <span class="st">'robust discovery'</span>
+        <span class="kw">WHEN</span> SUM(is_anomaly) &gt;= 3 <span class="kw">THEN</span> <span class="st">'partial stability'</span>
+        <span class="kw">WHEN</span> SUM(is_anomaly)  = 1 <span class="kw">THEN</span> <span class="st">'configuration artifact'</span>
+        <span class="kw">ELSE</span>                            <span class="st">'no anomaly detected'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> robustness_class
+<span class="kw">FROM</span> anomaly_flags
+<span class="kw">GROUP BY</span> lat_bin, lon_bin
+<span class="kw">HAVING</span> SUM(is_anomaly) &gt;= 1
+<span class="kw">ORDER BY</span> configs_flagged <span class="kw">DESC</span>, pct_flagged <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> 25;</code></div>
+
+      <div class="scenario-reflection">Most analyses run once, at one resolution, over one time window. The structured sweep refuses this convenience. Nine configurations &mdash; three spatial resolutions crossed with three temporal windows &mdash; produce nine independent views of the same ocean. A pattern that appears in one configuration is a curiosity. A pattern that appears in five or more is a robust discovery. A pattern that appears in exactly one is a configuration artifact &mdash; an analytical ghost created by the specific combination of resolution and window. The sweep does not discover patterns. It discovers which patterns deserve to be called discoveries.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO IV ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario IV &mdash; The Cross-Domain Surprise</div>
+      <p class="scenario-question">Can a pattern discovered in physical oceanography &mdash; temperature, salinity &mdash; predict something in biological oceanography &mdash; and is this predictive power a genuine discovery or an ecological truism?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Do thermohaline anomalies predict biodiversity anomalies?</span>
+<span class="cm">-- Measure surprise: cross-domain signal vs within-domain baseline</span>
+<span class="kw">WITH</span> thermohaline_regions <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> lat_bin,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> lon_bin,
+        AVG(temperature_c)                              <span class="kw">AS</span> mean_temp,
+        AVG(salinity_psu)                               <span class="kw">AS</span> mean_sal,
+        STDDEV(temperature_c)                           <span class="kw">AS</span> temp_var,
+        ABS(AVG(temperature_c)
+            - AVG(AVG(temperature_c)) <span class="kw">OVER</span> ())
+            / NULLIF(STDDEV(AVG(temperature_c))
+              <span class="kw">OVER</span> (), 0)                                  <span class="kw">AS</span> thermal_z
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> pressure_dbar <span class="kw">BETWEEN</span> 10 <span class="kw">AND</span> 200
+      <span class="kw">AND</span> quality_flag <span class="kw">IN</span> (1, 2)
+    <span class="kw">GROUP BY</span> lat_bin, lon_bin
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 30
+),
+
+cross_domain_surprise <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        t.lat_bin,
+        t.lon_bin,
+        t.thermal_z,
+        COUNT(<span class="kw">DISTINCT</span> b.species_name)                 <span class="kw">AS</span> species_richness,
+        AVG(b.abundance)                                <span class="kw">AS</span> mean_abundance,
+        COUNT(*)                                        <span class="kw">AS</span> n_bio_obs
+    <span class="kw">FROM</span> thermohaline_regions t
+    <span class="kw">JOIN</span> obis.biodiversity_observations b
+        <span class="kw">ON</span> ROUND(b.lat / 5) * 5 = t.lat_bin
+       <span class="kw">AND</span> ROUND(b.lon / 5) * 5 = t.lon_bin
+    <span class="kw">GROUP BY</span> t.lat_bin, t.lon_bin, t.thermal_z
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 10
+)
+
+<span class="kw">SELECT</span>
+    lat_bin,
+    lon_bin,
+    ROUND(thermal_z::numeric, 2)                        <span class="kw">AS</span> thermal_anomaly_z,
+    species_richness,
+    ROUND(mean_abundance::numeric, 1)                   <span class="kw">AS</span> mean_abundance,
+    ROUND(species_richness::numeric / NULLIF(
+        AVG(species_richness) <span class="kw">OVER</span> (), 0), 2)            <span class="kw">AS</span> richness_ratio,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> thermal_z &gt; 1.5
+         <span class="kw">AND</span> species_richness &gt;
+             AVG(species_richness) <span class="kw">OVER</span> () * 1.3
+            <span class="kw">THEN</span> <span class="st">'cross-domain discovery'</span>
+        <span class="kw">WHEN</span> thermal_z &gt; 1.5
+            <span class="kw">THEN</span> <span class="st">'physical anomaly only'</span>
+        <span class="kw">WHEN</span> species_richness &gt;
+             AVG(species_richness) <span class="kw">OVER</span> () * 1.3
+            <span class="kw">THEN</span> <span class="st">'biological anomaly only'</span>
+        <span class="kw">ELSE</span>     <span class="st">'no cross-domain signal'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> surprise_class
+<span class="kw">FROM</span> cross_domain_surprise
+<span class="kw">ORDER BY</span> thermal_z <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> 25;</code></div>
+
+      <div class="scenario-reflection">The most powerful discoveries cross domain boundaries. A thermal anomaly is interesting. A thermal anomaly that predicts elevated biodiversity is a discovery. But the test must be honest: is the cross-domain signal genuinely surprising, or is it the well-known relationship between warm, stratified water and tropical species richness? The richness ratio provides the baseline. Where the ratio exceeds expectation in regions of thermal anomaly, the cross-domain link tells us something new. Where it merely recapitulates the latitude gradient, it tells us something we already knew. Deliberate discovery means knowing the difference.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread active">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO V ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario V &mdash; The Replication Test</div>
+      <p class="scenario-question">If we split the ocean in half &mdash; by hemisphere &mdash; does a discovered pattern replicate in the held-out half?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Spatial cross-validation: discover in Northern Hemisphere,</span>
+<span class="cm">-- replicate in Southern Hemisphere</span>
+<span class="kw">WITH</span> northern_discovery <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lon / 10) * 10                            <span class="kw">AS</span> lon_band,
+        EXTRACT(MONTH <span class="kw">FROM</span> observation_date)             <span class="kw">AS</span> month,
+        AVG(sst_anomaly_c)                              <span class="kw">AS</span> nh_anomaly,
+        STDDEV(sst_anomaly_c)                           <span class="kw">AS</span> nh_sd,
+        REGR_SLOPE(sst_anomaly_c,
+            EXTRACT(YEAR <span class="kw">FROM</span> observation_date))         <span class="kw">AS</span> nh_trend,
+        COUNT(*)                                        <span class="kw">AS</span> nh_n
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> lat &gt; 0
+      <span class="kw">AND</span> observation_date &gt;= <span class="st">'2005-01-01'</span>
+    <span class="kw">GROUP BY</span> lon_band, month
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 100
+),
+
+replication_test <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lon / 10) * 10                            <span class="kw">AS</span> lon_band,
+        EXTRACT(MONTH <span class="kw">FROM</span> observation_date)             <span class="kw">AS</span> month,
+        AVG(sst_anomaly_c)                              <span class="kw">AS</span> sh_anomaly,
+        STDDEV(sst_anomaly_c)                           <span class="kw">AS</span> sh_sd,
+        REGR_SLOPE(sst_anomaly_c,
+            EXTRACT(YEAR <span class="kw">FROM</span> observation_date))         <span class="kw">AS</span> sh_trend,
+        COUNT(*)                                        <span class="kw">AS</span> sh_n
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> lat &lt; 0
+      <span class="kw">AND</span> observation_date &gt;= <span class="st">'2005-01-01'</span>
+    <span class="kw">GROUP BY</span> lon_band, month
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 100
+)
+
+<span class="kw">SELECT</span>
+    n.lon_band,
+    n.month,
+    ROUND(n.nh_trend::numeric, 5)                       <span class="kw">AS</span> nh_trend_slope,
+    ROUND(s.sh_trend::numeric, 5)                       <span class="kw">AS</span> sh_trend_slope,
+    ROUND(ABS(n.nh_trend - s.sh_trend)::numeric, 5)    <span class="kw">AS</span> trend_divergence,
+    ROUND((SIGN(n.nh_trend) * SIGN(s.sh_trend))
+        ::numeric, 0)                                   <span class="kw">AS</span> sign_agreement,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> SIGN(n.nh_trend) = SIGN(s.sh_trend)
+         <span class="kw">AND</span> ABS(n.nh_trend - s.sh_trend)
+             &lt; GREATEST(ABS(n.nh_trend), ABS(s.sh_trend)) * 0.5
+            <span class="kw">THEN</span> <span class="st">'replicates'</span>
+        <span class="kw">WHEN</span> SIGN(n.nh_trend) = SIGN(s.sh_trend)
+            <span class="kw">THEN</span> <span class="st">'partial replication'</span>
+        <span class="kw">ELSE</span>     <span class="st">'fails to replicate'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> replication_verdict
+<span class="kw">FROM</span> northern_discovery n
+<span class="kw">JOIN</span> replication_test s <span class="kw">USING</span> (lon_band, month)
+<span class="kw">ORDER BY</span> trend_divergence <span class="kw">ASC</span>
+<span class="kw">LIMIT</span> 30;</code></div>
+
+      <div class="scenario-reflection">The replication crisis was a crisis of geography: findings discovered in one sample failed to appear in another. This query applies the same logic spatially. Patterns discovered in the Northern Hemisphere are tested for replication in the Southern Hemisphere. The split is not random &mdash; it is the most adversarial partition available, because the hemispheres differ in land mass distribution, ocean circulation, and seasonal phase. A trend that replicates across this divide is robust. A trend that reverses sign is hemisphere-specific. The parallactic version of cross-validation does not shuffle rows. It splits the world in half and asks: does this survive?</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO VI ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario VI &mdash; The Deliberate Blank</div>
+      <p class="scenario-question">Where has no one looked &mdash; and does pointing instruments at the unobserved reveal structure that the observed regions predicted, or something entirely new?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Find the ocean's blind spots, then test whether</span>
+<span class="cm">-- the few observations from blanks follow or break predictions</span>
+<span class="kw">WITH</span> observed_coverage <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(deploy_lat / 10) * 10                     <span class="kw">AS</span> lat_bin,
+        ROUND(deploy_lon / 10) * 10                     <span class="kw">AS</span> lon_bin,
+        COUNT(<span class="kw">DISTINCT</span> float_id)                       <span class="kw">AS</span> n_floats
+    <span class="kw">FROM</span> argo.float_metadata
+    <span class="kw">GROUP BY</span> lat_bin, lon_bin
+),
+
+deliberate_blank <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        g.lat                                           <span class="kw">AS</span> lat_bin,
+        g.lon                                           <span class="kw">AS</span> lon_bin,
+        g.depth_m                                       <span class="kw">AS</span> bathy_depth,
+        g.feature_type,
+        COALESCE(oc.n_floats, 0)                        <span class="kw">AS</span> n_floats,
+        <span class="kw">CASE</span>
+            <span class="kw">WHEN</span> COALESCE(oc.n_floats, 0) = 0
+                <span class="kw">THEN</span> <span class="st">'unobserved'</span>
+            <span class="kw">WHEN</span> oc.n_floats &lt; 3
+                <span class="kw">THEN</span> <span class="st">'sparsely observed'</span>
+            <span class="kw">ELSE</span>     <span class="st">'well observed'</span>
+        <span class="kw">END</span>                                             <span class="kw">AS</span> coverage_class
+    <span class="kw">FROM</span> gebco.bathymetry g
+    <span class="kw">LEFT JOIN</span> observed_coverage oc
+        <span class="kw">ON</span> ROUND(g.lat / 10) * 10 = oc.lat_bin
+       <span class="kw">AND</span> ROUND(g.lon / 10) * 10 = oc.lon_bin
+    <span class="kw">WHERE</span> g.depth_m &lt; -200  <span class="cm">-- ocean only</span>
+),
+
+blank_biodiversity <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        db.coverage_class,
+        db.feature_type,
+        COUNT(<span class="kw">DISTINCT</span> b.species_name)                 <span class="kw">AS</span> species_found,
+        AVG(b.abundance)                                <span class="kw">AS</span> mean_abundance,
+        COUNT(*)                                        <span class="kw">AS</span> n_bio_obs
+    <span class="kw">FROM</span> deliberate_blank db
+    <span class="kw">JOIN</span> obis.biodiversity_observations b
+        <span class="kw">ON</span> ROUND(b.lat / 10) * 10 = db.lat_bin
+       <span class="kw">AND</span> ROUND(b.lon / 10) * 10 = db.lon_bin
+    <span class="kw">GROUP BY</span> db.coverage_class, db.feature_type
+)
+
+<span class="kw">SELECT</span>
+    coverage_class,
+    feature_type,
+    species_found,
+    ROUND(mean_abundance::numeric, 1)                   <span class="kw">AS</span> mean_abundance,
+    n_bio_obs,
+    ROUND(species_found::numeric / NULLIF(
+        AVG(species_found) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> feature_type), 0), 2)           <span class="kw">AS</span> vs_observed_baseline,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> species_found &gt; AVG(species_found)
+             <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> feature_type) * 1.2
+            <span class="kw">THEN</span> <span class="st">'exceeds prediction'</span>
+        <span class="kw">WHEN</span> species_found &lt; AVG(species_found)
+             <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> feature_type) * 0.8
+            <span class="kw">THEN</span> <span class="st">'below prediction'</span>
+        <span class="kw">ELSE</span>     <span class="st">'matches prediction'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> blank_verdict
+<span class="kw">FROM</span> blank_biodiversity
+<span class="kw">ORDER BY</span> coverage_class, feature_type;</code></div>
+
+      <div class="scenario-reflection">The deliberate blank is the hardest test of discovery because it asks the question that observation-biased science avoids: what exists where we have not looked? This query identifies ocean regions with zero or near-zero Argo deployments, compares their bathymetric features to well-observed regions, and then tests whether the sparse biological observations available from these blanks follow the patterns predicted by observed regions &mdash; or diverge. Where they match, the observed world generalizes. Where they diverge, the blank has taught us something the instrumented ocean could not. The blank is not the absence of data. It is the ultimate test of whether our discoveries are universal or local.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread active">sociometric</span>
+        <span class="dna-thread active">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- CODA -->
+    <section class="coda">
+      <h2>Coda</h2>
+
+      <p>Six modes of discovery. One ocean as proving ground.</p>
+
+      <p>The anomaly hunt generates candidates and immediately cross-validates them against an independent source. The hypothesis fork lets data arbitrate between competing explanations without the analyst placing a thumb on the scale. The structured sweep separates robust patterns from configuration artifacts by systematically varying resolution, time window, and threshold. The cross-domain surprise tests whether physics predicts biology &mdash; and whether that prediction is genuinely informative or merely recapitulates what latitude already told us. The replication test holds discovered patterns to the standard of reproducibility by splitting the world along its most adversarial boundary. The deliberate blank asks the question that observation-biased science refuses to ask: what happens when we point our instruments at the places no one has looked?</p>
+
+      <p>Deliberate discovery is neither undisciplined exploration nor rigid confirmation. It is the principled middle path: explore freely, but trust only what survives the parallactic test. The freedom to explore is real. The constraint on what counts as found is severe. This asymmetry is the method.</p>
+
+      <p>The replication crisis taught science that exploration without structure produces false positives at scale. Rigid confirmatory analysis taught science that structure without exploration produces stale hypotheses that miss the world&rsquo;s novelty. The parallax framework resolves the tension: generate from one view, test from another. What survives the crossing is discovered. What does not is discarded without regret.</p>
+
+      <p class="warning-line">What the lenses find depends entirely on where they are pointed next.</p>
+
+      <div class="signature">
+        &mdash; Jeffrey J. Berg<br>
+        PARALLAX<span class="tm">&trade;</span> &middot; CONSTELLATION<span class="tm">&trade;</span><br>
+        Convergent Distributed Empirical Inferential Intelligence<span class="tm">&trade;</span>
+      </div>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <span>&copy; Jeffrey J. Berg. All rights reserved.</span>
+  <span>PARALLAX&trade; &middot; GAUGE&trade; &middot; CONSTELLATION&trade; &middot; CDEII&trade;</span>
+</footer>
+
+</body>
+</html>
