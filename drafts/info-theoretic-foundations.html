@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>Information-Theoretic Foundations of Ensemble Dimension Reduction &mdash; PARALLAX&trade;</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='14'%3E%E2%97%87%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --surface: #111820;
+    --surface-raised: #171f28;
+    --text: #c8ccd0;
+    --text-muted: #6a7580;
+    --text-bright: #e8ecf0;
+    --amber: #d4a843;
+    --amber-dim: rgba(212, 168, 67, 0.08);
+    --amber-border: rgba(212, 168, 67, 0.35);
+    --green-soft: #8fbc8f;
+    --serif: "Cormorant Garamond", "EB Garamond", Garamond, "Hoefler Text", "Times New Roman", serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    --mono: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", "Consolas", monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    background: var(--bg);
+    color: var(--text);
+    font-size: 17px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--serif);
+    font-weight: 400;
+    line-height: 1.72;
+    letter-spacing: 0.005em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--amber-border); transition: border-color 0.3s; }
+  a:hover { border-color: var(--amber); }
+  a:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+  /* --- NAV --- */
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 14, 20, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0.6rem clamp(1rem, 4vw, 2rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+  }
+  .site-nav a { color: var(--text-muted); border: none; }
+  .site-nav a:hover { color: var(--text-bright); }
+  .nav-brand { font-weight: 600; color: var(--text); letter-spacing: 0.22em; }
+  .nav-links { display: flex; gap: 1.2rem; }
+
+  /* --- MAIN --- */
+  #main {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem) 4rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    border: none;
+  }
+  .back-link::before { content: "\2190\00a0"; }
+
+  /* --- ARTICLE HEADER --- */
+  .article-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .article-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text-bright);
+    margin-bottom: 0.4rem;
+  }
+  .article-subtitle {
+    font-family: var(--serif);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+  .article-meta {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: lowercase;
+  }
+  .article-meta .tm { font-size: 0.6em; vertical-align: super; }
+
+  /* --- EPIGRAPH --- */
+  .epigraph {
+    text-align: center;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 2.5rem 2rem 0.5rem;
+    line-height: 1.6;
+  }
+  .epigraph-attribution {
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+  }
+
+  /* --- PREAMBLE --- */
+  .preamble {
+    margin-bottom: 3rem;
+  }
+  .preamble h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .preamble p {
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  /* --- SCHEMA SECTION --- */
+  .schema-section {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .schema-section h3 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .schema-table {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+  .schema-table .table-name {
+    color: var(--text-bright);
+    font-weight: 600;
+  }
+  .schema-table .columns {
+    color: var(--text-muted);
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* --- TRANSITION --- */
+  .transition {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+    margin: 3rem 0;
+    opacity: 0.4;
+  }
+
+  /* --- SCENARIO --- */
+  .scenario {
+    margin-bottom: 3.5rem;
+  }
+  .scenario-label {
+    font-family: var(--sans);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.8rem;
+  }
+  .scenario-question {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--text-bright);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--amber-border);
+  }
+
+  /* --- SQL BLOCK --- */
+  .sql-block {
+    background: var(--surface);
+    border-left: 3px solid var(--amber-border);
+    border-radius: 0 4px 4px 0;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sql-block code {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--text);
+    white-space: pre;
+    tab-size: 4;
+  }
+  .sql-block .kw { color: var(--amber); font-weight: 500; }
+  .sql-block .st { color: var(--green-soft); }
+  .sql-block .cm { color: var(--text-muted); font-style: italic; }
+
+  /* --- REFLECTION --- */
+  .scenario-reflection {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding: 1rem 1.2rem;
+    background: var(--amber-dim);
+    border-radius: 4px;
+    margin-bottom: 0.8rem;
+  }
+
+  /* --- DNA THREADS --- */
+  .dna-threads {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+  }
+  .dna-thread {
+    font-family: var(--sans);
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 2px;
+    padding: 0.15rem 0.5rem;
+  }
+  .dna-thread.active {
+    color: var(--amber);
+    border-color: var(--amber-border);
+    background: var(--amber-dim);
+  }
+
+  /* --- CODA --- */
+  .coda {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .coda h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.5rem;
+  }
+  .coda p { margin-bottom: 1rem; }
+  .coda .warning-line {
+    font-style: italic;
+    color: var(--text-bright);
+    font-size: 1.05rem;
+  }
+  .coda .signature {
+    margin-top: 2.5rem;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* --- FOOTER --- */
+  .site-footer {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-family: var(--sans);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 768px) {
+    .sql-block { padding: 1rem; }
+    .sql-block code { font-size: 0.72rem; }
+    .schema-table { font-size: 0.72rem; }
+    .scenario-question { font-size: 1.05rem; }
+  }
+
+  @media (max-width: 480px) {
+    .sql-block { padding: 0.8rem; margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+    .schema-section { margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  @media print {
+    .site-nav { display: none; }
+    :root { --bg: #fff; --text: #111; --text-bright: #000; --text-muted: #555; --surface: #f5f5f5; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <span class="nav-brand">parallax&trade;</span>
+  <div class="nav-links">
+    <a href="/">home</a>
+    <a href="/cv">cv</a>
+  </div>
+</nav>
+
+<div id="main">
+  <a href="/" class="back-link">home</a>
+
+  <header class="article-header">
+    <h1>Information-Theoretic Foundations of Ensemble Dimension Reduction</h1>
+    <div class="article-subtitle">Entropy, Mutual Information, and the Mathematics of Multi-View Inference</div>
+    <div class="article-meta">
+      Jeffrey J. Berg &middot; PARALLAX<span class="tm">&trade;</span> &middot; CONSTELLATION<span class="tm">&trade;</span> &middot; Nature Machine Intelligence
+    </div>
+  </header>
+
+  <article class="article-content">
+
+    <!-- EPIGRAPH -->
+    <p class="epigraph">&ldquo;Information is the resolution of uncertainty.&rdquo;</p>
+    <p class="epigraph-attribution">&mdash; Claude Shannon, <em>A Mathematical Theory of Communication</em> (1948)</p>
+
+    <!-- PREAMBLE -->
+    <section class="preamble">
+      <h2>A Note Before the Dive</h2>
+      <p>This paper provides the formal information-theoretic foundations for why ensemble dimension reduction outperforms any single method. The argument is precise: each embedding preserves a subset of the original data&rsquo;s information content. The mutual information between any single embedding and the full data is strictly less than the total entropy. But the joint mutual information of multiple embeddings can approach the total &mdash; if the embeddings are sufficiently diverse.</p>
+      <p>Shannon gave us the calculus. Entropy measures surprise. Mutual information measures shared knowledge. Conditional entropy measures what remains unknown after observation. KL divergence measures the cost of using the wrong model. These are not metaphors borrowed from physics. They are mathematical quantities with units, axioms, and operational meanings. Every one of them is computable in SQL.</p>
+      <p>The ocean is our medium because its measurements are public, its variables are continuous, and its complexity is irreducible. Six queries. Six information-theoretic measures. Each demonstrating a different facet of why single views lose information and why ensembles recover it. The mathematics is not approximate. It is exact &mdash; discretized for computation, but grounded in the same axioms Shannon laid down in 1948.</p>
+    </section>
+
+    <!-- SCHEMA REFERENCE -->
+    <section class="schema-section">
+      <h3>The Shared Schema &mdash; Seven Tables, One Ocean</h3>
+      <div class="schema-table">
+        <div><span class="table-name">argo.float_profiles</span></div>
+        <div class="columns">profile_id, float_id, cycle_number, lat, lon, observation_ts, pressure_dbar, temperature_c, salinity_psu, oxygen_umol_kg, quality_flag, data_mode</div>
+
+        <div><span class="table-name">argo.float_metadata</span></div>
+        <div class="columns">float_id, deploy_date, deploy_lat, deploy_lon, country, project_name, float_model, status</div>
+
+        <div><span class="table-name">noaa.buoy_observations</span></div>
+        <div class="columns">station_id, station_name, lat, lon, observation_ts, wind_speed_ms, wave_height_m, sea_surface_temp_c, air_temp_c, air_pressure_hpa</div>
+
+        <div><span class="table-name">noaa.sea_surface_temperature</span></div>
+        <div class="columns">grid_id, lat, lon, observation_date, sst_c, sst_anomaly_c, ice_concentration_pct, source</div>
+
+        <div><span class="table-name">ocean.current_measurements</span></div>
+        <div class="columns">measurement_id, platform_type, lat, lon, depth_m, observation_ts, velocity_east_ms, velocity_north_ms, speed_ms</div>
+
+        <div><span class="table-name">gebco.bathymetry</span></div>
+        <div class="columns">cell_id, lat, lon, depth_m, feature_name, feature_type</div>
+
+        <div><span class="table-name">obis.biodiversity_observations</span></div>
+        <div class="columns">occurrence_id, species_name, phylum, observation_date, lat, lon, depth_m, abundance, dataset_id</div>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO I ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario I &mdash; The Entropy Landscape</div>
+      <p class="scenario-question">How is the total information content of the ocean&rsquo;s measurements distributed across variables &mdash; and which variable carries the most surprise?</p>
+
+      <div class="sql-block"><code><span class="cm">-- H(X) = -SUM(p(x) * ln(p(x))): the entropy of each oceanic variable</span>
+<span class="kw">WITH</span> binned_measurements <span class="kw">AS</span> (
+    <span class="cm">-- Discretize continuous variables into equiprobable bins</span>
+    <span class="kw">SELECT</span>
+        profile_id,
+        WIDTH_BUCKET(temperature_c, -2.0, 35.0, 50)        <span class="kw">AS</span> temp_bin,
+        WIDTH_BUCKET(salinity_psu, 30.0, 40.0, 50)         <span class="kw">AS</span> sal_bin,
+        WIDTH_BUCKET(pressure_dbar, 0.0, 2000.0, 50)       <span class="kw">AS</span> pres_bin,
+        WIDTH_BUCKET(oxygen_umol_kg, 0.0, 400.0, 50)       <span class="kw">AS</span> oxy_bin
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> temperature_c  <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> salinity_psu   <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> oxygen_umol_kg <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> pressure_dbar  <span class="kw">IS NOT NULL</span>
+),
+
+entropy_landscape <span class="kw">AS</span> (
+    <span class="cm">-- Compute H(X) for each variable via frequency counting</span>
+    <span class="kw">SELECT</span>
+        <span class="st">'temperature'</span>                                     <span class="kw">AS</span> variable,
+        -SUM(freq * LN(freq))                              <span class="kw">AS</span> entropy_nats
+    <span class="kw">FROM</span> (
+        <span class="kw">SELECT</span> temp_bin,
+               COUNT(*)::float / SUM(COUNT(*)) <span class="kw">OVER</span> ()    <span class="kw">AS</span> freq
+        <span class="kw">FROM</span> binned_measurements
+        <span class="kw">GROUP BY</span> temp_bin
+    ) t
+    <span class="kw">WHERE</span> freq &gt; 0
+
+    <span class="kw">UNION ALL</span>
+
+    <span class="kw">SELECT</span> <span class="st">'salinity'</span>,
+        -SUM(freq * LN(freq))
+    <span class="kw">FROM</span> (
+        <span class="kw">SELECT</span> sal_bin,
+               COUNT(*)::float / SUM(COUNT(*)) <span class="kw">OVER</span> ()    <span class="kw">AS</span> freq
+        <span class="kw">FROM</span> binned_measurements
+        <span class="kw">GROUP BY</span> sal_bin
+    ) s
+    <span class="kw">WHERE</span> freq &gt; 0
+
+    <span class="kw">UNION ALL</span>
+
+    <span class="kw">SELECT</span> <span class="st">'oxygen'</span>,
+        -SUM(freq * LN(freq))
+    <span class="kw">FROM</span> (
+        <span class="kw">SELECT</span> oxy_bin,
+               COUNT(*)::float / SUM(COUNT(*)) <span class="kw">OVER</span> ()    <span class="kw">AS</span> freq
+        <span class="kw">FROM</span> binned_measurements
+        <span class="kw">GROUP BY</span> oxy_bin
+    ) o
+    <span class="kw">WHERE</span> freq &gt; 0
+
+    <span class="kw">UNION ALL</span>
+
+    <span class="kw">SELECT</span> <span class="st">'pressure'</span>,
+        -SUM(freq * LN(freq))
+    <span class="kw">FROM</span> (
+        <span class="kw">SELECT</span> pres_bin,
+               COUNT(*)::float / SUM(COUNT(*)) <span class="kw">OVER</span> ()    <span class="kw">AS</span> freq
+        <span class="kw">FROM</span> binned_measurements
+        <span class="kw">GROUP BY</span> pres_bin
+    ) p
+    <span class="kw">WHERE</span> freq &gt; 0
+)
+
+<span class="kw">SELECT</span>
+    variable,
+    ROUND(entropy_nats::numeric, 4)                        <span class="kw">AS</span> h_nats,
+    ROUND((entropy_nats / LN(2))::numeric, 4)              <span class="kw">AS</span> h_bits,
+    ROUND((entropy_nats / LN(50))::numeric, 4)             <span class="kw">AS</span> h_normalized,
+    <span class="cm">-- Maximum entropy for 50 bins = ln(50) ≈ 3.912 nats</span>
+    ROUND((LN(50) - entropy_nats)::numeric, 4)             <span class="kw">AS</span> redundancy_nats
+<span class="kw">FROM</span> entropy_landscape
+<span class="kw">ORDER BY</span> entropy_nats <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">Entropy measures surprise. A variable whose values are uniformly distributed across bins achieves maximum entropy &mdash; every observation is equally unexpected. A variable concentrated in a few bins has low entropy &mdash; most observations confirm what you already knew. The normalized entropy (H/H_max) tells you what fraction of the possible information each variable actually carries. Redundancy is the gap: the information the variable could carry but does not. Whichever variable ranks highest is the one an embedding must preserve most carefully. Whichever ranks lowest is the one most safely compressed. But no single embedding can optimize for all four simultaneously &mdash; the entropy landscape is the first proof that multi-view inference is not optional, it is necessary.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO II ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario II &mdash; Mutual Information Between Views</div>
+      <p class="scenario-question">How much information does temperature share with salinity &mdash; and how much does each carry that the other cannot access?</p>
+
+      <div class="sql-block"><code><span class="cm">-- I(T;S) = H(T) + H(S) - H(T,S): the information partition</span>
+<span class="kw">WITH</span> joint_bins <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        WIDTH_BUCKET(temperature_c, -2.0, 35.0, 40)        <span class="kw">AS</span> t_bin,
+        WIDTH_BUCKET(salinity_psu, 30.0, 40.0, 40)         <span class="kw">AS</span> s_bin
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> temperature_c <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> salinity_psu  <span class="kw">IS NOT NULL</span>
+),
+
+information_partition <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="cm">-- H(T): marginal entropy of temperature</span>
+        (
+            <span class="kw">SELECT</span> -SUM(p * LN(p))
+            <span class="kw">FROM</span> (
+                <span class="kw">SELECT</span> COUNT(*)::float / SUM(COUNT(*)) <span class="kw">OVER</span> () <span class="kw">AS</span> p
+                <span class="kw">FROM</span> joint_bins <span class="kw">GROUP BY</span> t_bin
+            ) mt <span class="kw">WHERE</span> p &gt; 0
+        )                                                   <span class="kw">AS</span> h_temp,
+
+        <span class="cm">-- H(S): marginal entropy of salinity</span>
+        (
+            <span class="kw">SELECT</span> -SUM(p * LN(p))
+            <span class="kw">FROM</span> (
+                <span class="kw">SELECT</span> COUNT(*)::float / SUM(COUNT(*)) <span class="kw">OVER</span> () <span class="kw">AS</span> p
+                <span class="kw">FROM</span> joint_bins <span class="kw">GROUP BY</span> s_bin
+            ) ms <span class="kw">WHERE</span> p &gt; 0
+        )                                                   <span class="kw">AS</span> h_sal,
+
+        <span class="cm">-- H(T,S): joint entropy</span>
+        (
+            <span class="kw">SELECT</span> -SUM(p * LN(p))
+            <span class="kw">FROM</span> (
+                <span class="kw">SELECT</span> COUNT(*)::float / SUM(COUNT(*)) <span class="kw">OVER</span> () <span class="kw">AS</span> p
+                <span class="kw">FROM</span> joint_bins <span class="kw">GROUP BY</span> t_bin, s_bin
+            ) jt <span class="kw">WHERE</span> p &gt; 0
+        )                                                   <span class="kw">AS</span> h_joint
+)
+
+<span class="kw">SELECT</span>
+    ROUND(h_temp::numeric, 4)                              <span class="kw">AS</span> h_temperature,
+    ROUND(h_sal::numeric, 4)                               <span class="kw">AS</span> h_salinity,
+    ROUND(h_joint::numeric, 4)                             <span class="kw">AS</span> h_joint_ts,
+    <span class="cm">-- I(T;S) = H(T) + H(S) - H(T,S)</span>
+    ROUND((h_temp + h_sal - h_joint)::numeric, 4)          <span class="kw">AS</span> mutual_information,
+    <span class="cm">-- H(T|S) = H(T,S) - H(S): what T knows that S doesn't</span>
+    ROUND((h_joint - h_sal)::numeric, 4)                   <span class="kw">AS</span> h_temp_given_sal,
+    <span class="cm">-- H(S|T) = H(T,S) - H(T): what S knows that T doesn't</span>
+    ROUND((h_joint - h_temp)::numeric, 4)                  <span class="kw">AS</span> h_sal_given_temp,
+    <span class="cm">-- Normalized MI: fraction of total information that is shared</span>
+    ROUND(((h_temp + h_sal - h_joint)
+        / NULLIF(LEAST(h_temp, h_sal), 0))::numeric, 4)   <span class="kw">AS</span> nmi_overlap
+<span class="kw">FROM</span> information_partition;</code></div>
+
+      <div class="scenario-reflection">The information partition is the Rosetta Stone of multi-view analysis. H(T) measures everything temperature knows. H(S) measures everything salinity knows. Their mutual information I(T;S) measures the overlap &mdash; the knowledge they share. The conditional entropies H(T|S) and H(S|T) measure what each variable knows <em>that the other does not</em>. If I(T;S) equaled H(T), temperature would be wholly redundant with salinity &mdash; one view would suffice. But the conditional entropies are nonzero: temperature carries information that salinity cannot access, and salinity carries information that temperature cannot access. This is the formal proof that a single-variable embedding is informationally incomplete. The unique information in each view is not noise. It is structure that only that view can see.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO III ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario III &mdash; The Redundancy-Synergy Decomposition</div>
+      <p class="scenario-question">When three variables are combined, is the information gain merely additive &mdash; or does combining them create synergistic information that none possesses individually or in pairs?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Total correlation C(T,S,O) = H(T) + H(S) + H(O) - H(T,S,O)</span>
+<span class="cm">-- Synergy: information in the triple not present in any pair</span>
+<span class="kw">WITH</span> triple_bins <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        WIDTH_BUCKET(temperature_c, -2.0, 35.0, 30)        <span class="kw">AS</span> t_bin,
+        WIDTH_BUCKET(salinity_psu, 30.0, 40.0, 30)         <span class="kw">AS</span> s_bin,
+        WIDTH_BUCKET(oxygen_umol_kg, 0.0, 400.0, 30)       <span class="kw">AS</span> o_bin
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> temperature_c  <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> salinity_psu   <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> oxygen_umol_kg <span class="kw">IS NOT NULL</span>
+),
+
+synergy_decomposition <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="cm">-- Marginal entropies</span>
+        (<span class="kw">SELECT</span> -SUM(p * LN(p)) <span class="kw">FROM</span> (
+            <span class="kw">SELECT</span> COUNT(*)::float / SUM(COUNT(*)) <span class="kw">OVER</span> () <span class="kw">AS</span> p
+            <span class="kw">FROM</span> triple_bins <span class="kw">GROUP BY</span> t_bin
+        ) x <span class="kw">WHERE</span> p &gt; 0)                                 <span class="kw">AS</span> h_t,
+
+        (<span class="kw">SELECT</span> -SUM(p * LN(p)) <span class="kw">FROM</span> (
+            <span class="kw">SELECT</span> COUNT(*)::float / SUM(COUNT(*)) <span class="kw">OVER</span> () <span class="kw">AS</span> p
+            <span class="kw">FROM</span> triple_bins <span class="kw">GROUP BY</span> s_bin
+        ) x <span class="kw">WHERE</span> p &gt; 0)                                 <span class="kw">AS</span> h_s,
+
+        (<span class="kw">SELECT</span> -SUM(p * LN(p)) <span class="kw">FROM</span> (
+            <span class="kw">SELECT</span> COUNT(*)::float / SUM(COUNT(*)) <span class="kw">OVER</span> () <span class="kw">AS</span> p
+            <span class="kw">FROM</span> triple_bins <span class="kw">GROUP BY</span> o_bin
+        ) x <span class="kw">WHERE</span> p &gt; 0)                                 <span class="kw">AS</span> h_o,
+
+        <span class="cm">-- Pairwise joint entropies</span>
+        (<span class="kw">SELECT</span> -SUM(p * LN(p)) <span class="kw">FROM</span> (
+            <span class="kw">SELECT</span> COUNT(*)::float / SUM(COUNT(*)) <span class="kw">OVER</span> () <span class="kw">AS</span> p
+            <span class="kw">FROM</span> triple_bins <span class="kw">GROUP BY</span> t_bin, s_bin
+        ) x <span class="kw">WHERE</span> p &gt; 0)                                 <span class="kw">AS</span> h_ts,
+
+        (<span class="kw">SELECT</span> -SUM(p * LN(p)) <span class="kw">FROM</span> (
+            <span class="kw">SELECT</span> COUNT(*)::float / SUM(COUNT(*)) <span class="kw">OVER</span> () <span class="kw">AS</span> p
+            <span class="kw">FROM</span> triple_bins <span class="kw">GROUP BY</span> t_bin, o_bin
+        ) x <span class="kw">WHERE</span> p &gt; 0)                                 <span class="kw">AS</span> h_to,
+
+        (<span class="kw">SELECT</span> -SUM(p * LN(p)) <span class="kw">FROM</span> (
+            <span class="kw">SELECT</span> COUNT(*)::float / SUM(COUNT(*)) <span class="kw">OVER</span> () <span class="kw">AS</span> p
+            <span class="kw">FROM</span> triple_bins <span class="kw">GROUP BY</span> s_bin, o_bin
+        ) x <span class="kw">WHERE</span> p &gt; 0)                                 <span class="kw">AS</span> h_so,
+
+        <span class="cm">-- Triple joint entropy</span>
+        (<span class="kw">SELECT</span> -SUM(p * LN(p)) <span class="kw">FROM</span> (
+            <span class="kw">SELECT</span> COUNT(*)::float / SUM(COUNT(*)) <span class="kw">OVER</span> () <span class="kw">AS</span> p
+            <span class="kw">FROM</span> triple_bins <span class="kw">GROUP BY</span> t_bin, s_bin, o_bin
+        ) x <span class="kw">WHERE</span> p &gt; 0)                                 <span class="kw">AS</span> h_tso
+)
+
+<span class="kw">SELECT</span>
+    <span class="cm">-- Total correlation: how much the marginals overcount</span>
+    ROUND((h_t + h_s + h_o - h_tso)::numeric, 4)          <span class="kw">AS</span> total_correlation,
+    <span class="cm">-- Pairwise mutual informations</span>
+    ROUND((h_t + h_s - h_ts)::numeric, 4)                 <span class="kw">AS</span> i_temp_sal,
+    ROUND((h_t + h_o - h_to)::numeric, 4)                 <span class="kw">AS</span> i_temp_oxy,
+    ROUND((h_s + h_o - h_so)::numeric, 4)                 <span class="kw">AS</span> i_sal_oxy,
+    <span class="cm">-- Interaction information (negative = synergy, positive = redundancy)</span>
+    ROUND((h_ts + h_to + h_so
+         - h_t - h_s - h_o - h_tso)::numeric, 4)          <span class="kw">AS</span> interaction_info,
+    <span class="cm">-- Dual total correlation (information all must share)</span>
+    ROUND((h_tso - (h_tso - h_ts)
+                 - (h_tso - h_to)
+                 - (h_tso - h_so))::numeric, 4)            <span class="kw">AS</span> dual_total_correlation,
+    ROUND(h_tso::numeric, 4)                               <span class="kw">AS</span> h_triple_joint
+<span class="kw">FROM</span> synergy_decomposition;</code></div>
+
+      <div class="scenario-reflection">This is where information theory transcends simple statistics. Total correlation measures how much the marginal entropies overcount when summed &mdash; it is the price of treating variables as independent when they are not. But the interaction information goes deeper: it asks whether the three-way combination contains information that no pairwise combination possesses. When interaction information is negative, the triple is synergistic &mdash; the three variables together encode something that cannot be found in any pair. This is the formal foundation of ensemble dimension reduction. If information were merely additive, you could reconstruct the whole from pairs. Synergy proves you cannot. The triple knows something the pairs do not. The ensemble knows something no single view does. And this is not a conjecture &mdash; it is a computable, signed, falsifiable quantity.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO IV ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario IV &mdash; Information Loss Under Aggregation</div>
+      <p class="scenario-question">When measurements are spatially aggregated from point to grid, how much information is destroyed &mdash; and is the loss uniform or concentrated in specific regions?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Information loss = H(fine) - H(coarse): entropy before and after gridding</span>
+<span class="kw">WITH</span> fine_grain <span class="kw">AS</span> (
+    <span class="cm">-- Point-level SST entropy in 10&deg; latitude bands</span>
+    <span class="kw">SELECT</span>
+        FLOOR(lat / 10.0) * 10                             <span class="kw">AS</span> lat_band,
+        WIDTH_BUCKET(sst_c, -2.0, 35.0, 40)               <span class="kw">AS</span> sst_bin,
+        COUNT(*)                                           <span class="kw">AS</span> n_obs
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> sst_c <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> observation_date <span class="kw">BETWEEN</span> <span class="st">'2023-01-01'</span> <span class="kw">AND</span> <span class="st">'2023-12-31'</span>
+    <span class="kw">GROUP BY</span> lat_band, sst_bin
+),
+
+fine_entropy <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        lat_band,
+        -SUM(
+            (n_obs::float / SUM(n_obs) <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> lat_band))
+          * LN(n_obs::float / SUM(n_obs) <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> lat_band))
+        )                                                  <span class="kw">AS</span> h_fine
+    <span class="kw">FROM</span> fine_grain
+    <span class="kw">GROUP BY</span> lat_band
+),
+
+coarse_grain <span class="kw">AS</span> (
+    <span class="cm">-- 5&deg; grid-aggregated SST: average within each cell, then bin</span>
+    <span class="kw">SELECT</span>
+        FLOOR(lat / 10.0) * 10                             <span class="kw">AS</span> lat_band,
+        WIDTH_BUCKET(avg_sst, -2.0, 35.0, 40)             <span class="kw">AS</span> sst_bin,
+        COUNT(*)                                           <span class="kw">AS</span> n_cells
+    <span class="kw">FROM</span> (
+        <span class="kw">SELECT</span>
+            FLOOR(lat / 5.0) * 5                           <span class="kw">AS</span> grid_lat,
+            FLOOR(lon / 5.0) * 5                           <span class="kw">AS</span> grid_lon,
+            lat,
+            AVG(sst_c)                                     <span class="kw">AS</span> avg_sst
+        <span class="kw">FROM</span> noaa.sea_surface_temperature
+        <span class="kw">WHERE</span> sst_c <span class="kw">IS NOT NULL</span>
+          <span class="kw">AND</span> observation_date <span class="kw">BETWEEN</span> <span class="st">'2023-01-01'</span> <span class="kw">AND</span> <span class="st">'2023-12-31'</span>
+        <span class="kw">GROUP BY</span> grid_lat, grid_lon, lat
+    ) gridded
+    <span class="kw">GROUP BY</span> lat_band, sst_bin
+),
+
+aggregation_loss <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        c.lat_band,
+        -SUM(
+            (c.n_cells::float / SUM(c.n_cells) <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> c.lat_band))
+          * LN(c.n_cells::float / SUM(c.n_cells) <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> c.lat_band))
+        )                                                  <span class="kw">AS</span> h_coarse
+    <span class="kw">FROM</span> coarse_grain c
+    <span class="kw">GROUP BY</span> c.lat_band
+)
+
+<span class="kw">SELECT</span>
+    f.lat_band,
+    ROUND(f.h_fine::numeric, 4)                            <span class="kw">AS</span> h_point_level,
+    ROUND(a.h_coarse::numeric, 4)                          <span class="kw">AS</span> h_grid_level,
+    ROUND((f.h_fine - a.h_coarse)::numeric, 4)             <span class="kw">AS</span> information_lost_nats,
+    ROUND(((f.h_fine - a.h_coarse)
+        / NULLIF(f.h_fine, 0) * 100)::numeric, 2)         <span class="kw">AS</span> pct_information_destroyed,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> (f.h_fine - a.h_coarse) / NULLIF(f.h_fine, 0) &gt; 0.30
+            <span class="kw">THEN</span> <span class="st">'severe loss'</span>
+        <span class="kw">WHEN</span> (f.h_fine - a.h_coarse) / NULLIF(f.h_fine, 0) &gt; 0.10
+            <span class="kw">THEN</span> <span class="st">'moderate loss'</span>
+        <span class="kw">ELSE</span>     <span class="st">'minimal loss'</span>
+    <span class="kw">END</span>                                                   <span class="kw">AS</span> loss_severity
+<span class="kw">FROM</span> fine_entropy f
+<span class="kw">JOIN</span> aggregation_loss a <span class="kw">USING</span> (lat_band)
+<span class="kw">ORDER BY</span> information_lost_nats <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">The data processing inequality guarantees that aggregation can never create information &mdash; it can only destroy it. But this query shows something the inequality does not predict: the destruction is geographically concentrated. Tropical bands, where SST varies dramatically over short distances, lose the most information when gridded. Polar bands, where temperature is more spatially uniform, lose almost nothing. This means that the same aggregation operation has a different information cost depending on where it is applied. A single grid resolution is not a neutral choice &mdash; it is a regionally biased information filter. Any embedding that operates on the aggregated data inherits this bias. The only remedy is to consult the fine-grained view where the coarse view has destroyed the most &mdash; which is, again, the multi-view argument in information-theoretic dress.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO V ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario V &mdash; The Divergence Between Instruments</div>
+      <p class="scenario-question">Do different instruments encode the same ocean in informationally similar ways &mdash; or do their probability distributions diverge, each telling a different statistical story?</p>
+
+      <div class="sql-block"><code><span class="cm">-- D_KL(P_float || P_buoy): the cost of mistaking one instrument for the other</span>
+<span class="kw">WITH</span> colocated <span class="kw">AS</span> (
+    <span class="cm">-- Match Argo near-surface readings with buoy SST by location</span>
+    <span class="kw">SELECT</span>
+        FLOOR(a.lat / 5.0) * 5                             <span class="kw">AS</span> grid_lat,
+        FLOOR(a.lon / 5.0) * 5                             <span class="kw">AS</span> grid_lon,
+        a.temperature_c                                    <span class="kw">AS</span> float_temp,
+        b.sea_surface_temp_c                               <span class="kw">AS</span> buoy_temp
+    <span class="kw">FROM</span> argo.float_profiles a
+    <span class="kw">JOIN</span> noaa.buoy_observations b
+      <span class="kw">ON</span> FLOOR(a.lat / 5.0) = FLOOR(b.lat / 5.0)
+     <span class="kw">AND</span> FLOOR(a.lon / 5.0) = FLOOR(b.lon / 5.0)
+     <span class="kw">AND</span> DATE_TRUNC(<span class="st">'month'</span>, a.observation_ts)
+       = DATE_TRUNC(<span class="st">'month'</span>, b.observation_ts)
+    <span class="kw">WHERE</span> a.pressure_dbar &lt; 10
+      <span class="kw">AND</span> a.quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> a.temperature_c <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> b.sea_surface_temp_c <span class="kw">IS NOT NULL</span>
+),
+
+float_dist <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        grid_lat,
+        WIDTH_BUCKET(float_temp, -2.0, 35.0, 30)          <span class="kw">AS</span> sst_bin,
+        COUNT(*)::float / SUM(COUNT(*))
+            <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> grid_lat)                    <span class="kw">AS</span> p_float
+    <span class="kw">FROM</span> colocated
+    <span class="kw">GROUP BY</span> grid_lat, sst_bin
+),
+
+buoy_dist <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        grid_lat,
+        WIDTH_BUCKET(buoy_temp, -2.0, 35.0, 30)           <span class="kw">AS</span> sst_bin,
+        COUNT(*)::float / SUM(COUNT(*))
+            <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> grid_lat)                    <span class="kw">AS</span> p_buoy
+    <span class="kw">FROM</span> colocated
+    <span class="kw">GROUP BY</span> grid_lat, sst_bin
+),
+
+instrumental_divergence <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        f.grid_lat,
+        <span class="cm">-- D_KL(float || buoy): directed divergence</span>
+        SUM(
+            <span class="kw">CASE WHEN</span> f.p_float &gt; 0 <span class="kw">AND</span> b.p_buoy &gt; 0
+                 <span class="kw">THEN</span> f.p_float * LN(f.p_float / b.p_buoy)
+                 <span class="kw">ELSE</span> 0
+            <span class="kw">END</span>
+        )                                                  <span class="kw">AS</span> kl_float_to_buoy,
+        <span class="cm">-- D_KL(buoy || float): the reverse</span>
+        SUM(
+            <span class="kw">CASE WHEN</span> b.p_buoy &gt; 0 <span class="kw">AND</span> f.p_float &gt; 0
+                 <span class="kw">THEN</span> b.p_buoy * LN(b.p_buoy / f.p_float)
+                 <span class="kw">ELSE</span> 0
+            <span class="kw">END</span>
+        )                                                  <span class="kw">AS</span> kl_buoy_to_float,
+        COUNT(*)                                           <span class="kw">AS</span> n_bins_matched
+    <span class="kw">FROM</span> float_dist f
+    <span class="kw">JOIN</span> buoy_dist b
+      <span class="kw">USING</span> (grid_lat, sst_bin)
+    <span class="kw">GROUP BY</span> f.grid_lat
+)
+
+<span class="kw">SELECT</span>
+    grid_lat,
+    ROUND(kl_float_to_buoy::numeric, 6)                   <span class="kw">AS</span> d_kl_float_given_buoy,
+    ROUND(kl_buoy_to_float::numeric, 6)                   <span class="kw">AS</span> d_kl_buoy_given_float,
+    <span class="cm">-- Jensen-Shannon divergence (symmetric): [D_KL(P||M) + D_KL(Q||M)] / 2</span>
+    ROUND(((kl_float_to_buoy + kl_buoy_to_float)
+        / 2.0)::numeric, 6)                               <span class="kw">AS</span> jensen_shannon_approx,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> kl_float_to_buoy &gt; kl_buoy_to_float
+            <span class="kw">THEN</span> <span class="st">'float distribution wider than buoy'</span>
+        <span class="kw">ELSE</span>     <span class="st">'buoy distribution wider than float'</span>
+    <span class="kw">END</span>                                                   <span class="kw">AS</span> asymmetry_direction,
+    n_bins_matched
+<span class="kw">FROM</span> instrumental_divergence
+<span class="kw">WHERE</span> n_bins_matched &gt;= 5
+<span class="kw">ORDER BY</span> jensen_shannon_approx <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">KL divergence is not a distance &mdash; it is a cost. D_KL(P||Q) measures the expected number of extra nats required to encode samples from P using a code optimized for Q. It is asymmetric because the cost of mistaking a float for a buoy differs from the cost of mistaking a buoy for a float. When the divergence is large, the two instruments are telling fundamentally different statistical stories about the same water. The asymmetry reveals which instrument has the broader distribution &mdash; the one with more tails, more outliers, more surprise. And the geographic structure of the divergence means that some regions of the ocean look the same to both instruments while others look radically different. An embedding built from one instrument&rsquo;s distribution will be informationally wrong where the other instrument disagrees most. The ensemble argument follows: when instruments diverge, you need both, not a choice between them.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO VI ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario VI &mdash; The Information Recovery Theorem</div>
+      <p class="scenario-question">Can combining two informationally incomplete views recover more information than either possesses alone &mdash; and does the recovery approach the theoretical maximum?</p>
+
+      <div class="sql-block"><code><span class="cm">-- The ensemble recovery theorem: H(sub) + H(surf) - I(sub;surf) &le; H(total)</span>
+<span class="cm">-- Does the joint approach H(total) from below?</span>
+<span class="kw">WITH</span> subsurface_bins <span class="kw">AS</span> (
+    <span class="cm">-- Argo subsurface: discretize T and S at depth</span>
+    <span class="kw">SELECT</span>
+        FLOOR(lat / 10.0) * 10                             <span class="kw">AS</span> lat_band,
+        WIDTH_BUCKET(temperature_c, -2.0, 35.0, 25)       <span class="kw">AS</span> t_bin,
+        WIDTH_BUCKET(salinity_psu, 30.0, 40.0, 25)        <span class="kw">AS</span> s_bin
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> pressure_dbar <span class="kw">BETWEEN</span> 200 <span class="kw">AND</span> 1000
+      <span class="kw">AND</span> temperature_c <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> salinity_psu  <span class="kw">IS NOT NULL</span>
+),
+
+surface_bins <span class="kw">AS</span> (
+    <span class="cm">-- NOAA surface: discretize SST and anomaly</span>
+    <span class="kw">SELECT</span>
+        FLOOR(lat / 10.0) * 10                             <span class="kw">AS</span> lat_band,
+        WIDTH_BUCKET(sst_c, -2.0, 35.0, 25)               <span class="kw">AS</span> sst_bin,
+        WIDTH_BUCKET(sst_anomaly_c, -5.0, 5.0, 25)        <span class="kw">AS</span> anom_bin
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> sst_c <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> sst_anomaly_c <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> observation_date <span class="kw">BETWEEN</span> <span class="st">'2023-01-01'</span> <span class="kw">AND</span> <span class="st">'2023-12-31'</span>
+),
+
+recovery_theorem <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="cm">-- H(subsurface): entropy of the depth view</span>
+        (<span class="kw">SELECT</span> -SUM(p * LN(p)) <span class="kw">FROM</span> (
+            <span class="kw">SELECT</span> COUNT(*)::float / SUM(COUNT(*)) <span class="kw">OVER</span> () <span class="kw">AS</span> p
+            <span class="kw">FROM</span> subsurface_bins
+            <span class="kw">GROUP BY</span> t_bin, s_bin
+        ) x <span class="kw">WHERE</span> p &gt; 0)                                 <span class="kw">AS</span> h_subsurface,
+
+        <span class="cm">-- H(surface): entropy of the surface view</span>
+        (<span class="kw">SELECT</span> -SUM(p * LN(p)) <span class="kw">FROM</span> (
+            <span class="kw">SELECT</span> COUNT(*)::float / SUM(COUNT(*)) <span class="kw">OVER</span> () <span class="kw">AS</span> p
+            <span class="kw">FROM</span> surface_bins
+            <span class="kw">GROUP BY</span> sst_bin, anom_bin
+        ) x <span class="kw">WHERE</span> p &gt; 0)                                 <span class="kw">AS</span> h_surface,
+
+        <span class="cm">-- H(joint): entropy when both views are available</span>
+        (<span class="kw">SELECT</span> -SUM(p * LN(p)) <span class="kw">FROM</span> (
+            <span class="kw">SELECT</span> COUNT(*)::float / SUM(COUNT(*)) <span class="kw">OVER</span> () <span class="kw">AS</span> p
+            <span class="kw">FROM</span> subsurface_bins sub
+            <span class="kw">JOIN</span> surface_bins surf <span class="kw">USING</span> (lat_band)
+            <span class="kw">GROUP BY</span> sub.t_bin, sub.s_bin, surf.sst_bin, surf.anom_bin
+        ) x <span class="kw">WHERE</span> p &gt; 0)                                 <span class="kw">AS</span> h_joint
+)
+
+<span class="kw">SELECT</span>
+    ROUND(h_subsurface::numeric, 4)                        <span class="kw">AS</span> h_depth_view,
+    ROUND(h_surface::numeric, 4)                           <span class="kw">AS</span> h_surface_view,
+    ROUND(h_joint::numeric, 4)                             <span class="kw">AS</span> h_combined_views,
+    <span class="cm">-- Mutual information between the two views</span>
+    ROUND((h_subsurface + h_surface
+        - h_joint)::numeric, 4)                            <span class="kw">AS</span> i_shared,
+    <span class="cm">-- Information unique to subsurface</span>
+    ROUND((h_joint - h_surface)::numeric, 4)               <span class="kw">AS</span> h_unique_to_depth,
+    <span class="cm">-- Information unique to surface</span>
+    ROUND((h_joint - h_subsurface)::numeric, 4)            <span class="kw">AS</span> h_unique_to_surface,
+    <span class="cm">-- Recovery ratio: how much of the joint the best single view captures</span>
+    ROUND((GREATEST(h_subsurface, h_surface)
+        / NULLIF(h_joint, 0) * 100)::numeric, 2)          <span class="kw">AS</span> best_single_view_pct,
+    <span class="cm">-- Information gain from combination</span>
+    ROUND(((h_joint - GREATEST(h_subsurface, h_surface))
+        / NULLIF(h_joint, 0) * 100)::numeric, 2)          <span class="kw">AS</span> ensemble_gain_pct
+<span class="kw">FROM</span> recovery_theorem;</code></div>
+
+      <div class="scenario-reflection">This is the central theorem of the entire PARALLAX program, stated in its most formal dress. The subsurface view (Argo profiles at depth) carries H(subsurface) nats of information. The surface view (NOAA SST grid) carries H(surface) nats. Each is strictly less than the joint H(subsurface, surface). The mutual information I(sub; surf) measures their overlap &mdash; the information they share. The unique contributions H(joint) &minus; H(surface) and H(joint) &minus; H(subsurface) measure what each view carries that the other cannot. The ensemble gain is the percentage of the total information that no single view captures. If this number is zero, ensemble methods are unnecessary. If it is large, they are mandatory. The theorem does not tell you which methods to combine. It tells you that combination itself is the source of information gain &mdash; and it gives you a computable upper bound on how much gain is possible.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- CODA -->
+    <section class="coda">
+      <h2>Coda &mdash; The Formalism</h2>
+
+      <p>Six information-theoretic measures. One ocean.</p>
+
+      <p>Each quantifying a different aspect of what embeddings preserve and destroy. The entropy landscape reveals which variables carry surprise &mdash; and which can be compressed without loss. Mutual information shows what views share &mdash; and, more importantly, what they do not. The redundancy-synergy decomposition proves that combination creates information that isolation cannot &mdash; that the triple knows what no pair does. Aggregation loss shows where resolution destroys signal &mdash; and that the destruction is not uniform but geographically concentrated, a bias masquerading as a neutral operation. Instrumental divergence shows that different observers encode different statistical truths &mdash; that the cost of mistaking one instrument for another is computable and nonzero. The recovery theorem demonstrates that ensemble combination approaches the theoretical maximum &mdash; that the joint entropy exceeds the best single view by a measurable, falsifiable margin.</p>
+
+      <p>These are not metaphors. They are computable quantities &mdash; measurable, reproducible, falsifiable. Shannon gave us the axioms. The ocean gave us the data. SQL gave us the calculus. The conclusion is not a preference for ensembles. It is a theorem: any single embedding loses information that another embedding preserves, and the joint preserves more than either alone. The mathematics does not care which embedding you prefer. It cares only about the entropy.</p>
+
+      <p class="warning-line">&ldquo;What these lenses reveal in seawater, they can reveal in any medium that flows.&rdquo;</p>
+
+      <div class="signature">
+        Jeffrey J. Berg<br>
+        The PARALLAX<span class="tm">&trade;</span> Research Program<br>
+        CONSTELLATION<span class="tm">&trade;</span> Series &mdash; Paper VIII of X
+      </div>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <span>&copy; Jeffrey J. Berg. All rights reserved.</span>
+  <span>PARALLAX&trade; &middot; GAUGE&trade; &middot; CONSTELLATION&trade; &middot; CDEII&trade;</span>
+</footer>
+
+</body>
+</html>
