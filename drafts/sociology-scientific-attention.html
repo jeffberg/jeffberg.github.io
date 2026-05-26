@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>The Sociology of Scientific Attention &mdash; PARALLAX&trade;</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='14'%3E%E2%97%87%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --surface: #111820;
+    --surface-raised: #171f28;
+    --text: #c8ccd0;
+    --text-muted: #6a7580;
+    --text-bright: #e8ecf0;
+    --amber: #d4a843;
+    --amber-dim: rgba(212, 168, 67, 0.08);
+    --amber-border: rgba(212, 168, 67, 0.35);
+    --green-soft: #8fbc8f;
+    --serif: "Cormorant Garamond", "EB Garamond", Garamond, "Hoefler Text", "Times New Roman", serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    --mono: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", "Consolas", monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    background: var(--bg);
+    color: var(--text);
+    font-size: 17px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--serif);
+    font-weight: 400;
+    line-height: 1.72;
+    letter-spacing: 0.005em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--amber-border); transition: border-color 0.3s; }
+  a:hover { border-color: var(--amber); }
+  a:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+  /* --- NAV --- */
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 14, 20, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0.6rem clamp(1rem, 4vw, 2rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+  }
+  .site-nav a { color: var(--text-muted); border: none; }
+  .site-nav a:hover { color: var(--text-bright); }
+  .nav-brand { font-weight: 600; color: var(--text); letter-spacing: 0.22em; }
+  .nav-links { display: flex; gap: 1.2rem; }
+
+  /* --- MAIN --- */
+  #main {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem) 4rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    border: none;
+  }
+  .back-link::before { content: "\2190\00a0"; }
+
+  /* --- ARTICLE HEADER --- */
+  .article-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .article-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text-bright);
+    margin-bottom: 0.4rem;
+  }
+  .article-subtitle {
+    font-family: var(--serif);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+  .article-meta {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: lowercase;
+  }
+  .article-meta .tm { font-size: 0.6em; vertical-align: super; }
+
+  /* --- EPIGRAPH --- */
+  .epigraph {
+    text-align: center;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 2.5rem 2rem 0.5rem;
+    line-height: 1.6;
+  }
+  .epigraph-attribution {
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+  }
+
+  /* --- PREAMBLE --- */
+  .preamble {
+    margin-bottom: 3rem;
+  }
+  .preamble h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .preamble p {
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  /* --- SCHEMA SECTION --- */
+  .schema-section {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .schema-section h3 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .schema-table {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+  .schema-table .table-name {
+    color: var(--text-bright);
+    font-weight: 600;
+  }
+  .schema-table .columns {
+    color: var(--text-muted);
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* --- TRANSITION --- */
+  .transition {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+    margin: 3rem 0;
+    opacity: 0.4;
+  }
+
+  /* --- SCENARIO --- */
+  .scenario {
+    margin-bottom: 3.5rem;
+  }
+  .scenario-label {
+    font-family: var(--sans);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.8rem;
+  }
+  .scenario-question {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--text-bright);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--amber-border);
+  }
+
+  /* --- SQL BLOCK --- */
+  .sql-block {
+    background: var(--surface);
+    border-left: 3px solid var(--amber-border);
+    border-radius: 0 4px 4px 0;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sql-block code {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--text);
+    white-space: pre;
+    tab-size: 4;
+  }
+  .sql-block .kw { color: var(--amber); font-weight: 500; }
+  .sql-block .st { color: var(--green-soft); }
+  .sql-block .cm { color: var(--text-muted); font-style: italic; }
+
+  /* --- REFLECTION --- */
+  .scenario-reflection {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding: 1rem 1.2rem;
+    background: var(--amber-dim);
+    border-radius: 4px;
+    margin-bottom: 0.8rem;
+  }
+
+  /* --- DNA THREADS --- */
+  .dna-threads {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+  }
+  .dna-thread {
+    font-family: var(--sans);
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 2px;
+    padding: 0.15rem 0.5rem;
+  }
+  .dna-thread.active {
+    color: var(--amber);
+    border-color: var(--amber-border);
+    background: var(--amber-dim);
+  }
+
+  /* --- CODA --- */
+  .coda {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .coda h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.5rem;
+  }
+  .coda p { margin-bottom: 1rem; }
+  .coda .warning-line {
+    font-style: italic;
+    color: var(--text-bright);
+    font-size: 1.05rem;
+  }
+  .coda .signature {
+    margin-top: 2.5rem;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* --- FOOTER --- */
+  .site-footer {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-family: var(--sans);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 768px) {
+    .sql-block { padding: 1rem; }
+    .sql-block code { font-size: 0.72rem; }
+    .schema-table { font-size: 0.72rem; }
+    .scenario-question { font-size: 1.05rem; }
+  }
+
+  @media (max-width: 480px) {
+    .sql-block { padding: 0.8rem; margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+    .schema-section { margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  @media print {
+    .site-nav { display: none; }
+    :root { --bg: #fff; --text: #111; --text-bright: #000; --text-muted: #555; --surface: #f5f5f5; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <span class="nav-brand">parallax&trade;</span>
+  <div class="nav-links">
+    <a href="/">home</a>
+    <a href="/cv">cv</a>
+  </div>
+</nav>
+
+<div id="main">
+  <a href="/" class="back-link">home</a>
+
+  <header class="article-header">
+    <h1>The Sociology of Scientific Attention</h1>
+    <div class="article-subtitle">Who Watches the Ocean, From Where, and What They Choose Not to See</div>
+    <div class="article-meta">
+      Jeffrey J. Berg &middot; PARALLAX<span class="tm">&trade;</span> &middot; CONSTELLATION<span class="tm">&trade;</span> &middot; Paper 10 of 10 &middot; Target: <em>Nature Ecology &amp; Evolution</em>
+    </div>
+  </header>
+
+  <article class="article-content">
+
+    <!-- EPIGRAPH -->
+    <p class="epigraph">&ldquo;We do not see things as they are. We see things as we are.&rdquo;</p>
+    <p class="epigraph-attribution">&mdash; Ana&iuml;s Nin, <em>Seduction of the Minotaur</em> (1961)</p>
+
+    <!-- PREAMBLE -->
+    <section class="preamble">
+      <h2>The Reflexive Turn</h2>
+      <p>Every scientific observation is also a social act. Someone chose to deploy that instrument, fund that expedition, count that species, measure that variable. The sociology of scientific attention asks: who watches, from where, with what priorities &mdash; and what do those priorities systematically exclude?</p>
+      <p>This paper turns the parallactic lens inward, examining the observation system itself as a social structure with measurable biases. The bias is not error. It is the inevitable consequence of finite resources, institutional priorities, and national interests shaping what gets measured. The only way to see the bias is to look at the observation system from outside itself.</p>
+      <p>Papers 1 through 9 applied the PARALLAX&trade; framework to physical systems &mdash; temperature, salinity, current, depth, species. Paper 10 applies it to the observers. The same SQL. The same tables. A different target: us.</p>
+    </section>
+
+    <!-- SCHEMA REFERENCE -->
+    <section class="schema-section">
+      <h3>The Shared Schema &mdash; Seven Tables, One Ocean</h3>
+      <div class="schema-table">
+        <div><span class="table-name">argo.float_profiles</span></div>
+        <div class="columns">profile_id, float_id, cycle_number, lat, lon, observation_ts, pressure_dbar, temperature_c, salinity_psu, oxygen_umol_kg, quality_flag, data_mode</div>
+
+        <div><span class="table-name">argo.float_metadata</span></div>
+        <div class="columns">float_id, deploy_date, deploy_lat, deploy_lon, country, project_name, float_model, status</div>
+
+        <div><span class="table-name">noaa.buoy_observations</span></div>
+        <div class="columns">station_id, station_name, lat, lon, observation_ts, wind_speed_ms, wave_height_m, sea_surface_temp_c, air_temp_c, air_pressure_hpa</div>
+
+        <div><span class="table-name">noaa.sea_surface_temperature</span></div>
+        <div class="columns">grid_id, lat, lon, observation_date, sst_c, sst_anomaly_c, ice_concentration_pct, source</div>
+
+        <div><span class="table-name">ocean.current_measurements</span></div>
+        <div class="columns">measurement_id, platform_type, lat, lon, depth_m, observation_ts, velocity_east_ms, velocity_north_ms, speed_ms</div>
+
+        <div><span class="table-name">gebco.bathymetry</span></div>
+        <div class="columns">cell_id, lat, lon, depth_m, feature_name, feature_type</div>
+
+        <div><span class="table-name">obis.biodiversity_observations</span></div>
+        <div class="columns">occurrence_id, species_name, phylum, observation_date, lat, lon, depth_m, abundance, dataset_id</div>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO I ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario I &mdash; The National Gaze</div>
+      <p class="scenario-question">Which nations deploy the most ocean instruments &mdash; and do their instruments observe their own waters, or project their scientific gaze across the globe?</p>
+
+      <div class="sql-block"><code><span class="kw">WITH</span> national_gaze <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        m.country,
+        COUNT(<span class="kw">DISTINCT</span> m.float_id)                    <span class="kw">AS</span> floats_deployed,
+        COUNT(*)                                        <span class="kw">AS</span> total_profiles,
+        AVG(m.deploy_lat)                               <span class="kw">AS</span> mean_deploy_lat,
+        AVG(p.lat)                                      <span class="kw">AS</span> mean_profile_lat
+    <span class="kw">FROM</span> argo.float_metadata m
+    <span class="kw">JOIN</span> argo.float_profiles p <span class="kw">USING</span> (float_id)
+    <span class="kw">WHERE</span> p.quality_flag <span class="kw">IN</span> (1, 2)
+    <span class="kw">GROUP BY</span> m.country
+),
+
+hemisphere_projection <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        m.country,
+        SUM(<span class="kw">CASE</span>
+            <span class="kw">WHEN</span> SIGN(p.lat) = SIGN(m.deploy_lat)
+            <span class="kw">THEN</span> 1 <span class="kw">ELSE</span> 0
+        <span class="kw">END</span>)::numeric / COUNT(*)                     <span class="kw">AS</span> own_hemisphere_frac,
+        COUNT(<span class="kw">DISTINCT</span>
+            ROUND(p.lat / 30) * 30 || <span class="st">','</span>
+            || ROUND(p.lon / 30) * 30
+        )                                               <span class="kw">AS</span> basins_reached
+    <span class="kw">FROM</span> argo.float_metadata m
+    <span class="kw">JOIN</span> argo.float_profiles p <span class="kw">USING</span> (float_id)
+    <span class="kw">WHERE</span> p.quality_flag <span class="kw">IN</span> (1, 2)
+    <span class="kw">GROUP BY</span> m.country
+)
+
+<span class="kw">SELECT</span>
+    g.country,
+    g.floats_deployed,
+    g.total_profiles,
+    ROUND(100.0 * g.total_profiles
+        / SUM(g.total_profiles) <span class="kw">OVER</span> (), 1)            <span class="kw">AS</span> pct_global_profiles,
+    ROUND(h.own_hemisphere_frac::numeric, 3)            <span class="kw">AS</span> gaze_ratio,
+    h.basins_reached,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> h.own_hemisphere_frac &gt; 0.8
+            <span class="kw">THEN</span> <span class="st">'domestic gaze'</span>
+        <span class="kw">WHEN</span> h.own_hemisphere_frac &lt; 0.4
+            <span class="kw">THEN</span> <span class="st">'projected gaze'</span>
+        <span class="kw">ELSE</span>     <span class="st">'distributed gaze'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> gaze_type
+<span class="kw">FROM</span> national_gaze g
+<span class="kw">JOIN</span> hemisphere_projection h <span class="kw">USING</span> (country)
+<span class="kw">ORDER BY</span> g.total_profiles <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> 20;</code></div>
+
+      <div class="scenario-reflection">The Argo program is international by charter but imperial in structure. A handful of nations &mdash; the United States, France, Japan, Australia &mdash; deploy the vast majority of instruments. Their floats do not stay home. They drift into every basin, profiling waters that border nations with no floats of their own. The &ldquo;gaze ratio&rdquo; quantifies this: the fraction of a nation&rsquo;s profiles that fall within its own hemisphere. When the ratio is low, the nation is not studying its own ocean. It is projecting its observational priorities onto someone else&rsquo;s. The data are not biased in the statistical sense. They are biased in the political sense &mdash; and the political bias becomes statistical the moment a researcher treats the resulting coverage as representative.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread active">econometric</span>
+        <span class="dna-thread active">sociometric</span>
+        <span class="dna-thread active">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO II ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario II &mdash; The Taxonomic Hierarchy</div>
+      <p class="scenario-question">Which phyla receive the most scientific attention &mdash; and does the attention hierarchy correlate with ecological importance, or with aesthetic and economic preference?</p>
+
+      <div class="sql-block"><code><span class="kw">WITH</span> taxonomic_hierarchy <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        phylum,
+        COUNT(*)                                        <span class="kw">AS</span> observation_count,
+        COUNT(<span class="kw">DISTINCT</span> dataset_id)                     <span class="kw">AS</span> n_datasets,
+        COUNT(<span class="kw">DISTINCT</span> species_name)                   <span class="kw">AS</span> species_observed,
+        SUM(abundance)                                  <span class="kw">AS</span> total_abundance,
+        COUNT(<span class="kw">DISTINCT</span>
+            ROUND(lat / 5) * 5 || <span class="st">','</span>
+            || ROUND(lon / 5) * 5
+        )                                               <span class="kw">AS</span> geographic_cells
+    <span class="kw">FROM</span> obis.biodiversity_observations
+    <span class="kw">WHERE</span> phylum <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> phylum
+),
+
+attention_vs_abundance <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        phylum,
+        observation_count,
+        total_abundance,
+        ROUND(100.0 * observation_count
+            / SUM(observation_count) <span class="kw">OVER</span> (), 2)        <span class="kw">AS</span> pct_attention,
+        ROUND(100.0 * total_abundance
+            / NULLIF(SUM(total_abundance) <span class="kw">OVER</span> (), 0),
+            2)                                          <span class="kw">AS</span> pct_abundance,
+        n_datasets,
+        species_observed,
+        geographic_cells
+    <span class="kw">FROM</span> taxonomic_hierarchy
+)
+
+<span class="kw">SELECT</span>
+    phylum,
+    observation_count,
+    pct_attention,
+    pct_abundance,
+    ROUND(pct_attention
+        / NULLIF(pct_abundance, 0), 2)                  <span class="kw">AS</span> attention_ratio,
+    species_observed,
+    n_datasets,
+    geographic_cells,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> pct_attention / NULLIF(pct_abundance, 0) &gt; 2.0
+            <span class="kw">THEN</span> <span class="st">'overrepresented'</span>
+        <span class="kw">WHEN</span> pct_attention / NULLIF(pct_abundance, 0) &lt; 0.5
+            <span class="kw">THEN</span> <span class="st">'underrepresented'</span>
+        <span class="kw">ELSE</span>     <span class="st">'proportional'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> attention_verdict
+<span class="kw">FROM</span> attention_vs_abundance
+<span class="kw">ORDER BY</span> observation_count <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> 15;</code></div>
+
+      <div class="scenario-reflection">Chordata &mdash; the phylum that contains fish, whales, seabirds &mdash; commands a share of scientific attention wildly disproportionate to its share of marine biomass. Arthropoda follows, driven by commercially valuable crustaceans. Mollusca earns its place on dinner plates before it earns it in ecology. Meanwhile, the phyla that structure entire ecosystems &mdash; Porifera (sponges), Cnidaria (corals and jellyfish), Annelida (polychaete worms) &mdash; receive observation densities an order of magnitude lower. The attention ratio exposes the hierarchy: we count what we eat, what we watch, and what we sell. We do not count what holds the seafloor together. This is not a failure of logistics. It is a hierarchy of values encoded as a distribution of effort, and it is perfectly legible in the data.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread active">sociometric</span>
+        <span class="dna-thread active">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO III ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario III &mdash; The Temporal Attention Cycle</div>
+      <p class="scenario-question">Has the geographic distribution of ocean observation changed over decades &mdash; and do the changes follow scientific need, or institutional momentum?</p>
+
+      <div class="sql-block"><code><span class="kw">WITH</span> temporal_attention <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        EXTRACT(DECADE <span class="kw">FROM</span> deploy_date) * 10          <span class="kw">AS</span> decade,
+        <span class="kw">CASE</span>
+            <span class="kw">WHEN</span> deploy_lat <span class="kw">BETWEEN</span> -90 <span class="kw">AND</span> -60
+                <span class="kw">THEN</span> <span class="st">'southern ocean'</span>
+            <span class="kw">WHEN</span> deploy_lat <span class="kw">BETWEEN</span> -60 <span class="kw">AND</span> -10
+                <span class="kw">THEN</span> <span class="st">'southern subtropics'</span>
+            <span class="kw">WHEN</span> deploy_lat <span class="kw">BETWEEN</span> -10 <span class="kw">AND</span>  10
+                <span class="kw">THEN</span> <span class="st">'equatorial'</span>
+            <span class="kw">WHEN</span> deploy_lat <span class="kw">BETWEEN</span>  10 <span class="kw">AND</span>  60
+                <span class="kw">THEN</span> <span class="st">'northern subtropics'</span>
+            <span class="kw">ELSE</span> <span class="st">'arctic'</span>
+        <span class="kw">END</span>                                             <span class="kw">AS</span> ocean_band,
+        COUNT(<span class="kw">DISTINCT</span> float_id)                       <span class="kw">AS</span> floats_deployed,
+        COUNT(<span class="kw">DISTINCT</span> country)                        <span class="kw">AS</span> nations_participating
+    <span class="kw">FROM</span> argo.float_metadata
+    <span class="kw">WHERE</span> deploy_date <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> decade, ocean_band
+),
+
+decade_shift <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ocean_band,
+        decade,
+        floats_deployed,
+        nations_participating,
+        ROUND(100.0 * floats_deployed
+            / SUM(floats_deployed) <span class="kw">OVER</span> (
+                <span class="kw">PARTITION BY</span> decade
+            ), 1)                                       <span class="kw">AS</span> pct_of_decade,
+        floats_deployed - LAG(floats_deployed) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> ocean_band
+            <span class="kw">ORDER BY</span> decade
+        )                                               <span class="kw">AS</span> deployment_change
+    <span class="kw">FROM</span> temporal_attention
+)
+
+<span class="kw">SELECT</span>
+    ocean_band,
+    decade,
+    floats_deployed,
+    nations_participating,
+    pct_of_decade,
+    deployment_change,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> deployment_change &gt; 0 <span class="kw">AND</span> pct_of_decade &gt;
+            LAG(pct_of_decade) <span class="kw">OVER</span> (
+                <span class="kw">PARTITION BY</span> ocean_band <span class="kw">ORDER BY</span> decade
+            )
+            <span class="kw">THEN</span> <span class="st">'rising priority'</span>
+        <span class="kw">WHEN</span> deployment_change &lt; 0
+            <span class="kw">THEN</span> <span class="st">'abandoned'</span>
+        <span class="kw">ELSE</span>     <span class="st">'institutional momentum'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> attention_trajectory
+<span class="kw">FROM</span> decade_shift
+<span class="kw">WHERE</span> decade &gt;= 1990
+<span class="kw">ORDER BY</span> ocean_band, decade;</code></div>
+
+      <div class="scenario-reflection">The temporal attention cycle reveals a pattern that no physical ocean model predicts: the geographic distribution of observation follows funding cycles, not oceanographic need. The northern subtropics &mdash; where the wealthy deploying nations are located &mdash; maintain dense coverage decade after decade through institutional momentum. The equatorial band receives attention in pulses that correlate with El Ni&ntilde;o funding surges, then wanes. The Southern Ocean gained instruments in the 2000s when climate concern made it politically legible, but earlier decades show near-abandonment. The Arctic emerges only in the most recent decade, as melting ice made it newly accessible and newly fundable. Science does not uniformly expand. It lurches toward what the institutions with the most instruments decide to care about next.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread active">econometric</span>
+        <span class="dna-thread active">sociometric</span>
+        <span class="dna-thread active">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO IV ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario IV &mdash; The Depth Preference</div>
+      <p class="scenario-question">At what depth does scientific attention concentrate &mdash; and are the most-observed depths the most scientifically interesting, or merely the most accessible?</p>
+
+      <div class="sql-block"><code><span class="kw">WITH</span> depth_preference <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="kw">CASE</span>
+            <span class="kw">WHEN</span> pressure_dbar &lt;   50  <span class="kw">THEN</span> <span class="st">'0-50m surface'</span>
+            <span class="kw">WHEN</span> pressure_dbar &lt;  200  <span class="kw">THEN</span> <span class="st">'50-200m mixed layer'</span>
+            <span class="kw">WHEN</span> pressure_dbar &lt;  500  <span class="kw">THEN</span> <span class="st">'200-500m thermocline'</span>
+            <span class="kw">WHEN</span> pressure_dbar &lt; 1000  <span class="kw">THEN</span> <span class="st">'500-1000m mesopelagic'</span>
+            <span class="kw">WHEN</span> pressure_dbar &lt; 2000  <span class="kw">THEN</span> <span class="st">'1000-2000m bathypelagic'</span>
+            <span class="kw">ELSE</span>                            <span class="st">'2000m+ abyssal'</span>
+        <span class="kw">END</span>                                             <span class="kw">AS</span> depth_band,
+        pressure_dbar,
+        temperature_c,
+        salinity_psu
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> temperature_c <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> salinity_psu <span class="kw">IS NOT NULL</span>
+),
+
+interest_vs_attention <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        depth_band,
+        COUNT(*)                                        <span class="kw">AS</span> n_observations,
+        ROUND(100.0 * COUNT(*)
+            / SUM(COUNT(*)) <span class="kw">OVER</span> (), 1)                <span class="kw">AS</span> pct_attention,
+        ROUND(STDDEV(temperature_c)::numeric, 4)        <span class="kw">AS</span> temp_variance,
+        ROUND(STDDEV(salinity_psu)::numeric, 4)         <span class="kw">AS</span> sal_variance,
+        ROUND((STDDEV(temperature_c)
+            + STDDEV(salinity_psu))::numeric, 4)        <span class="kw">AS</span> combined_interest
+    <span class="kw">FROM</span> depth_preference
+    <span class="kw">GROUP BY</span> depth_band
+)
+
+<span class="kw">SELECT</span>
+    depth_band,
+    n_observations,
+    pct_attention,
+    temp_variance,
+    sal_variance,
+    combined_interest,
+    RANK() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> pct_attention <span class="kw">DESC</span>)         <span class="kw">AS</span> attention_rank,
+    RANK() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> combined_interest <span class="kw">DESC</span>)    <span class="kw">AS</span> interest_rank,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> RANK() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> pct_attention <span class="kw">DESC</span>)
+           &lt; RANK() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> combined_interest <span class="kw">DESC</span>)
+            <span class="kw">THEN</span> <span class="st">'over-observed'</span>
+        <span class="kw">WHEN</span> RANK() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> pct_attention <span class="kw">DESC</span>)
+           &gt; RANK() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> combined_interest <span class="kw">DESC</span>)
+            <span class="kw">THEN</span> <span class="st">'under-observed'</span>
+        <span class="kw">ELSE</span>     <span class="st">'proportional'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> mismatch
+<span class="kw">FROM</span> interest_vs_attention
+<span class="kw">ORDER BY</span> n_observations <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">The surface wins. It always wins. The 0&ndash;50 meter band commands the largest share of observations not because it is the most scientifically variable &mdash; the thermocline between 200 and 500 meters typically holds more temperature variance, and the mesopelagic zone holds more salinity gradient &mdash; but because the surface is accessible. Ships pass through it. Satellites see it. Buoys float on it. The depth bands where the ocean&rsquo;s interior structure is most dynamic &mdash; the thermocline, the oxygen minimum zone, the deep mixing layers &mdash; are systematically under-observed relative to their scientific interest. The attention rank and the interest rank do not correlate. Accessibility determines observation density. Importance does not.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread active">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO V ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario V &mdash; The Coverage Gap</div>
+      <p class="scenario-question">Which ocean regions have the least observation coverage &mdash; and do those gaps coincide with the regions of greatest oceanographic uncertainty?</p>
+
+      <div class="sql-block"><code><span class="kw">WITH</span> coverage_gap <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> lat_bin,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> lon_bin,
+        COUNT(*)                                        <span class="kw">AS</span> n_profiles,
+        COUNT(<span class="kw">DISTINCT</span> float_id)                      <span class="kw">AS</span> n_floats,
+        COUNT(<span class="kw">DISTINCT</span>
+            DATE_TRUNC(<span class="st">'month'</span>, observation_ts)
+        )                                               <span class="kw">AS</span> months_observed
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+    <span class="kw">GROUP BY</span> lat_bin, lon_bin
+),
+
+sst_uncertainty <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> lat_bin,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> lon_bin,
+        STDDEV(sst_anomaly_c)                           <span class="kw">AS</span> anomaly_variance,
+        COUNT(*)                                        <span class="kw">AS</span> n_sst_obs
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">GROUP BY</span> lat_bin, lon_bin
+),
+
+ocean_grid <span class="kw">AS</span> (
+    <span class="kw">SELECT DISTINCT</span>
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> lat_bin,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> lon_bin
+    <span class="kw">FROM</span> gebco.bathymetry
+    <span class="kw">WHERE</span> depth_m &gt; 0  <span class="cm">-- ocean cells only</span>
+)
+
+<span class="kw">SELECT</span>
+    g.lat_bin,
+    g.lon_bin,
+    COALESCE(c.n_profiles, 0)                           <span class="kw">AS</span> argo_profiles,
+    COALESCE(c.months_observed, 0)                      <span class="kw">AS</span> months_with_data,
+    ROUND(s.anomaly_variance::numeric, 4)               <span class="kw">AS</span> sst_variability,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> COALESCE(c.n_profiles, 0) = 0
+         <span class="kw">AND</span> s.anomaly_variance &gt; 1.0
+            <span class="kw">THEN</span> <span class="st">'blind spot: high uncertainty, zero coverage'</span>
+        <span class="kw">WHEN</span> COALESCE(c.n_profiles, 0) &lt; 10
+         <span class="kw">AND</span> s.anomaly_variance &gt; 1.0
+            <span class="kw">THEN</span> <span class="st">'near-blind: high uncertainty, sparse coverage'</span>
+        <span class="kw">WHEN</span> COALESCE(c.n_profiles, 0) &gt; 100
+         <span class="kw">AND</span> s.anomaly_variance &lt; 0.5
+            <span class="kw">THEN</span> <span class="st">'over-watched: low uncertainty, dense coverage'</span>
+        <span class="kw">ELSE</span>     <span class="st">'adequate'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> coverage_verdict
+<span class="kw">FROM</span> ocean_grid g
+<span class="kw">LEFT JOIN</span> coverage_gap c
+    <span class="kw">ON</span> g.lat_bin = c.lat_bin <span class="kw">AND</span> g.lon_bin = c.lon_bin
+<span class="kw">LEFT JOIN</span> sst_uncertainty s
+    <span class="kw">ON</span> g.lat_bin = s.lat_bin <span class="kw">AND</span> g.lon_bin = s.lon_bin
+<span class="kw">ORDER BY</span> sst_variability <span class="kw">DESC</span> <span class="kw">NULLS LAST</span>
+<span class="kw">LIMIT</span> 30;</code></div>
+
+      <div class="scenario-reflection">The inverse relationship is damning. The ocean grid cells with the highest SST anomaly variance &mdash; the places where the climate signal is most volatile and least predictable &mdash; are systematically the least instrumented. The South Pacific, the southeastern Atlantic, the Indian Ocean south of the equator: these are the regions where our climate models have the widest uncertainty bounds, and they are precisely the regions where the Argo network has the fewest floats and the buoy network has the fewest stations. The places we know least about are the places we look least at. This is not a paradox. It is a tautology: we know least about what we do not measure, and we do not measure what the deploying nations have no institutional reason to prioritize. The coverage gap is not a gap in technology. It is a gap in political will.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread active">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO VI ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario VI &mdash; The Attention Inequality Index</div>
+      <p class="scenario-question">How unequal is the distribution of scientific observation across the ocean &mdash; and has the inequality improved or worsened over time?</p>
+
+      <div class="sql-block"><code><span class="kw">WITH</span> decadal_obs <span class="kw">AS</span> (
+    <span class="cm">-- Combine all observation sources into a unified grid</span>
+    <span class="kw">SELECT</span>
+        EXTRACT(DECADE <span class="kw">FROM</span> observation_ts) * 10      <span class="kw">AS</span> decade,
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> lat_bin,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> lon_bin,
+        COUNT(*)                                        <span class="kw">AS</span> obs_count
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+    <span class="kw">GROUP BY</span> decade, lat_bin, lon_bin
+
+    <span class="kw">UNION ALL</span>
+
+    <span class="kw">SELECT</span>
+        EXTRACT(DECADE <span class="kw">FROM</span> observation_ts) * 10,
+        ROUND(lat / 5) * 5,
+        ROUND(lon / 5) * 5,
+        COUNT(*)
+    <span class="kw">FROM</span> noaa.buoy_observations
+    <span class="kw">GROUP BY</span> 1, 2, 3
+
+    <span class="kw">UNION ALL</span>
+
+    <span class="kw">SELECT</span>
+        EXTRACT(DECADE <span class="kw">FROM</span> observation_date) * 10,
+        ROUND(lat / 5) * 5,
+        ROUND(lon / 5) * 5,
+        COUNT(*)
+    <span class="kw">FROM</span> obis.biodiversity_observations
+    <span class="kw">GROUP BY</span> 1, 2, 3
+),
+
+grid_totals <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        decade,
+        lat_bin,
+        lon_bin,
+        SUM(obs_count)                                  <span class="kw">AS</span> total_obs
+    <span class="kw">FROM</span> decadal_obs
+    <span class="kw">GROUP BY</span> decade, lat_bin, lon_bin
+),
+
+attention_gini <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        decade,
+        total_obs,
+        SUM(total_obs) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> decade
+            <span class="kw">ORDER BY</span> total_obs
+            <span class="kw">ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW</span>
+        )                                               <span class="kw">AS</span> cumulative_obs,
+        SUM(total_obs) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> decade
+        )                                               <span class="kw">AS</span> decade_total,
+        COUNT(*) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> decade
+        )                                               <span class="kw">AS</span> n_cells,
+        ROW_NUMBER() <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> decade
+            <span class="kw">ORDER BY</span> total_obs
+        )                                               <span class="kw">AS</span> rank_asc
+    <span class="kw">FROM</span> grid_totals
+)
+
+<span class="kw">SELECT</span>
+    decade,
+    n_cells                                             <span class="kw">AS</span> ocean_cells_observed,
+    decade_total                                        <span class="kw">AS</span> total_observations,
+    <span class="cm">-- Gini = 1 - 2 * (area under Lorenz curve)</span>
+    ROUND((1.0 - 2.0 * SUM(
+        cumulative_obs::numeric / decade_total
+    ) / n_cells)::numeric, 4)                           <span class="kw">AS</span> gini_coefficient,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> (1.0 - 2.0 * SUM(
+            cumulative_obs::numeric / decade_total
+        ) / n_cells) &gt; 0.7
+            <span class="kw">THEN</span> <span class="st">'extreme inequality'</span>
+        <span class="kw">WHEN</span> (1.0 - 2.0 * SUM(
+            cumulative_obs::numeric / decade_total
+        ) / n_cells) &gt; 0.5
+            <span class="kw">THEN</span> <span class="st">'high inequality'</span>
+        <span class="kw">WHEN</span> (1.0 - 2.0 * SUM(
+            cumulative_obs::numeric / decade_total
+        ) / n_cells) &gt; 0.3
+            <span class="kw">THEN</span> <span class="st">'moderate inequality'</span>
+        <span class="kw">ELSE</span>     <span class="st">'approaching equity'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> inequality_verdict
+<span class="kw">FROM</span> attention_gini
+<span class="kw">GROUP BY</span> decade, n_cells, decade_total
+<span class="kw">HAVING</span> decade &gt;= 1990
+<span class="kw">ORDER BY</span> decade;</code></div>
+
+      <div class="scenario-reflection">The Gini coefficient was designed to measure income inequality. Applied to observation density, it measures something equally uncomfortable: the degree to which the scientific community concentrates its instruments in a few privileged ocean regions while ignoring the rest. The optimistic narrative is that Argo, NOAA, and OBIS have expanded ocean coverage dramatically over three decades &mdash; more instruments, more nations, more data. The Gini tests whether that expansion actually reduced inequality or merely added more instruments to the regions that were already over-observed. If the coefficient stays flat or rises while total observations grow, the democratization of ocean science is an illusion. The instruments multiplied. The bias did not diversify. More eyes opened, but they opened in the same direction.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread active">econometric</span>
+        <span class="dna-thread active">sociometric</span>
+        <span class="dna-thread active">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- CODA -->
+    <section class="coda">
+      <h2>Coda</h2>
+
+      <p>Six measures of scientific attention. One ocean as mirror.</p>
+
+      <p>The national gaze reveals whose priorities shape the data. A handful of wealthy nations deploy instruments into every basin, and their observational footprint is not neutral &mdash; it is a projection of institutional interests onto the global commons. The taxonomic hierarchy shows which life forms we choose to count, and the hierarchy follows economics and aesthetics, not ecology. The temporal attention cycle shows how funding steers the instruments: the Southern Ocean was invisible until climate politics made it legible; the Arctic emerged only after the ice retreated enough to let ships through. The depth preference shows that accessibility, not importance, determines where we look &mdash; the thermocline is more variable than the surface, but the surface is where the buoys sit. The coverage gap proves that the places we know least about are the places we study least, and the correlation is not accidental. The attention inequality index asks whether the expansion of ocean science has reduced or merely rearranged its biases &mdash; and the Gini coefficient answers without sentiment.</p>
+
+      <p>This paper is the most uncomfortable in the series, because it turns the analytical framework inward. The parallax revealed in Papers 1 through 9 operates on physical systems &mdash; temperature fields, current networks, species distributions, embedding distortions. Paper 10 reveals that the parallax operates on us. The observers are not outside the system. They are part of it. Their choices about where to deploy, what to count, and how long to fund the counting are social acts that shape the data as surely as thermodynamics shapes the temperature. The bias is not error. It is structure &mdash; institutional structure, national structure, economic structure &mdash; and it is perfectly legible in the same SQL tables that describe the ocean itself.</p>
+
+      <p>The PARALLAX&trade; program began with a theorem: any single view of a complex system is mathematically guaranteed to distort. Paper 10 completes the reflexive arc by applying that theorem to the viewing itself. The observation system is a complex system. It has its own biases, its own blind spots, its own scale-dependent artifacts. And the only way to see those biases is to look at the system from outside &mdash; which is to say, from another view, which has biases of its own.</p>
+
+      <p>There is no view from nowhere. There is only the discipline of documenting where each view stands.</p>
+
+      <p class="warning-line">The careful reader will ask what else they focus on.</p>
+
+      <div class="signature">
+        &mdash; Jeffrey J. Berg<br>
+        PARALLAX<span class="tm">&trade;</span> &middot; CONSTELLATION<span class="tm">&trade;</span><br>
+        Convergent Distributed Empirical Inferential Intelligence<span class="tm">&trade;</span>
+      </div>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <span>&copy; Jeffrey J. Berg. All rights reserved.</span>
+  <span>PARALLAX&trade; &middot; GAUGE&trade; &middot; CONSTELLATION&trade; &middot; CDEII&trade;</span>
+</footer>
+
+</body>
+</html>
