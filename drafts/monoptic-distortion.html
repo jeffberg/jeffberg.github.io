@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>Monoptic Distortion &mdash; PARALLAX&trade;</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='14'%3E%E2%97%87%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --surface: #111820;
+    --surface-raised: #171f28;
+    --text: #c8ccd0;
+    --text-muted: #6a7580;
+    --text-bright: #e8ecf0;
+    --amber: #d4a843;
+    --amber-dim: rgba(212, 168, 67, 0.08);
+    --amber-border: rgba(212, 168, 67, 0.35);
+    --green-soft: #8fbc8f;
+    --serif: "Cormorant Garamond", "EB Garamond", Garamond, "Hoefler Text", "Times New Roman", serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    --mono: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", "Consolas", monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    background: var(--bg);
+    color: var(--text);
+    font-size: 17px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--serif);
+    font-weight: 400;
+    line-height: 1.72;
+    letter-spacing: 0.005em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--amber-border); transition: border-color 0.3s; }
+  a:hover { border-color: var(--amber); }
+  a:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+  /* --- NAV --- */
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 14, 20, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0.6rem clamp(1rem, 4vw, 2rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+  }
+  .site-nav a { color: var(--text-muted); border: none; }
+  .site-nav a:hover { color: var(--text-bright); }
+  .nav-brand { font-weight: 600; color: var(--text); letter-spacing: 0.22em; }
+  .nav-links { display: flex; gap: 1.2rem; }
+
+  /* --- MAIN --- */
+  #main {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem) 4rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    border: none;
+  }
+  .back-link::before { content: "\2190\00a0"; }
+
+  /* --- ARTICLE HEADER --- */
+  .article-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .article-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text-bright);
+    margin-bottom: 0.4rem;
+  }
+  .article-subtitle {
+    font-family: var(--serif);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+  .article-meta {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: lowercase;
+  }
+  .article-meta .tm { font-size: 0.6em; vertical-align: super; }
+
+  /* --- EPIGRAPH --- */
+  .epigraph {
+    text-align: center;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 2.5rem 2rem 0.5rem;
+    line-height: 1.6;
+  }
+  .epigraph-attribution {
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+  }
+
+  /* --- PREAMBLE --- */
+  .preamble {
+    margin-bottom: 3rem;
+  }
+  .preamble h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .preamble p {
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  /* --- SCHEMA SECTION --- */
+  .schema-section {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .schema-section h3 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .schema-table {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+  .schema-table .table-name {
+    color: var(--text-bright);
+    font-weight: 600;
+  }
+  .schema-table .columns {
+    color: var(--text-muted);
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* --- TRANSITION --- */
+  .transition {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+    margin: 3rem 0;
+    opacity: 0.4;
+  }
+
+  /* --- SCENARIO --- */
+  .scenario {
+    margin-bottom: 3.5rem;
+  }
+  .scenario-label {
+    font-family: var(--sans);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.8rem;
+  }
+  .scenario-question {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--text-bright);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--amber-border);
+  }
+
+  /* --- SQL BLOCK --- */
+  .sql-block {
+    background: var(--surface);
+    border-left: 3px solid var(--amber-border);
+    border-radius: 0 4px 4px 0;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sql-block code {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--text);
+    white-space: pre;
+    tab-size: 4;
+  }
+  .sql-block .kw { color: var(--amber); font-weight: 500; }
+  .sql-block .st { color: var(--green-soft); }
+  .sql-block .cm { color: var(--text-muted); font-style: italic; }
+
+  /* --- REFLECTION --- */
+  .scenario-reflection {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding: 1rem 1.2rem;
+    background: var(--amber-dim);
+    border-radius: 4px;
+    margin-bottom: 0.8rem;
+  }
+
+  /* --- DNA THREADS --- */
+  .dna-threads {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+  }
+  .dna-thread {
+    font-family: var(--sans);
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 2px;
+    padding: 0.15rem 0.5rem;
+  }
+  .dna-thread.active {
+    color: var(--amber);
+    border-color: var(--amber-border);
+    background: var(--amber-dim);
+  }
+
+  /* --- CODA --- */
+  .coda {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .coda h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.5rem;
+  }
+  .coda p { margin-bottom: 1rem; }
+  .coda .warning-line {
+    font-style: italic;
+    color: var(--text-bright);
+    font-size: 1.05rem;
+  }
+  .coda .signature {
+    margin-top: 2.5rem;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* --- FOOTER --- */
+  .site-footer {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-family: var(--sans);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 768px) {
+    .sql-block { padding: 1rem; }
+    .sql-block code { font-size: 0.72rem; }
+    .schema-table { font-size: 0.72rem; }
+    .scenario-question { font-size: 1.05rem; }
+  }
+
+  @media (max-width: 480px) {
+    .sql-block { padding: 0.8rem; margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+    .schema-section { margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  @media print {
+    .site-nav { display: none; }
+    :root { --bg: #fff; --text: #111; --text-bright: #000; --text-muted: #555; --surface: #f5f5f5; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <span class="nav-brand">parallax&trade;</span>
+  <div class="nav-links">
+    <a href="/">home</a>
+    <a href="/cv">cv</a>
+  </div>
+</nav>
+
+<div id="main">
+  <a href="/" class="back-link">home</a>
+
+  <header class="article-header">
+    <h1>Monoptic Distortion</h1>
+    <div class="article-subtitle">What Single-Method Analysis Conceals About the Systems It Claims to Describe</div>
+    <div class="article-meta">
+      Jeffrey J. Berg &middot; PARALLAX<span class="tm">&trade;</span> &middot; CONSTELLATION<span class="tm">&trade;</span>
+    </div>
+  </header>
+
+  <article class="article-content">
+
+    <!-- EPIGRAPH -->
+    <p class="epigraph">&ldquo;The eye sees only what the mind is prepared to comprehend.&rdquo;</p>
+    <p class="epigraph-attribution">&mdash; Robertson Davies, <em>Tempest-Tost</em> (1951)</p>
+
+    <!-- PREAMBLE -->
+    <section class="preamble">
+      <h2>A Note Before the Dive</h2>
+      <p>Monoptic: seeing with one eye. Close one eye and the world does not halve &mdash; it flattens. Depth collapses. Distance becomes unreliable. The brain compensates with heuristics learned from binocular experience, and you stop noticing what you have lost. This is the epistemological condition of single-method analysis.</p>
+      <p>The standard defense is that a single method captures &ldquo;partial truth&rdquo; &mdash; an incomplete but honest picture of the system under study. This paper demonstrates that the defense is wrong. Single-method analysis does not merely miss information. It actively creates artifacts that look like signal. When you measure the ocean with only buoys, the result is not a partial ocean. It is a distorted ocean &mdash; one that contains systematic biases invisible from within the method itself.</p>
+      <p>The only way to detect monoptic distortion is to compare against a second view. A single eye cannot diagnose its own depth blindness. A single instrument cannot identify the artifacts it introduces. A single analytical method cannot separate what it found from what it created. This is not a limitation of any particular technique. It is a theorem about observation itself.</p>
+      <p>Six demonstrations follow. Each isolates a specific artifact created by a single analytical method and shows it vanishing when a second method is introduced. The artifacts are not subtle. They reshape distributions, invent periodicities, redraw maps, and fabricate trends. They survive every internal validity check the method can perform. They yield only to the introduction of a second perspective &mdash; a second eye.</p>
+    </section>
+
+    <!-- SCHEMA REFERENCE -->
+    <section class="schema-section">
+      <h3>The Shared Schema &mdash; Seven Tables, One Ocean</h3>
+      <div class="schema-table">
+        <div><span class="table-name">argo.float_profiles</span></div>
+        <div class="columns">profile_id, float_id, cycle_number, lat, lon, observation_ts, pressure_dbar, temperature_c, salinity_psu, oxygen_umol_kg, quality_flag, data_mode</div>
+
+        <div><span class="table-name">argo.float_metadata</span></div>
+        <div class="columns">float_id, deploy_date, deploy_lat, deploy_lon, country, project_name, float_model, status</div>
+
+        <div><span class="table-name">noaa.buoy_observations</span></div>
+        <div class="columns">station_id, station_name, lat, lon, observation_ts, wind_speed_ms, wave_height_m, sea_surface_temp_c, air_temp_c, air_pressure_hpa</div>
+
+        <div><span class="table-name">noaa.sea_surface_temperature</span></div>
+        <div class="columns">grid_id, lat, lon, observation_date, sst_c, sst_anomaly_c, ice_concentration_pct, source</div>
+
+        <div><span class="table-name">ocean.current_measurements</span></div>
+        <div class="columns">measurement_id, platform_type, lat, lon, depth_m, observation_ts, velocity_east_ms, velocity_north_ms, speed_ms</div>
+
+        <div><span class="table-name">gebco.bathymetry</span></div>
+        <div class="columns">cell_id, lat, lon, depth_m, feature_name, feature_type</div>
+
+        <div><span class="table-name">obis.biodiversity_observations</span></div>
+        <div class="columns">occurrence_id, species_name, phylum, observation_date, lat, lon, depth_m, abundance, dataset_id</div>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO I ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario I &mdash; The Coastal Bias</div>
+      <p class="scenario-question">When buoys are the only instrument, does the ocean look systematically different from when floats are the only instrument &mdash; and is that difference real, or an artifact of where each instrument lives?</p>
+
+      <div class="sql-block"><code><span class="cm">-- The ocean seen by buoys vs the ocean seen by floats</span>
+<span class="kw">WITH</span> buoy_view <span class="kw">AS</span> (
+    <span class="cm">-- Buoys: fixed stations, overwhelmingly coastal</span>
+    <span class="kw">SELECT</span>
+        <span class="st">'buoy'</span>                                          <span class="kw">AS</span> instrument,
+        ROUND(AVG(sea_surface_temp_c)::numeric, 3)       <span class="kw">AS</span> mean_sst,
+        ROUND(STDDEV(sea_surface_temp_c)::numeric, 3)    <span class="kw">AS</span> stddev_sst,
+        ROUND(MAX(sea_surface_temp_c)::numeric, 3)       <span class="kw">AS</span> max_sst,
+        ROUND(MIN(sea_surface_temp_c)::numeric, 3)       <span class="kw">AS</span> min_sst,
+        ROUND((MAX(sea_surface_temp_c)
+             - MIN(sea_surface_temp_c))::numeric, 3)     <span class="kw">AS</span> range_sst,
+        COUNT(*)                                          <span class="kw">AS</span> n_obs,
+        ROUND(AVG(ABS(lat))::numeric, 1)                 <span class="kw">AS</span> mean_abs_lat,
+        ROUND(AVG(
+            LEAST(ABS(lon), ABS(lon - 180))
+        )::numeric, 1)                                   <span class="kw">AS</span> mean_coast_proxy
+    <span class="kw">FROM</span> noaa.buoy_observations
+    <span class="kw">WHERE</span> sea_surface_temp_c <span class="kw">IS NOT NULL</span>
+),
+
+float_view <span class="kw">AS</span> (
+    <span class="cm">-- Floats: drifting profilers, predominantly open ocean</span>
+    <span class="kw">SELECT</span>
+        <span class="st">'float'</span>                                         <span class="kw">AS</span> instrument,
+        ROUND(AVG(temperature_c)::numeric, 3)            <span class="kw">AS</span> mean_sst,
+        ROUND(STDDEV(temperature_c)::numeric, 3)         <span class="kw">AS</span> stddev_sst,
+        ROUND(MAX(temperature_c)::numeric, 3)            <span class="kw">AS</span> max_sst,
+        ROUND(MIN(temperature_c)::numeric, 3)            <span class="kw">AS</span> min_sst,
+        ROUND((MAX(temperature_c)
+             - MIN(temperature_c))::numeric, 3)          <span class="kw">AS</span> range_sst,
+        COUNT(*)                                          <span class="kw">AS</span> n_obs,
+        ROUND(AVG(ABS(lat))::numeric, 1)                 <span class="kw">AS</span> mean_abs_lat,
+        ROUND(AVG(
+            LEAST(ABS(lon), ABS(lon - 180))
+        )::numeric, 1)                                   <span class="kw">AS</span> mean_coast_proxy
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> pressure_dbar &lt; 10
+      <span class="kw">AND</span> temperature_c <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> quality_flag <span class="kw">IN</span> (1, 2)
+),
+
+coastal_bias <span class="kw">AS</span> (
+    <span class="cm">-- Quantify the artifact: how much of the variance</span>
+    <span class="cm">-- difference is explained by placement, not physics?</span>
+    <span class="kw">SELECT</span>
+        b.instrument                                     <span class="kw">AS</span> source,
+        b.mean_sst,
+        b.stddev_sst,
+        b.range_sst,
+        b.n_obs,
+        b.mean_abs_lat,
+        ROUND((b.stddev_sst - f.stddev_sst)::numeric, 3)<span class="kw">AS</span> variability_excess,
+        ROUND(((b.stddev_sst - f.stddev_sst)
+             / NULLIF(f.stddev_sst, 0) * 100)::numeric, 1)
+                                                         <span class="kw">AS</span> pct_inflation
+    <span class="kw">FROM</span> buoy_view b
+    <span class="kw">CROSS JOIN</span> float_view f
+    <span class="kw">UNION ALL</span>
+    <span class="kw">SELECT</span>
+        f.instrument, f.mean_sst, f.stddev_sst,
+        f.range_sst, f.n_obs, f.mean_abs_lat,
+        0.0, 0.0
+    <span class="kw">FROM</span> float_view f
+)
+
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> coastal_bias
+<span class="kw">ORDER BY</span> source;</code></div>
+
+      <div class="scenario-reflection">The buoy-only view of the ocean reports higher SST variability than the float-only view &mdash; and from within the buoy dataset, this looks like a real property of seawater. Every internal consistency check passes: the distribution is smooth, the temporal autocorrelation is well-behaved, the measurement uncertainty is within spec. But the variability is an artifact of placement. Buoys cluster near coasts where upwelling, river discharge, and shallow bathymetry amplify thermal variance. The buoy is not wrong about what it measures. It is wrong about what it claims to represent. The inflation is invisible until a second instrument &mdash; one deployed differently &mdash; provides a contradicting view. This is monoptic distortion in its purest form: a finding that is simultaneously valid and misleading.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread active">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO II ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario II &mdash; The Depth Blindness</div>
+      <p class="scenario-question">What thermal structure does a surface-only instrument systematically misrepresent &mdash; and can the misrepresentation be quantified as a bias term?</p>
+
+      <div class="sql-block"><code><span class="cm">-- The warming trend the surface sees vs the trend the full column reveals</span>
+<span class="kw">WITH</span> surface_only <span class="kw">AS</span> (
+    <span class="cm">-- What a surface-restricted instrument reports</span>
+    <span class="kw">SELECT</span>
+        float_id,
+        DATE_TRUNC(<span class="st">'month'</span>, observation_ts)              <span class="kw">AS</span> obs_month,
+        ROUND(AVG(temperature_c)::numeric, 4)            <span class="kw">AS</span> mean_temp_surface,
+        CASE
+            <span class="kw">WHEN</span> ABS(lat) &lt; 23.5  <span class="kw">THEN</span> <span class="st">'tropical'</span>
+            <span class="kw">WHEN</span> ABS(lat) &lt; 66.5  <span class="kw">THEN</span> <span class="st">'temperate'</span>
+            <span class="kw">ELSE</span>                        <span class="st">'polar'</span>
+        <span class="kw">END</span>                                              <span class="kw">AS</span> basin_zone
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> pressure_dbar &lt; 10
+      <span class="kw">AND</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> temperature_c <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> float_id, obs_month, basin_zone
+),
+
+full_depth <span class="kw">AS</span> (
+    <span class="cm">-- What a depth-resolved instrument reports</span>
+    <span class="kw">SELECT</span>
+        float_id,
+        DATE_TRUNC(<span class="st">'month'</span>, observation_ts)              <span class="kw">AS</span> obs_month,
+        ROUND(AVG(temperature_c)::numeric, 4)            <span class="kw">AS</span> mean_temp_column,
+        CASE
+            <span class="kw">WHEN</span> ABS(lat) &lt; 23.5  <span class="kw">THEN</span> <span class="st">'tropical'</span>
+            <span class="kw">WHEN</span> ABS(lat) &lt; 66.5  <span class="kw">THEN</span> <span class="st">'temperate'</span>
+            <span class="kw">ELSE</span>                        <span class="st">'polar'</span>
+        <span class="kw">END</span>                                              <span class="kw">AS</span> basin_zone
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> temperature_c <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> float_id, obs_month, basin_zone
+),
+
+depth_blindness <span class="kw">AS</span> (
+    <span class="cm">-- The bias: surface minus column, per basin zone</span>
+    <span class="kw">SELECT</span>
+        s.basin_zone,
+        COUNT(*)                                          <span class="kw">AS</span> n_comparisons,
+        ROUND(AVG(s.mean_temp_surface)::numeric, 4)      <span class="kw">AS</span> avg_surface_temp,
+        ROUND(AVG(f.mean_temp_column)::numeric, 4)       <span class="kw">AS</span> avg_column_temp,
+        ROUND(AVG(s.mean_temp_surface
+                - f.mean_temp_column)::numeric, 4)       <span class="kw">AS</span> warm_bias,
+        ROUND(STDDEV(s.mean_temp_surface
+                   - f.mean_temp_column)::numeric, 4)    <span class="kw">AS</span> bias_variability,
+        ROUND(REGR_SLOPE(s.mean_temp_surface,
+            EXTRACT(EPOCH <span class="kw">FROM</span> s.obs_month))::numeric, 8)
+                                                         <span class="kw">AS</span> surface_trend,
+        ROUND(REGR_SLOPE(f.mean_temp_column,
+            EXTRACT(EPOCH <span class="kw">FROM</span> f.obs_month))::numeric, 8)
+                                                         <span class="kw">AS</span> column_trend
+    <span class="kw">FROM</span> surface_only s
+    <span class="kw">JOIN</span> full_depth f
+      <span class="kw">ON</span>  s.float_id    = f.float_id
+      <span class="kw">AND</span> s.obs_month   = f.obs_month
+      <span class="kw">AND</span> s.basin_zone  = f.basin_zone
+    <span class="kw">GROUP BY</span> s.basin_zone
+)
+
+<span class="kw">SELECT</span>
+    basin_zone,
+    n_comparisons,
+    avg_surface_temp,
+    avg_column_temp,
+    warm_bias,
+    bias_variability,
+    surface_trend                                        <span class="kw">AS</span> trend_surface_only,
+    column_trend                                         <span class="kw">AS</span> trend_full_column,
+    ROUND((surface_trend - column_trend)::numeric, 8)    <span class="kw">AS</span> trend_inflation
+<span class="kw">FROM</span> depth_blindness
+<span class="kw">ORDER BY</span> basin_zone;</code></div>
+
+      <div class="scenario-reflection">The surface reads warm. It always reads warm. This is not news. What is news is that the warm bias is not constant &mdash; it varies by basin zone, by season, and by the depth of the thermocline. A surface-only instrument does not simply overestimate temperature; it overestimates the warming trend, because the deep ocean absorbs heat more slowly and buffers the signal that the surface amplifies. The surface-only analyst sees acceleration where the full column sees damping. Both observations are instrumentally correct. But one of them is a measurement artifact posing as a climate signal. The deep ocean is the second eye. Without it, the surface cannot distinguish what it found from what it fabricated.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO III ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario III &mdash; The Temporal Alias</div>
+      <p class="scenario-question">When observations are sparse in time, do they create phantom patterns that denser sampling would dissolve?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Phantom cycles born from undersampling</span>
+<span class="kw">WITH</span> daily_signal <span class="kw">AS</span> (
+    <span class="cm">-- The densest available temporal resolution</span>
+    <span class="kw">SELECT</span>
+        observation_date,
+        ROUND(AVG(sst_anomaly_c)::numeric, 4)           <span class="kw">AS</span> daily_anomaly,
+        COUNT(*)                                          <span class="kw">AS</span> n_cells
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> sst_anomaly_c <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> lat <span class="kw">BETWEEN</span> -60 <span class="kw">AND</span> 60
+    <span class="kw">GROUP BY</span> observation_date
+),
+
+subsampled_monthly <span class="kw">AS</span> (
+    <span class="cm">-- Simulate monthly sampling: take first observation per month</span>
+    <span class="kw">SELECT DISTINCT ON</span> (DATE_TRUNC(<span class="st">'month'</span>, observation_date))
+        observation_date                                  <span class="kw">AS</span> sample_date,
+        daily_anomaly                                     <span class="kw">AS</span> monthly_anomaly,
+        <span class="st">'monthly'</span>                                        <span class="kw">AS</span> sample_rate
+    <span class="kw">FROM</span> daily_signal
+    <span class="kw">ORDER BY</span> DATE_TRUNC(<span class="st">'month'</span>, observation_date),
+             observation_date
+),
+
+phantom_cycle <span class="kw">AS</span> (
+    <span class="cm">-- Detect periodicity via autocorrelation at lag-30</span>
+    <span class="cm">-- Compare daily vs monthly autocorrelation structure</span>
+    <span class="kw">SELECT</span>
+        <span class="st">'daily'</span>                                          <span class="kw">AS</span> resolution,
+        COUNT(*)                                          <span class="kw">AS</span> n_obs,
+        ROUND(CORR(a.daily_anomaly,
+                   b.daily_anomaly)::numeric, 4)         <span class="kw">AS</span> lag_autocorr,
+        ROUND(STDDEV(a.daily_anomaly)::numeric, 4)       <span class="kw">AS</span> signal_stddev,
+        ROUND(AVG(ABS(a.daily_anomaly
+                    - b.daily_anomaly))::numeric, 4)     <span class="kw">AS</span> mean_abs_diff
+    <span class="kw">FROM</span> daily_signal a
+    <span class="kw">JOIN</span> daily_signal b
+      <span class="kw">ON</span> b.observation_date = a.observation_date + <span class="kw">INTERVAL</span> <span class="st">'30 days'</span>
+    <span class="kw">UNION ALL</span>
+    <span class="kw">SELECT</span>
+        <span class="st">'monthly'</span>                                        <span class="kw">AS</span> resolution,
+        COUNT(*),
+        ROUND(CORR(a.monthly_anomaly,
+                   b.monthly_anomaly)::numeric, 4),
+        ROUND(STDDEV(a.monthly_anomaly)::numeric, 4),
+        ROUND(AVG(ABS(a.monthly_anomaly
+                    - b.monthly_anomaly))::numeric, 4)
+    <span class="kw">FROM</span> subsampled_monthly a
+    <span class="kw">JOIN</span> subsampled_monthly b
+      <span class="kw">ON</span> b.sample_date
+           <span class="kw">BETWEEN</span> a.sample_date + <span class="kw">INTERVAL</span> <span class="st">'25 days'</span>
+               <span class="kw">AND</span> a.sample_date + <span class="kw">INTERVAL</span> <span class="st">'35 days'</span>
+)
+
+<span class="kw">SELECT</span>
+    resolution,
+    n_obs,
+    lag_autocorr                                         <span class="kw">AS</span> autocorr_lag30,
+    signal_stddev,
+    mean_abs_diff,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> ABS(lag_autocorr) &gt; 0.3
+            <span class="kw">THEN</span> <span class="st">'periodic signal detected'</span>
+        <span class="kw">ELSE</span>     <span class="st">'no significant periodicity'</span>
+    <span class="kw">END</span>                                                  <span class="kw">AS</span> periodicity_verdict
+<span class="kw">FROM</span> phantom_cycle
+<span class="kw">ORDER BY</span> resolution;</code></div>
+
+      <div class="scenario-reflection">Monthly sampling introduces a phantom: an apparent 30-day cycle that daily data does not support. The mechanism is aliasing &mdash; the same phenomenon that makes a helicopter blade appear to rotate backward on film. When the sampling frequency falls below twice the true signal frequency, the Nyquist theorem guarantees that the reconstruction will contain spectral components that do not exist in the source. The monthly analyst does not know the cycle is phantom. The autocorrelation is real. The periodogram peak is real. Every statistical test confirms it. The only refutation comes from outside the sampling scheme &mdash; from the denser temporal record that dissolves the cycle into noise. Temporal aliasing is not a statistical error. It is a monoptic distortion: the method creates the pattern, and only a different method can expose the creation.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO IV ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario IV &mdash; The Taxonomic Lens</div>
+      <p class="scenario-question">Does the set of species an observer chooses to count reshape the apparent biodiversity of a region &mdash; turning sampling preference into ecological artifact?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Biodiversity maps drawn by different taxonomic lenses</span>
+<span class="kw">WITH</span> region_grid <span class="kw">AS</span> (
+    <span class="cm">-- Assign each observation to a 5-degree grid cell</span>
+    <span class="kw">SELECT</span>
+        occurrence_id,
+        species_name,
+        phylum,
+        FLOOR(lat / 5) * 5                               <span class="kw">AS</span> lat_bin,
+        FLOOR(lon / 5) * 5                               <span class="kw">AS</span> lon_bin,
+        abundance
+    <span class="kw">FROM</span> obis.biodiversity_observations
+    <span class="kw">WHERE</span> lat <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> lon <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> phylum <span class="kw">IS NOT NULL</span>
+),
+
+all_phyla_view <span class="kw">AS</span> (
+    <span class="cm">-- The "complete" biodiversity map</span>
+    <span class="kw">SELECT</span>
+        lat_bin,
+        lon_bin,
+        COUNT(<span class="kw">DISTINCT</span> species_name)                     <span class="kw">AS</span> richness_all,
+        COUNT(<span class="kw">DISTINCT</span> phylum)                            <span class="kw">AS</span> phyla_count,
+        SUM(abundance)                                    <span class="kw">AS</span> total_abundance
+    <span class="kw">FROM</span> region_grid
+    <span class="kw">GROUP BY</span> lat_bin, lon_bin
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 10
+),
+
+taxonomic_lens <span class="kw">AS</span> (
+    <span class="cm">-- Single-phylum biodiversity map: does it agree?</span>
+    <span class="kw">SELECT</span>
+        r.lat_bin,
+        r.lon_bin,
+        r.phylum,
+        COUNT(<span class="kw">DISTINCT</span> r.species_name)                   <span class="kw">AS</span> richness_single,
+        a.richness_all,
+        ROUND(COUNT(<span class="kw">DISTINCT</span> r.species_name)::numeric
+            / NULLIF(a.richness_all, 0), 4)              <span class="kw">AS</span> fraction_of_total,
+        RANK() <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> r.phylum
+            <span class="kw">ORDER BY</span> COUNT(<span class="kw">DISTINCT</span> r.species_name) <span class="kw">DESC</span>
+        )                                                 <span class="kw">AS</span> richness_rank_single,
+        RANK() <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> r.phylum
+            <span class="kw">ORDER BY</span> a.richness_all <span class="kw">DESC</span>
+        )                                                 <span class="kw">AS</span> richness_rank_all
+    <span class="kw">FROM</span> region_grid r
+    <span class="kw">JOIN</span> all_phyla_view a
+      <span class="kw">ON</span>  r.lat_bin = a.lat_bin
+      <span class="kw">AND</span> r.lon_bin = a.lon_bin
+    <span class="kw">GROUP BY</span> r.lat_bin, r.lon_bin, r.phylum,
+             a.richness_all
+)
+
+<span class="kw">SELECT</span>
+    phylum,
+    COUNT(*)                                              <span class="kw">AS</span> n_cells,
+    ROUND(CORR(richness_rank_single,
+               richness_rank_all)::numeric, 4)           <span class="kw">AS</span> rank_correlation,
+    ROUND(AVG(fraction_of_total)::numeric, 4)            <span class="kw">AS</span> avg_fraction,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> CORR(richness_rank_single,
+                  richness_rank_all) &gt; 0.7
+            <span class="kw">THEN</span> <span class="st">'proxy adequate'</span>
+        <span class="kw">WHEN</span> CORR(richness_rank_single,
+                  richness_rank_all) &gt; 0.4
+            <span class="kw">THEN</span> <span class="st">'proxy partial'</span>
+        <span class="kw">ELSE</span>     <span class="st">'proxy misleading'</span>
+    <span class="kw">END</span>                                                  <span class="kw">AS</span> dif_diagnosis
+<span class="kw">FROM</span> taxonomic_lens
+<span class="kw">GROUP BY</span> phylum
+<span class="kw">HAVING</span> COUNT(*) &gt;= 5
+<span class="kw">ORDER BY</span> rank_correlation;</code></div>
+
+      <div class="scenario-reflection">This is differential item functioning applied to ecology. In psychometrics, DIF occurs when a test item measures different constructs for different subgroups &mdash; the item appears fair on aggregate but is systematically biased when the groups are separated. Here, each phylum is a &ldquo;subgroup,&rdquo; and each grid cell is a &ldquo;test item.&rdquo; A single-taxon survey assigns biodiversity ranks that disagree &mdash; sometimes dramatically &mdash; with the all-phyla ranking. A region that appears species-rich through one taxonomic lens may appear species-poor through another. The map changes depending on what you count. The ecologist who surveys only arthropods does not get a partial map of biodiversity. They get a different map &mdash; one whose distortions are structurally invisible until a second phylum is surveyed. The observer&rsquo;s choice of what to count has become an ecological finding. That is the taxonomic lens at work.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread active">sociometric</span>
+        <span class="dna-thread active">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO V ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario V &mdash; The Platform Effect</div>
+      <p class="scenario-question">When different measurement platforms &mdash; drifters, moorings, gliders &mdash; observe the same current, do they agree, or does each platform type impose its own signature on the measurement?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Three platforms, one ocean current, three different answers</span>
+<span class="kw">WITH</span> platform_stats <span class="kw">AS</span> (
+    <span class="cm">-- Per-platform summary of current observations</span>
+    <span class="kw">SELECT</span>
+        platform_type,
+        COUNT(*)                                          <span class="kw">AS</span> n_obs,
+        ROUND(AVG(speed_ms)::numeric, 4)                 <span class="kw">AS</span> mean_speed,
+        ROUND(STDDEV(speed_ms)::numeric, 4)              <span class="kw">AS</span> stddev_speed,
+        ROUND(AVG(depth_m)::numeric, 1)                  <span class="kw">AS</span> mean_depth,
+        ROUND(STDDEV(depth_m)::numeric, 1)               <span class="kw">AS</span> stddev_depth,
+        ROUND(AVG(DEGREES(ATAN2(
+            velocity_north_ms,
+            velocity_east_ms)))::numeric, 2)             <span class="kw">AS</span> mean_direction_deg,
+        ROUND(STDDEV(DEGREES(ATAN2(
+            velocity_north_ms,
+            velocity_east_ms)))::numeric, 2)             <span class="kw">AS</span> directional_spread
+    <span class="kw">FROM</span> ocean.current_measurements
+    <span class="kw">WHERE</span> speed_ms <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> velocity_east_ms <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> velocity_north_ms <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> platform_type
+),
+
+platform_signature <span class="kw">AS</span> (
+    <span class="cm">-- Quantify how each platform distorts the picture</span>
+    <span class="kw">SELECT</span>
+        p.platform_type,
+        p.n_obs,
+        p.mean_speed,
+        p.stddev_speed,
+        p.mean_depth,
+        p.directional_spread,
+        ROUND((p.mean_speed
+             - AVG(p.mean_speed) <span class="kw">OVER</span> ())::numeric, 4)   <span class="kw">AS</span> speed_deviation,
+        ROUND((p.mean_depth
+             - AVG(p.mean_depth) <span class="kw">OVER</span> ())::numeric, 1)   <span class="kw">AS</span> depth_deviation,
+        ROUND((p.directional_spread
+             - AVG(p.directional_spread) <span class="kw">OVER</span> ())
+             ::numeric, 2)                                <span class="kw">AS</span> spread_deviation
+    <span class="kw">FROM</span> platform_stats p
+),
+
+cross_platform_bias <span class="kw">AS</span> (
+    <span class="cm">-- Pairwise disagreement between platform types</span>
+    <span class="kw">SELECT</span>
+        a.platform_type                                   <span class="kw">AS</span> platform_a,
+        b.platform_type                                   <span class="kw">AS</span> platform_b,
+        ROUND(ABS(a.mean_speed
+                - b.mean_speed)::numeric, 4)             <span class="kw">AS</span> speed_disagreement,
+        ROUND(ABS(a.mean_depth
+                - b.mean_depth)::numeric, 1)             <span class="kw">AS</span> depth_disagreement,
+        ROUND(ABS(a.directional_spread
+                - b.directional_spread)::numeric, 2)     <span class="kw">AS</span> spread_disagreement
+    <span class="kw">FROM</span> platform_signature a
+    <span class="kw">CROSS JOIN</span> platform_signature b
+    <span class="kw">WHERE</span> a.platform_type &lt; b.platform_type
+)
+
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> platform_signature
+<span class="kw">ORDER BY</span> platform_type;</code></div>
+
+      <div class="scenario-reflection">Drifters ride the surface and report fast, directionally variable flow. Moorings sit at fixed points and report temporally variable but spatially anchored measurements. Gliders traverse water columns along programmed transects, smoothing over spatial gradients that the other platforms preserve. Each platform type sees a different ocean current &mdash; not because the current differs, but because the platform&rsquo;s design determines which aspect of the current becomes data and which becomes noise. The drifter analyst reports a turbulent, fast ocean. The mooring analyst reports a pulsing, cyclic ocean. The glider analyst reports a smooth, stratified ocean. All three pass internal validation. All three are instrumentally correct. And all three are monoptically distorted &mdash; each imposing a platform signature that masquerades as a property of the sea.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread active">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO VI ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario VI &mdash; The Resolution Artifact</div>
+      <p class="scenario-question">When a single spatial resolution is chosen for analysis, does the choice create structure that finer or coarser resolutions would not support &mdash; and can the artifact be measured?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Hotspots that exist only at one resolution</span>
+<span class="kw">WITH</span> grid_1deg <span class="kw">AS</span> (
+    <span class="cm">-- 1-degree resolution: fine grid</span>
+    <span class="kw">SELECT</span>
+        FLOOR(lat)                                        <span class="kw">AS</span> lat_bin,
+        FLOOR(lon)                                        <span class="kw">AS</span> lon_bin,
+        ROUND(AVG(sst_anomaly_c)::numeric, 4)            <span class="kw">AS</span> mean_anomaly,
+        ROUND(STDDEV(sst_anomaly_c)::numeric, 4)         <span class="kw">AS</span> anomaly_spread,
+        COUNT(*)                                          <span class="kw">AS</span> n_obs,
+        1                                                 <span class="kw">AS</span> resolution_deg
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> sst_anomaly_c <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> FLOOR(lat), FLOOR(lon)
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 5
+),
+
+grid_5deg <span class="kw">AS</span> (
+    <span class="cm">-- 5-degree resolution: medium grid</span>
+    <span class="kw">SELECT</span>
+        FLOOR(lat / 5) * 5                               <span class="kw">AS</span> lat_bin,
+        FLOOR(lon / 5) * 5                               <span class="kw">AS</span> lon_bin,
+        ROUND(AVG(sst_anomaly_c)::numeric, 4)            <span class="kw">AS</span> mean_anomaly,
+        ROUND(STDDEV(sst_anomaly_c)::numeric, 4)         <span class="kw">AS</span> anomaly_spread,
+        COUNT(*)                                          <span class="kw">AS</span> n_obs,
+        5                                                 <span class="kw">AS</span> resolution_deg
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> sst_anomaly_c <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> FLOOR(lat / 5) * 5, FLOOR(lon / 5) * 5
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 20
+),
+
+resolution_artifact <span class="kw">AS</span> (
+    <span class="cm">-- Find 5-degree "hotspots" that dissolve at 1-degree</span>
+    <span class="kw">SELECT</span>
+        g5.lat_bin,
+        g5.lon_bin,
+        g5.mean_anomaly                                   <span class="kw">AS</span> anomaly_5deg,
+        g5.anomaly_spread                                 <span class="kw">AS</span> spread_5deg,
+        ROUND(AVG(g1.mean_anomaly)::numeric, 4)          <span class="kw">AS</span> avg_anomaly_1deg,
+        ROUND(STDDEV(g1.mean_anomaly)::numeric, 4)       <span class="kw">AS</span> within_cell_var,
+        COUNT(g1.*)                                       <span class="kw">AS</span> subcells,
+        ROUND(ABS(g5.mean_anomaly
+            - AVG(g1.mean_anomaly))::numeric, 4)         <span class="kw">AS</span> aggregation_bias,
+        <span class="kw">CASE</span>
+            <span class="kw">WHEN</span> ABS(g5.mean_anomaly) &gt; 1.0
+             <span class="kw">AND</span> STDDEV(g1.mean_anomaly) &gt; ABS(AVG(g1.mean_anomaly))
+                <span class="kw">THEN</span> <span class="st">'resolution artifact'</span>
+            <span class="kw">WHEN</span> ABS(g5.mean_anomaly) &gt; 1.0
+             <span class="kw">AND</span> STDDEV(g1.mean_anomaly) &lt;= ABS(AVG(g1.mean_anomaly))
+                <span class="kw">THEN</span> <span class="st">'genuine hotspot'</span>
+            <span class="kw">ELSE</span>     <span class="st">'no hotspot at this scale'</span>
+        <span class="kw">END</span>                                               <span class="kw">AS</span> artifact_diagnosis
+    <span class="kw">FROM</span> grid_5deg g5
+    <span class="kw">LEFT JOIN</span> grid_1deg g1
+      <span class="kw">ON</span>  g1.lat_bin &gt;= g5.lat_bin
+      <span class="kw">AND</span> g1.lat_bin &lt;  g5.lat_bin + 5
+      <span class="kw">AND</span> g1.lon_bin &gt;= g5.lon_bin
+      <span class="kw">AND</span> g1.lon_bin &lt;  g5.lon_bin + 5
+    <span class="kw">GROUP BY</span> g5.lat_bin, g5.lon_bin,
+             g5.mean_anomaly, g5.anomaly_spread
+)
+
+<span class="kw">SELECT</span>
+    artifact_diagnosis,
+    COUNT(*)                                              <span class="kw">AS</span> n_cells,
+    ROUND(AVG(anomaly_5deg)::numeric, 4)                 <span class="kw">AS</span> avg_anomaly_5deg,
+    ROUND(AVG(within_cell_var)::numeric, 4)              <span class="kw">AS</span> avg_internal_var,
+    ROUND(AVG(aggregation_bias)::numeric, 4)             <span class="kw">AS</span> avg_agg_bias,
+    ROUND(AVG(subcells)::numeric, 1)                     <span class="kw">AS</span> avg_subcells
+<span class="kw">FROM</span> resolution_artifact
+<span class="kw">GROUP BY</span> artifact_diagnosis
+<span class="kw">ORDER BY</span> artifact_diagnosis;</code></div>
+
+      <div class="scenario-reflection">Some hotspots exist only at 5 degrees. Zoom in to 1 degree and they dissolve into a heterogeneous patchwork &mdash; some subcells warm, some cold, the average an artifact of cancellation that happens to land above threshold at precisely one grid scale. Zoom out to 10 degrees and they merge into the background. The hotspot is not in the ocean. It is in the grid. The analyst who publishes a hotspot map at a single resolution cannot know whether their findings are features of the sea surface or features of the spatial binning. The modifiable areal unit problem &mdash; well known in geography since Openshaw&rsquo;s 1984 demonstration &mdash; is monoptic distortion applied to space. The only test is to repeat the analysis at a different resolution and observe what survives. What persists across scales is signal. What appears and vanishes is the grid speaking, not the ocean.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <!-- ==================== CODA ==================== -->
+    <section class="coda">
+      <h2>Coda</h2>
+      <p>Six artifacts. Six methods. Each producing distortions invisible from within the method that created them.</p>
+      <p>The coastal bias looks like real variability &mdash; until a float contradicts it. The buoy&rsquo;s placement becomes the buoy&rsquo;s finding, and no amount of internal validation can separate the two.</p>
+      <p>The depth blindness looks like rapid warming &mdash; until the abyss speaks. The surface overestimates not just temperature but trend, fabricating acceleration where the full water column sees damping.</p>
+      <p>The temporal alias looks like a real cycle &mdash; until denser sampling dissolves it. The monthly analyst discovers periodicity that daily data cannot confirm, and the Nyquist theorem explains why: the phantom was always guaranteed.</p>
+      <p>The taxonomic lens looks like real biodiversity &mdash; until a different phylum disagrees. The map of species richness changes depending on which species you count, and the disagreement between phyla is structurally identical to differential item functioning in psychometrics.</p>
+      <p>The platform effect looks like a real current &mdash; until a different platform type reports. Drifters, moorings, and gliders see three different oceans from the same water, each instrument&rsquo;s design encoding itself into the measurement.</p>
+      <p>The resolution artifact looks like a real hotspot &mdash; until you zoom in or out. The modifiable areal unit problem converts a grid choice into a scientific finding, and the finding survives every test except the one that changes the grid.</p>
+      <p>Monoptic distortion is not error. It is not noise. It is not methodological weakness. It is the inevitable consequence of viewing a high-dimensional system through a single lens. Every method creates a projection. Every projection introduces distortion. And every distortion is invisible from within the projection that created it &mdash; because the distortion is the projection.</p>
+      <p>We demonstrated this on seawater because seawater holds still for the examination. It does not react to being measured. It does not change its behavior when observed. It does not file complaints when the analysis proves unflattering. It permitted us, with unusual patience, to show that six independent methods each introduced six independent artifacts &mdash; and that none of the six could be detected without stepping outside the method that created them.</p>
+      <p class="warning-line">&ldquo;Not every system will tolerate it so quietly.&rdquo;</p>
+      <div class="signature">
+        Jeffrey J. Berg<br>
+        PARALLAX&trade; / CONSTELLATION&trade;<br>
+        Paper 5 of 10
+      </div>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <span>&copy; Jeffrey J. Berg. All rights reserved.</span>
+  <span>PARALLAX&trade; &middot; GAUGE&trade; &middot; CONSTELLATION&trade; &middot; CDEII&trade;</span>
+</footer>
+
+</body>
+</html>
