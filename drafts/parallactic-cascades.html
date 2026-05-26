@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>Parallactic Cascades &mdash; PARALLAX&trade;</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='14'%3E%E2%97%87%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --surface: #111820;
+    --surface-raised: #171f28;
+    --text: #c8ccd0;
+    --text-muted: #6a7580;
+    --text-bright: #e8ecf0;
+    --amber: #d4a843;
+    --amber-dim: rgba(212, 168, 67, 0.08);
+    --amber-border: rgba(212, 168, 67, 0.35);
+    --green-soft: #8fbc8f;
+    --serif: "Cormorant Garamond", "EB Garamond", Garamond, "Hoefler Text", "Times New Roman", serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    --mono: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", "Consolas", monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    background: var(--bg);
+    color: var(--text);
+    font-size: 17px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--serif);
+    font-weight: 400;
+    line-height: 1.72;
+    letter-spacing: 0.005em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--amber-border); transition: border-color 0.3s; }
+  a:hover { border-color: var(--amber); }
+  a:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+  /* --- NAV --- */
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 14, 20, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0.6rem clamp(1rem, 4vw, 2rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+  }
+  .site-nav a { color: var(--text-muted); border: none; }
+  .site-nav a:hover { color: var(--text-bright); }
+  .nav-brand { font-weight: 600; color: var(--text); letter-spacing: 0.22em; }
+  .nav-links { display: flex; gap: 1.2rem; }
+
+  /* --- MAIN --- */
+  #main {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem) 4rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    border: none;
+  }
+  .back-link::before { content: "\2190\00a0"; }
+
+  /* --- ARTICLE HEADER --- */
+  .article-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .article-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text-bright);
+    margin-bottom: 0.4rem;
+  }
+  .article-subtitle {
+    font-family: var(--serif);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+  .article-meta {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: lowercase;
+  }
+  .article-meta .tm { font-size: 0.6em; vertical-align: super; }
+
+  /* --- EPIGRAPH --- */
+  .epigraph {
+    text-align: center;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 2.5rem 2rem 0.5rem;
+    line-height: 1.6;
+  }
+  .epigraph-attribution {
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+  }
+
+  /* --- PREAMBLE --- */
+  .preamble {
+    margin-bottom: 3rem;
+  }
+  .preamble h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .preamble p {
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  /* --- SCHEMA SECTION --- */
+  .schema-section {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .schema-section h3 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .schema-table {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+  .schema-table .table-name {
+    color: var(--text-bright);
+    font-weight: 600;
+  }
+  .schema-table .columns {
+    color: var(--text-muted);
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* --- TRANSITION --- */
+  .transition {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+    margin: 3rem 0;
+    opacity: 0.4;
+  }
+
+  /* --- SCENARIO --- */
+  .scenario {
+    margin-bottom: 3.5rem;
+  }
+  .scenario-label {
+    font-family: var(--sans);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.8rem;
+  }
+  .scenario-question {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--text-bright);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--amber-border);
+  }
+
+  /* --- SQL BLOCK --- */
+  .sql-block {
+    background: var(--surface);
+    border-left: 3px solid var(--amber-border);
+    border-radius: 0 4px 4px 0;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sql-block code {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--text);
+    white-space: pre;
+    tab-size: 4;
+  }
+  .sql-block .kw { color: var(--amber); font-weight: 500; }
+  .sql-block .st { color: var(--green-soft); }
+  .sql-block .cm { color: var(--text-muted); font-style: italic; }
+
+  /* --- REFLECTION --- */
+  .scenario-reflection {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding: 1rem 1.2rem;
+    background: var(--amber-dim);
+    border-radius: 4px;
+    margin-bottom: 0.8rem;
+  }
+
+  /* --- DNA THREADS --- */
+  .dna-threads {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+  }
+  .dna-thread {
+    font-family: var(--sans);
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 2px;
+    padding: 0.15rem 0.5rem;
+  }
+  .dna-thread.active {
+    color: var(--amber);
+    border-color: var(--amber-border);
+    background: var(--amber-dim);
+  }
+
+  /* --- CODA --- */
+  .coda {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .coda h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.5rem;
+  }
+  .coda p { margin-bottom: 1rem; }
+  .coda .warning-line {
+    font-style: italic;
+    color: var(--text-bright);
+    font-size: 1.05rem;
+  }
+  .coda .signature {
+    margin-top: 2.5rem;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* --- FOOTER --- */
+  .site-footer {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-family: var(--sans);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 768px) {
+    .sql-block { padding: 1rem; }
+    .sql-block code { font-size: 0.72rem; }
+    .schema-table { font-size: 0.72rem; }
+    .scenario-question { font-size: 1.05rem; }
+  }
+
+  @media (max-width: 480px) {
+    .sql-block { padding: 0.8rem; margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+    .schema-section { margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  @media print {
+    .site-nav { display: none; }
+    :root { --bg: #fff; --text: #111; --text-bright: #000; --text-muted: #555; --surface: #f5f5f5; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <span class="nav-brand">parallax&trade;</span>
+  <div class="nav-links">
+    <a href="/">home</a>
+    <a href="/cv">cv</a>
+  </div>
+</nav>
+
+<div id="main">
+  <a href="/" class="back-link">home</a>
+
+  <header class="article-header">
+    <h1>Parallactic Cascades</h1>
+    <div class="article-subtitle">Cross-Scale Emergence in Coupled Observation Systems</div>
+    <div class="article-meta">
+      Jeffrey J. Berg &middot; PARALLAX<span class="tm">&trade;</span> &middot; CONSTELLATION<span class="tm">&trade;</span> &middot; paper 6 of 10 &middot; target: nature communications
+    </div>
+  </header>
+
+  <article class="article-content">
+
+    <!-- EPIGRAPH -->
+    <p class="epigraph">&ldquo;More is different.&rdquo;</p>
+    <p class="epigraph-attribution">&mdash; Philip W. Anderson, <em>Science</em> (1972)</p>
+
+    <!-- PREAMBLE -->
+    <section class="preamble">
+      <h2>A Note Before the Dive</h2>
+      <p>Complex systems exhibit cascades: a perturbation at one scale propagates to others, amplified or damped by the coupling between layers. The ocean is a cascade machine &mdash; surface warming drives deep circulation changes, which alter nutrient upwelling, which reshapes biodiversity, which feeds back into surface chemistry. No single-scale analysis captures cascades because cascades are, by definition, cross-scale phenomena.</p>
+      <p>This paper demonstrates parallactic cascade detection: using multiple analytical lenses at different scales to track how signals propagate through coupled subsystems. Each of the six scenarios below traces a perturbation as it crosses a boundary &mdash; from surface to depth, from wind to wave to temperature, from current to species to current again. The SQL constructs lagged cross-correlations, feedback loops, and multi-layer joins that no single-scale query could express.</p>
+      <p>Anderson&rsquo;s dictum holds: more is different. The cascade is not a property of any layer. It is a property of the coupling between layers &mdash; and it is visible only to the observer who watches more than one layer at once.</p>
+    </section>
+
+    <!-- SCHEMA REFERENCE -->
+    <section class="schema-section">
+      <h3>The Shared Schema &mdash; Seven Tables, One Ocean</h3>
+      <div class="schema-table">
+        <div><span class="table-name">argo.float_profiles</span></div>
+        <div class="columns">profile_id, float_id, cycle_number, lat, lon, observation_ts, pressure_dbar, temperature_c, salinity_psu, oxygen_umol_kg, quality_flag, data_mode</div>
+
+        <div><span class="table-name">argo.float_metadata</span></div>
+        <div class="columns">float_id, deploy_date, deploy_lat, deploy_lon, country, project_name, float_model, status</div>
+
+        <div><span class="table-name">noaa.buoy_observations</span></div>
+        <div class="columns">station_id, station_name, lat, lon, observation_ts, wind_speed_ms, wave_height_m, sea_surface_temp_c, air_temp_c, air_pressure_hpa</div>
+
+        <div><span class="table-name">noaa.sea_surface_temperature</span></div>
+        <div class="columns">grid_id, lat, lon, observation_date, sst_c, sst_anomaly_c, ice_concentration_pct, source</div>
+
+        <div><span class="table-name">ocean.current_measurements</span></div>
+        <div class="columns">measurement_id, platform_type, lat, lon, depth_m, observation_ts, velocity_east_ms, velocity_north_ms, speed_ms</div>
+
+        <div><span class="table-name">gebco.bathymetry</span></div>
+        <div class="columns">cell_id, lat, lon, depth_m, feature_name, feature_type</div>
+
+        <div><span class="table-name">obis.biodiversity_observations</span></div>
+        <div class="columns">occurrence_id, species_name, phylum, observation_date, lat, lon, depth_m, abundance, dataset_id</div>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO I ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario I &mdash; The Thermal Cascade</div>
+      <p class="scenario-question">When surface temperatures rise, how long does it take for the signal to reach the mesopelagic &mdash; and does the deep ocean amplify or dampen the surface perturbation?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Lagged cross-correlation: surface &rarr; deep thermal propagation</span>
+<span class="kw">WITH</span> monthly_layers <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        DATE_TRUNC(<span class="st">'month'</span>, observation_ts)              <span class="kw">AS</span> obs_month,
+        <span class="kw">CASE</span>
+            <span class="kw">WHEN</span> pressure_dbar &lt; 100  <span class="kw">THEN</span> <span class="st">'surface'</span>
+            <span class="kw">WHEN</span> pressure_dbar &gt; 500  <span class="kw">THEN</span> <span class="st">'deep'</span>
+        <span class="kw">END</span>                                             <span class="kw">AS</span> layer,
+        AVG(temperature_c)                              <span class="kw">AS</span> mean_temp_c,
+        STDDEV(temperature_c)                           <span class="kw">AS</span> temp_sd,
+        COUNT(*)                                        <span class="kw">AS</span> n_obs
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> (pressure_dbar &lt; 100 <span class="kw">OR</span> pressure_dbar &gt; 500)
+    <span class="kw">GROUP BY</span> obs_month, layer
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 50
+),
+
+thermal_cascade <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        s.obs_month,
+        s.mean_temp_c                                   <span class="kw">AS</span> surface_temp,
+        d.mean_temp_c                                   <span class="kw">AS</span> deep_temp,
+        s.mean_temp_c - LAG(s.mean_temp_c, 1) <span class="kw">OVER</span> (
+            <span class="kw">ORDER BY</span> s.obs_month
+        )                                               <span class="kw">AS</span> surface_delta,
+        d.mean_temp_c - LAG(d.mean_temp_c, 3) <span class="kw">OVER</span> (
+            <span class="kw">ORDER BY</span> d.obs_month
+        )                                               <span class="kw">AS</span> deep_delta_lag3,
+        d.mean_temp_c - LAG(d.mean_temp_c, 6) <span class="kw">OVER</span> (
+            <span class="kw">ORDER BY</span> d.obs_month
+        )                                               <span class="kw">AS</span> deep_delta_lag6,
+        d.mean_temp_c - LAG(d.mean_temp_c, 12) <span class="kw">OVER</span> (
+            <span class="kw">ORDER BY</span> d.obs_month
+        )                                               <span class="kw">AS</span> deep_delta_lag12
+    <span class="kw">FROM</span> monthly_layers s
+    <span class="kw">JOIN</span> monthly_layers d
+        <span class="kw">ON</span> s.obs_month = d.obs_month
+    <span class="kw">WHERE</span> s.layer = <span class="st">'surface'</span>
+      <span class="kw">AND</span> d.layer = <span class="st">'deep'</span>
+)
+
+<span class="kw">SELECT</span>
+    CORR(surface_delta, deep_delta_lag3)                <span class="kw">AS</span> r_lag_3mo,
+    CORR(surface_delta, deep_delta_lag6)                <span class="kw">AS</span> r_lag_6mo,
+    CORR(surface_delta, deep_delta_lag12)               <span class="kw">AS</span> r_lag_12mo,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> AVG(ABS(deep_delta_lag6)) &gt; AVG(ABS(surface_delta))
+            <span class="kw">THEN</span> <span class="st">'deep amplifies surface'</span>
+        <span class="kw">ELSE</span>     <span class="st">'deep dampens surface'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> cascade_mode,
+    ROUND((AVG(ABS(deep_delta_lag6))
+        / NULLIF(AVG(ABS(surface_delta)), 0))::numeric,
+        3
+    )                                                   <span class="kw">AS</span> amplification_ratio
+<span class="kw">FROM</span> thermal_cascade
+<span class="kw">WHERE</span> surface_delta <span class="kw">IS NOT NULL</span>
+  <span class="kw">AND</span> deep_delta_lag6 <span class="kw">IS NOT NULL</span>;</code></div>
+
+      <div class="scenario-reflection">The surface warms and the deep follows &mdash; but not immediately, and not linearly. The lagged correlations reveal a temporal gap: the strongest coupling appears at the 6-month lag, suggesting that surface perturbations take roughly half a year to reach the mesopelagic. The amplification ratio tells the rest of the story. If it exceeds 1.0, the deep ocean magnifies what the surface whispered. A single-depth analysis would see warming; the cascade lens sees the transmission delay and the gain.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO II ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario II &mdash; The Wind-Wave-Temperature Chain</div>
+      <p class="scenario-question">Does a change in wind speed cascade through wave height to sea surface temperature &mdash; and can the chain be detected as a lagged sequence in buoy observations?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Atmospheric cascade chain: wind &rarr; wave &rarr; SST</span>
+<span class="kw">WITH</span> hourly_buoy <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        station_id,
+        DATE_TRUNC(<span class="st">'hour'</span>, observation_ts)               <span class="kw">AS</span> obs_hour,
+        AVG(wind_speed_ms)                              <span class="kw">AS</span> wind,
+        AVG(wave_height_m)                              <span class="kw">AS</span> wave,
+        AVG(sea_surface_temp_c)                         <span class="kw">AS</span> sst
+    <span class="kw">FROM</span> noaa.buoy_observations
+    <span class="kw">WHERE</span> wind_speed_ms <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> wave_height_m <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> sea_surface_temp_c <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> station_id, DATE_TRUNC(<span class="st">'hour'</span>, observation_ts)
+),
+
+atmospheric_chain <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        station_id,
+        obs_hour,
+        wind,
+        wave,
+        sst,
+        wind - LAG(wind, 1) <span class="kw">OVER</span> w                     <span class="kw">AS</span> wind_delta,
+        wave - LAG(wave, 3) <span class="kw">OVER</span> w                     <span class="kw">AS</span> wave_delta_3h,
+        wave - LAG(wave, 6) <span class="kw">OVER</span> w                     <span class="kw">AS</span> wave_delta_6h,
+        sst  - LAG(sst, 6)  <span class="kw">OVER</span> w                    <span class="kw">AS</span> sst_delta_6h,
+        sst  - LAG(sst, 12) <span class="kw">OVER</span> w                    <span class="kw">AS</span> sst_delta_12h,
+        sst  - LAG(sst, 24) <span class="kw">OVER</span> w                    <span class="kw">AS</span> sst_delta_24h
+    <span class="kw">FROM</span> hourly_buoy
+    <span class="kw">WINDOW</span> w <span class="kw">AS</span> (<span class="kw">PARTITION BY</span> station_id <span class="kw">ORDER BY</span> obs_hour)
+)
+
+<span class="kw">SELECT</span>
+    <span class="cm">-- Link 1: wind &rarr; wave (short lag)</span>
+    ROUND(CORR(wind_delta, wave_delta_3h)::numeric, 4) <span class="kw">AS</span> wind_wave_r_3h,
+    ROUND(CORR(wind_delta, wave_delta_6h)::numeric, 4) <span class="kw">AS</span> wind_wave_r_6h,
+    <span class="cm">-- Link 2: wave &rarr; SST (longer lag)</span>
+    ROUND(CORR(wave_delta_6h, sst_delta_12h)::numeric, 4)
+                                                        <span class="kw">AS</span> wave_sst_r_12h,
+    ROUND(CORR(wave_delta_6h, sst_delta_24h)::numeric, 4)
+                                                        <span class="kw">AS</span> wave_sst_r_24h,
+    <span class="cm">-- Full chain: wind &rarr; SST (skip link)</span>
+    ROUND(CORR(wind_delta, sst_delta_24h)::numeric, 4) <span class="kw">AS</span> wind_sst_r_24h,
+    COUNT(*)                                            <span class="kw">AS</span> n_pairs
+<span class="kw">FROM</span> atmospheric_chain
+<span class="kw">WHERE</span> wind_delta <span class="kw">IS NOT NULL</span>
+  <span class="kw">AND</span> sst_delta_24h <span class="kw">IS NOT NULL</span>;</code></div>
+
+      <div class="scenario-reflection">The chain unfolds in hours, not months. Wind disturbs the surface; waves build over 3&ndash;6 hours; sea surface temperature responds over 12&ndash;24 hours as mixing energy dissipates into heat exchange. The two-link correlation (wind &rarr; wave, wave &rarr; SST) is stronger than the skip-link (wind &rarr; SST directly) &mdash; evidence that the cascade passes through an intermediate mechanism, not around it. An econometrician would recognize this as a mediation structure. The buoy data, designed to measure weather, inadvertently records the propagation velocity of atmospheric forcing through the ocean&rsquo;s surface layer.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread active">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO III ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario III &mdash; The Current-Biology Feedback</div>
+      <p class="scenario-question">When ocean currents shift, does biodiversity respond &mdash; and does the response feed back into current patterns through changes in biomass distribution?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Bidirectional Granger-like test: currents &harr; biodiversity</span>
+<span class="kw">WITH</span> regional_currents <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> region_lat,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> region_lon,
+        DATE_TRUNC(<span class="st">'quarter'</span>, observation_ts)            <span class="kw">AS</span> obs_qtr,
+        AVG(speed_ms)                                   <span class="kw">AS</span> mean_speed,
+        STDDEV(speed_ms)                                <span class="kw">AS</span> speed_variability,
+        COUNT(*)                                        <span class="kw">AS</span> n_current_obs
+    <span class="kw">FROM</span> ocean.current_measurements
+    <span class="kw">GROUP BY</span> region_lat, region_lon, obs_qtr
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 20
+),
+
+regional_biodiversity <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> region_lat,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> region_lon,
+        DATE_TRUNC(<span class="st">'quarter'</span>, observation_date)          <span class="kw">AS</span> obs_qtr,
+        COUNT(<span class="kw">DISTINCT</span> species_name)                    <span class="kw">AS</span> species_richness,
+        SUM(abundance)                                  <span class="kw">AS</span> total_abundance,
+        COUNT(*)                                        <span class="kw">AS</span> n_bio_obs
+    <span class="kw">FROM</span> obis.biodiversity_observations
+    <span class="kw">GROUP BY</span> region_lat, region_lon, obs_qtr
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 10
+),
+
+current_biology_loop <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        c.region_lat, c.region_lon, c.obs_qtr,
+        c.mean_speed,
+        b.species_richness,
+        <span class="cm">-- Forward: current &rarr; future biodiversity</span>
+        LEAD(b.species_richness, 1) <span class="kw">OVER</span> w             <span class="kw">AS</span> bio_next_qtr,
+        <span class="cm">-- Backward: biodiversity &rarr; future current</span>
+        LEAD(c.mean_speed, 1) <span class="kw">OVER</span> w                   <span class="kw">AS</span> speed_next_qtr
+    <span class="kw">FROM</span> regional_currents c
+    <span class="kw">JOIN</span> regional_biodiversity b
+        <span class="kw">ON</span> c.region_lat = b.region_lat
+       <span class="kw">AND</span> c.region_lon = b.region_lon
+       <span class="kw">AND</span> c.obs_qtr   = b.obs_qtr
+    <span class="kw">WINDOW</span> w <span class="kw">AS</span> (
+        <span class="kw">PARTITION BY</span> c.region_lat, c.region_lon
+        <span class="kw">ORDER BY</span> c.obs_qtr
+    )
+)
+
+<span class="kw">SELECT</span>
+    <span class="cm">-- Does current predict future biodiversity?</span>
+    ROUND(CORR(mean_speed, bio_next_qtr)::numeric, 4)  <span class="kw">AS</span> current_predicts_bio,
+    <span class="cm">-- Does biodiversity predict future current?</span>
+    ROUND(CORR(species_richness, speed_next_qtr)::numeric, 4)
+                                                        <span class="kw">AS</span> bio_predicts_current,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> ABS(CORR(mean_speed, bio_next_qtr))   &gt; 0.15
+         <span class="kw">AND</span> ABS(CORR(species_richness, speed_next_qtr)) &gt; 0.15
+            <span class="kw">THEN</span> <span class="st">'bidirectional feedback detected'</span>
+        <span class="kw">WHEN</span> ABS(CORR(mean_speed, bio_next_qtr))   &gt; 0.15
+            <span class="kw">THEN</span> <span class="st">'current drives biology (one-way)'</span>
+        <span class="kw">WHEN</span> ABS(CORR(species_richness, speed_next_qtr)) &gt; 0.15
+            <span class="kw">THEN</span> <span class="st">'biology drives current (one-way)'</span>
+        <span class="kw">ELSE</span>     <span class="st">'no significant coupling'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> feedback_verdict,
+    COUNT(*)                                            <span class="kw">AS</span> n_region_quarters
+<span class="kw">FROM</span> current_biology_loop
+<span class="kw">WHERE</span> bio_next_qtr <span class="kw">IS NOT NULL</span>
+  <span class="kw">AND</span> speed_next_qtr <span class="kw">IS NOT NULL</span>;</code></div>
+
+      <div class="scenario-reflection">Feedback loops are the signature of true complexity. A unidirectional cascade &mdash; current drives biology &mdash; is tractable, linear, comfortable. A bidirectional feedback loop is none of those things. If current speed predicts next-quarter species richness <em>and</em> species richness predicts next-quarter current speed, the system is coupled in the Granger sense: neither variable can be fully modeled without the other&rsquo;s history. This is not correlation. It is temporal precedence &mdash; the closest SQL can come to causation without an experiment.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread active">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread active">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO IV ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario IV &mdash; The Topographic Amplifier</div>
+      <p class="scenario-question">Does seafloor topography amplify or redirect cascading signals &mdash; do thermal anomalies propagate differently over ridges, trenches, and abyssal plains?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Topographic modulation of thermal cascade speed</span>
+<span class="kw">WITH</span> profile_with_terrain <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        p.profile_id,
+        p.observation_ts,
+        p.pressure_dbar,
+        p.temperature_c,
+        b.feature_type,
+        b.depth_m                                       <span class="kw">AS</span> seafloor_depth,
+        DATE_TRUNC(<span class="st">'month'</span>, p.observation_ts)           <span class="kw">AS</span> obs_month
+    <span class="kw">FROM</span> argo.float_profiles p
+    <span class="kw">JOIN</span> gebco.bathymetry b
+        <span class="kw">ON</span> ROUND(p.lat) = ROUND(b.lat)
+       <span class="kw">AND</span> ROUND(p.lon) = ROUND(b.lon)
+    <span class="kw">WHERE</span> p.quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> b.feature_type <span class="kw">IN</span> (<span class="st">'ridge'</span>, <span class="st">'trench'</span>, <span class="st">'abyssal_plain'</span>)
+),
+
+topographic_amplifier <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        feature_type,
+        obs_month,
+        AVG(<span class="kw">CASE WHEN</span> pressure_dbar &lt; 100
+            <span class="kw">THEN</span> temperature_c <span class="kw">END</span>)                    <span class="kw">AS</span> surface_temp,
+        AVG(<span class="kw">CASE WHEN</span> pressure_dbar &gt; 500
+            <span class="kw">THEN</span> temperature_c <span class="kw">END</span>)                    <span class="kw">AS</span> deep_temp,
+        AVG(<span class="kw">CASE WHEN</span> pressure_dbar &lt; 100
+            <span class="kw">THEN</span> temperature_c <span class="kw">END</span>)
+          - LAG(AVG(<span class="kw">CASE WHEN</span> pressure_dbar &lt; 100
+            <span class="kw">THEN</span> temperature_c <span class="kw">END</span>), 1) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> feature_type <span class="kw">ORDER BY</span> obs_month
+        )                                               <span class="kw">AS</span> surface_delta,
+        AVG(<span class="kw">CASE WHEN</span> pressure_dbar &gt; 500
+            <span class="kw">THEN</span> temperature_c <span class="kw">END</span>)
+          - LAG(AVG(<span class="kw">CASE WHEN</span> pressure_dbar &gt; 500
+            <span class="kw">THEN</span> temperature_c <span class="kw">END</span>), 6) <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> feature_type <span class="kw">ORDER BY</span> obs_month
+        )                                               <span class="kw">AS</span> deep_delta_lag6
+    <span class="kw">FROM</span> profile_with_terrain
+    <span class="kw">GROUP BY</span> feature_type, obs_month
+)
+
+<span class="kw">SELECT</span>
+    feature_type,
+    ROUND(CORR(surface_delta, deep_delta_lag6)::numeric, 4)
+                                                        <span class="kw">AS</span> cascade_correlation,
+    ROUND((AVG(ABS(deep_delta_lag6))
+        / NULLIF(AVG(ABS(surface_delta)), 0))::numeric, 3)
+                                                        <span class="kw">AS</span> amplification_ratio,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> AVG(ABS(deep_delta_lag6))
+           &gt; AVG(ABS(surface_delta)) * 1.2
+            <span class="kw">THEN</span> <span class="st">'amplifies'</span>
+        <span class="kw">WHEN</span> AVG(ABS(deep_delta_lag6))
+           &lt; AVG(ABS(surface_delta)) * 0.5
+            <span class="kw">THEN</span> <span class="st">'dampens'</span>
+        <span class="kw">ELSE</span>     <span class="st">'channels'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> topographic_effect,
+    COUNT(*)                                            <span class="kw">AS</span> n_months
+<span class="kw">FROM</span> topographic_amplifier
+<span class="kw">WHERE</span> surface_delta <span class="kw">IS NOT NULL</span>
+  <span class="kw">AND</span> deep_delta_lag6 <span class="kw">IS NOT NULL</span>
+<span class="kw">GROUP BY</span> feature_type
+<span class="kw">ORDER BY</span> amplification_ratio <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">Geometry shapes signal. A ridge forces upwelling, concentrating thermal energy into a narrower water column &mdash; the cascade amplifies. A trench channels flow along its axis, preserving signal strength over distance but redirecting its path. An abyssal plain, with its vast thermal inertia and minimal forcing, absorbs perturbations like a sponge. The same surface anomaly, propagated through the same six-month delay, arrives at the deep ocean with fundamentally different amplitude depending on what the seafloor looks like. The cascade is not just temporal. It is topographic.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO V ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario V &mdash; The Ice-Temperature Cascade</div>
+      <p class="scenario-question">As ice concentration changes, does the SST response cascade through adjacent ice-free regions &mdash; and how far does the thermal signal propagate from the ice edge?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Spatial radiation of thermal signal from ice edge</span>
+<span class="kw">WITH</span> ice_edge <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        grid_id, lat, lon, observation_date,
+        sst_anomaly_c,
+        ice_concentration_pct
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> ice_concentration_pct <span class="kw">BETWEEN</span> 1 <span class="kw">AND</span> 50
+),
+
+open_water <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        grid_id, lat, lon, observation_date,
+        sst_anomaly_c
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> ice_concentration_pct = 0
+      <span class="kw">OR</span> ice_concentration_pct <span class="kw">IS NULL</span>
+),
+
+ice_radiation <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        e.observation_date,
+        SQRT(POWER(e.lat - w.lat, 2)
+           + POWER(e.lon - w.lon, 2))                   <span class="kw">AS</span> distance_deg,
+        e.sst_anomaly_c                                 <span class="kw">AS</span> edge_anomaly,
+        w.sst_anomaly_c                                 <span class="kw">AS</span> water_anomaly,
+        <span class="kw">CASE</span>
+            <span class="kw">WHEN</span> SQRT(POWER(e.lat - w.lat, 2)
+                    + POWER(e.lon - w.lon, 2)) &lt; 2
+                <span class="kw">THEN</span> <span class="st">'0-2 deg'</span>
+            <span class="kw">WHEN</span> SQRT(POWER(e.lat - w.lat, 2)
+                    + POWER(e.lon - w.lon, 2)) &lt; 5
+                <span class="kw">THEN</span> <span class="st">'2-5 deg'</span>
+            <span class="kw">WHEN</span> SQRT(POWER(e.lat - w.lat, 2)
+                    + POWER(e.lon - w.lon, 2)) &lt; 10
+                <span class="kw">THEN</span> <span class="st">'5-10 deg'</span>
+            <span class="kw">ELSE</span> <span class="st">'10+ deg'</span>
+        <span class="kw">END</span>                                             <span class="kw">AS</span> distance_band
+    <span class="kw">FROM</span> ice_edge e
+    <span class="kw">JOIN</span> open_water w
+        <span class="kw">ON</span> e.observation_date = w.observation_date
+       <span class="kw">AND</span> ABS(e.lat - w.lat) &lt; 12
+       <span class="kw">AND</span> ABS(e.lon - w.lon) &lt; 12
+)
+
+<span class="kw">SELECT</span>
+    distance_band,
+    ROUND(CORR(edge_anomaly, water_anomaly)::numeric, 4)
+                                                        <span class="kw">AS</span> cascade_correlation,
+    ROUND(AVG(water_anomaly)::numeric, 3)               <span class="kw">AS</span> mean_water_anomaly,
+    ROUND(STDDEV(water_anomaly)::numeric, 3)            <span class="kw">AS</span> anomaly_variability,
+    ROUND((AVG(ABS(water_anomaly))
+        / NULLIF(AVG(ABS(edge_anomaly)), 0))::numeric, 3)
+                                                        <span class="kw">AS</span> signal_decay_ratio,
+    COUNT(*)                                            <span class="kw">AS</span> n_pairs
+<span class="kw">FROM</span> ice_radiation
+<span class="kw">GROUP BY</span> distance_band
+<span class="kw">ORDER BY</span> distance_band;</code></div>
+
+      <div class="scenario-reflection">Ice retreat is not a local event. As the edge recedes, it exposes dark ocean to direct solar absorption &mdash; the albedo feedback &mdash; and that thermal pulse radiates outward. The correlation between ice-edge anomaly and open-water anomaly should decay with distance, but the rate of decay encodes the cascade&rsquo;s spatial reach. If the 5&ndash;10 degree band still shows significant correlation, the cascade extends over 500 kilometers. The ice edge is not a boundary. It is a transmitter, broadcasting thermal information into the surrounding ocean at a rate determined by geometry, currents, and the season&rsquo;s insolation.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO VI ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario VI &mdash; The Multi-Layer Cascade</div>
+      <p class="scenario-question">Can we detect a signal that propagates through all layers of the ocean system &mdash; from atmosphere through surface through depth through biology &mdash; as a single coherent cascade?</p>
+
+      <div class="sql-block"><code><span class="cm">-- The full cascade: atmosphere &rarr; surface &rarr; depth &rarr; biology</span>
+<span class="kw">WITH</span> atmosphere <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> region_lat,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> region_lon,
+        DATE_TRUNC(<span class="st">'month'</span>, observation_ts)             <span class="kw">AS</span> obs_month,
+        AVG(wind_speed_ms)                              <span class="kw">AS</span> mean_wind,
+        AVG(air_temp_c)                                 <span class="kw">AS</span> mean_air_temp
+    <span class="kw">FROM</span> noaa.buoy_observations
+    <span class="kw">GROUP BY</span> region_lat, region_lon, obs_month
+),
+
+surface <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> region_lat,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> region_lon,
+        DATE_TRUNC(<span class="st">'month'</span>, observation_date)           <span class="kw">AS</span> obs_month,
+        AVG(sst_anomaly_c)                              <span class="kw">AS</span> mean_sst_anomaly
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">GROUP BY</span> region_lat, region_lon, obs_month
+),
+
+depth_layer <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> region_lat,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> region_lon,
+        DATE_TRUNC(<span class="st">'month'</span>, observation_ts)             <span class="kw">AS</span> obs_month,
+        AVG(temperature_c)                              <span class="kw">AS</span> mean_deep_temp
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> pressure_dbar &gt; 500
+      <span class="kw">AND</span> quality_flag <span class="kw">IN</span> (1, 2)
+    <span class="kw">GROUP BY</span> region_lat, region_lon, obs_month
+),
+
+biology <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat / 5) * 5                              <span class="kw">AS</span> region_lat,
+        ROUND(lon / 5) * 5                              <span class="kw">AS</span> region_lon,
+        DATE_TRUNC(<span class="st">'month'</span>, observation_date)           <span class="kw">AS</span> obs_month,
+        COUNT(<span class="kw">DISTINCT</span> species_name)                    <span class="kw">AS</span> species_richness,
+        SUM(abundance)                                  <span class="kw">AS</span> total_abundance
+    <span class="kw">FROM</span> obis.biodiversity_observations
+    <span class="kw">GROUP BY</span> region_lat, region_lon, obs_month
+),
+
+full_cascade <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        a.region_lat, a.region_lon, a.obs_month,
+        a.mean_air_temp,
+        s.mean_sst_anomaly,
+        d.mean_deep_temp,
+        bio.species_richness,
+        <span class="cm">-- Lagged forward references through each layer</span>
+        LEAD(s.mean_sst_anomaly, 1) <span class="kw">OVER</span> w             <span class="kw">AS</span> sst_next_1mo,
+        LEAD(d.mean_deep_temp, 6) <span class="kw">OVER</span> w               <span class="kw">AS</span> deep_next_6mo,
+        LEAD(bio.species_richness, 9) <span class="kw">OVER</span> w           <span class="kw">AS</span> bio_next_9mo
+    <span class="kw">FROM</span> atmosphere a
+    <span class="kw">JOIN</span> surface s
+        <span class="kw">ON</span> a.region_lat = s.region_lat
+       <span class="kw">AND</span> a.region_lon = s.region_lon
+       <span class="kw">AND</span> a.obs_month  = s.obs_month
+    <span class="kw">JOIN</span> depth_layer d
+        <span class="kw">ON</span> a.region_lat = d.region_lat
+       <span class="kw">AND</span> a.region_lon = d.region_lon
+       <span class="kw">AND</span> a.obs_month  = d.obs_month
+    <span class="kw">JOIN</span> biology bio
+        <span class="kw">ON</span> a.region_lat = bio.region_lat
+       <span class="kw">AND</span> a.region_lon = bio.region_lon
+       <span class="kw">AND</span> a.obs_month  = bio.obs_month
+    <span class="kw">WINDOW</span> w <span class="kw">AS</span> (
+        <span class="kw">PARTITION BY</span> a.region_lat, a.region_lon
+        <span class="kw">ORDER BY</span> a.obs_month
+    )
+)
+
+<span class="kw">SELECT</span>
+    <span class="cm">-- Link 1: atmosphere &rarr; surface (1-month lag)</span>
+    ROUND(CORR(mean_air_temp, sst_next_1mo)::numeric, 4)
+                                                        <span class="kw">AS</span> atmo_to_surface,
+    <span class="cm">-- Link 2: atmosphere &rarr; depth (6-month lag)</span>
+    ROUND(CORR(mean_air_temp, deep_next_6mo)::numeric, 4)
+                                                        <span class="kw">AS</span> atmo_to_depth,
+    <span class="cm">-- Link 3: atmosphere &rarr; biology (9-month lag)</span>
+    ROUND(CORR(mean_air_temp, bio_next_9mo)::numeric, 4)
+                                                        <span class="kw">AS</span> atmo_to_biology,
+    <span class="cm">-- Cascade decay: does signal weaken at each step?</span>
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> ABS(CORR(mean_air_temp, sst_next_1mo))
+           &gt; ABS(CORR(mean_air_temp, deep_next_6mo))
+         <span class="kw">AND</span> ABS(CORR(mean_air_temp, deep_next_6mo))
+           &gt; ABS(CORR(mean_air_temp, bio_next_9mo))
+            <span class="kw">THEN</span> <span class="st">'monotonic decay — classical cascade'</span>
+        <span class="kw">WHEN</span> ABS(CORR(mean_air_temp, deep_next_6mo))
+           &gt; ABS(CORR(mean_air_temp, sst_next_1mo))
+            <span class="kw">THEN</span> <span class="st">'mid-layer amplification — emergent'</span>
+        <span class="kw">ELSE</span>     <span class="st">'non-monotonic — complex coupling'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> cascade_topology,
+    COUNT(*)                                            <span class="kw">AS</span> n_observations
+<span class="kw">FROM</span> full_cascade
+<span class="kw">WHERE</span> sst_next_1mo <span class="kw">IS NOT NULL</span>
+  <span class="kw">AND</span> deep_next_6mo <span class="kw">IS NOT NULL</span>
+  <span class="kw">AND</span> bio_next_9mo <span class="kw">IS NOT NULL</span>;</code></div>
+
+      <div class="scenario-reflection">This is the capstone. Four tables. Four layers of the Earth system. One cascade. An atmospheric perturbation &mdash; a shift in air temperature &mdash; should appear in SST within a month, in the mesopelagic within six months, and in biodiversity within nine. The correlation should decay at each transition if the cascade is classical. But if the mid-layer correlation is <em>stronger</em> than the surface coupling, the deep ocean is amplifying &mdash; Anderson&rsquo;s emergence in action, detected with nothing more than window functions and a four-way join. No single table contains the cascade. No single discipline would think to look for it. The signal exists only in the coupling.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread active">econometric</span>
+        <span class="dna-thread active">sociometric</span>
+        <span class="dna-thread active">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- CODA -->
+    <section class="coda">
+      <h2>Coda</h2>
+
+      <p>Six cascades. Four layers of the ocean system. Each query tracking how a perturbation at one scale propagates to another.</p>
+
+      <p>The thermal cascade shows depth-delay: surface warming takes six months to reach the mesopelagic, and the deep may amplify what the surface merely introduced. The wind-wave-temperature chain shows atmospheric coupling: a mediation structure unfolding over hours, where the intermediate link (waves) carries more predictive information than the direct path. The current-biology feedback shows bidirectional causality: the rarest and most dangerous structure in complex systems, where cause and effect reverse depending on which quarter you examine.</p>
+
+      <p>The topographic amplifier shows that geometry shapes propagation: the same signal, over the same delay, arrives with different amplitude depending on whether the seafloor is a ridge, a trench, or a plain. The ice cascade shows spatial radiation: the ice edge broadcasting thermal information outward, with signal strength decaying as a function of distance in a pattern that encodes the coupling strength of the polar ocean. And the multi-layer cascade shows the full chain &mdash; atmosphere to surface to depth to biology &mdash; a single coherent signal threading through four tables, four disciplines, four timescales.</p>
+
+      <p>Single-scale analysis sees none of this. A surface oceanographer sees warming. A deep-ocean physicist sees circulation change. A marine biologist sees biodiversity shift. An atmospheric scientist sees wind patterns. Each sees their slice. None sees the cascade that connects the slices &mdash; because the cascade is not <em>in</em> any slice. It is in the coupling between them.</p>
+
+      <p>Anderson was right. More is different. The cascade is not a sum of its layers. It is an emergent property of their interaction &mdash; detectable only by the observer who watches multiple layers simultaneously with calibrated delay.</p>
+
+      <p>We demonstrated this on seawater because seawater is patient, layered, and public. Every cascade above could be re-pointed &mdash; at supply chains, at neural circuits, at institutional feedback loops, at market contagion, at epidemic propagation &mdash; without changing a single structural element. The SQL would change. The tables would change. The cascade architecture would not.</p>
+
+      <p class="warning-line">The framework was never designed for the ocean alone.</p>
+
+      <div class="signature">
+        &mdash; Jeffrey J. Berg<br>
+        PARALLAX<span class="tm">&trade;</span> &middot; CONSTELLATION<span class="tm">&trade;</span><br>
+        Convergent Distributed Empirical Inferential Intelligence<span class="tm">&trade;</span>
+      </div>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <span>&copy; Jeffrey J. Berg. All rights reserved.</span>
+  <span>PARALLAX&trade; &middot; GAUGE&trade; &middot; CONSTELLATION&trade; &middot; CDEII&trade;</span>
+</footer>
+
+</body>
+</html>
