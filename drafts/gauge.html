@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>GAUGE &mdash; PARALLAX&trade;</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='14'%3E%E2%97%87%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --surface: #111820;
+    --surface-raised: #171f28;
+    --text: #c8ccd0;
+    --text-muted: #6a7580;
+    --text-bright: #e8ecf0;
+    --amber: #d4a843;
+    --amber-dim: rgba(212, 168, 67, 0.08);
+    --amber-border: rgba(212, 168, 67, 0.35);
+    --green-soft: #8fbc8f;
+    --serif: "Cormorant Garamond", "EB Garamond", Garamond, "Hoefler Text", "Times New Roman", serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    --mono: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", "Consolas", monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    background: var(--bg);
+    color: var(--text);
+    font-size: 17px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--serif);
+    font-weight: 400;
+    line-height: 1.72;
+    letter-spacing: 0.005em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--amber-border); transition: border-color 0.3s; }
+  a:hover { border-color: var(--amber); }
+  a:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+  /* --- NAV --- */
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 14, 20, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0.6rem clamp(1rem, 4vw, 2rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+  }
+  .site-nav a { color: var(--text-muted); border: none; }
+  .site-nav a:hover { color: var(--text-bright); }
+  .nav-brand { font-weight: 600; color: var(--text); letter-spacing: 0.22em; }
+  .nav-links { display: flex; gap: 1.2rem; }
+
+  /* --- MAIN --- */
+  #main {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem) 4rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    border: none;
+  }
+  .back-link::before { content: "\2190\00a0"; }
+
+  /* --- ARTICLE HEADER --- */
+  .article-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .article-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text-bright);
+    margin-bottom: 0.4rem;
+  }
+  .article-subtitle {
+    font-family: var(--serif);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+  .article-meta {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: lowercase;
+  }
+  .article-meta .tm { font-size: 0.6em; vertical-align: super; }
+
+  /* --- EPIGRAPH --- */
+  .epigraph {
+    text-align: center;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 2.5rem 2rem 0.5rem;
+    line-height: 1.6;
+  }
+  .epigraph-attribution {
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+  }
+
+  /* --- PREAMBLE --- */
+  .preamble {
+    margin-bottom: 3rem;
+  }
+  .preamble h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .preamble p {
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  /* --- SCHEMA SECTION --- */
+  .schema-section {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .schema-section h3 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .schema-table {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+  .schema-table .table-name {
+    color: var(--text-bright);
+    font-weight: 600;
+  }
+  .schema-table .columns {
+    color: var(--text-muted);
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* --- TRANSITION --- */
+  .transition {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+    margin: 3rem 0;
+    opacity: 0.4;
+  }
+
+  /* --- SCENARIO --- */
+  .scenario {
+    margin-bottom: 3.5rem;
+  }
+  .scenario-label {
+    font-family: var(--sans);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.8rem;
+  }
+  .scenario-question {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--text-bright);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--amber-border);
+  }
+
+  /* --- SQL BLOCK --- */
+  .sql-block {
+    background: var(--surface);
+    border-left: 3px solid var(--amber-border);
+    border-radius: 0 4px 4px 0;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sql-block code {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--text);
+    white-space: pre;
+    tab-size: 4;
+  }
+  .sql-block .kw { color: var(--amber); font-weight: 500; }
+  .sql-block .st { color: var(--green-soft); }
+  .sql-block .cm { color: var(--text-muted); font-style: italic; }
+
+  /* --- REFLECTION --- */
+  .scenario-reflection {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding: 1rem 1.2rem;
+    background: var(--amber-dim);
+    border-radius: 4px;
+    margin-bottom: 0.8rem;
+  }
+
+  /* --- DNA THREADS --- */
+  .dna-threads {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+  }
+  .dna-thread {
+    font-family: var(--sans);
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 2px;
+    padding: 0.15rem 0.5rem;
+  }
+  .dna-thread.active {
+    color: var(--amber);
+    border-color: var(--amber-border);
+    background: var(--amber-dim);
+  }
+
+  /* --- CODA --- */
+  .coda {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .coda h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.5rem;
+  }
+  .coda p { margin-bottom: 1rem; }
+  .coda .warning-line {
+    font-style: italic;
+    color: var(--text-bright);
+    font-size: 1.05rem;
+  }
+  .coda .signature {
+    margin-top: 2.5rem;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* --- FOOTER --- */
+  .site-footer {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-family: var(--sans);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 768px) {
+    .sql-block { padding: 1rem; }
+    .sql-block code { font-size: 0.72rem; }
+    .schema-table { font-size: 0.72rem; }
+    .scenario-question { font-size: 1.05rem; }
+  }
+
+  @media (max-width: 480px) {
+    .sql-block { padding: 0.8rem; margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+    .schema-section { margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  @media print {
+    .site-nav { display: none; }
+    :root { --bg: #fff; --text: #111; --text-bright: #000; --text-muted: #555; --surface: #f5f5f5; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <span class="nav-brand">parallax&trade;</span>
+  <div class="nav-links">
+    <a href="/">home</a>
+    <a href="/cv">cv</a>
+  </div>
+</nav>
+
+<div id="main">
+  <a href="/" class="back-link">home</a>
+
+  <header class="article-header">
+    <h1>GAUGE</h1>
+    <div class="article-subtitle">Local Distortion Diagnostics for Any Low-Dimensional Embedding &mdash; A Measurement Framework for What Every Projection Loses</div>
+    <div class="article-meta">
+      Jeffrey J. Berg &middot; PARALLAX<span class="tm">&trade;</span> &middot; CONSTELLATION<span class="tm">&trade;</span>
+    </div>
+  </header>
+
+  <article class="article-content">
+
+    <!-- EPIGRAPH -->
+    <p class="epigraph">&ldquo;Not everything that counts can be counted, and not everything that can be counted counts.&rdquo;</p>
+    <p class="epigraph-attribution">&mdash; William Bruce Cameron (often misattributed to Einstein)</p>
+
+    <!-- PREAMBLE -->
+    <section class="preamble">
+      <h2>The Diagnostic Engine</h2>
+      <p>The name is borrowed from physics. In gauge theory, the central question is: what remains invariant under transformation? When you rotate a coordinate system, change your units, shift your frame of reference &mdash; what survives? GAUGE&trade; asks the same question of every dimensionality reduction ever published. When you project a thousand-dimensional manifold into two dimensions for a scatter plot, what survives &mdash; and what is quietly destroyed?</p>
+      <p>GAUGE&trade; is the diagnostic engine for PARALLAX&trade;. It does not create embeddings. It does not optimize projections. It judges them. For every region of the projected space, it quantifies how much the embedding distorts the underlying manifold &mdash; how distances stretch or compress, how neighborhoods rearrange, how curvature appears where none existed, how information vanishes without a trace.</p>
+      <p>The field has built dozens of dimension reduction techniques &mdash; PCA, t-SNE, UMAP, diffusion maps, autoencoders, Isomap, locally linear embedding &mdash; and subjected them to exactly one diagnostic: &ldquo;does the scatter plot look right?&rdquo; This is the psychometric equivalent of validating a test by asking whether the scores feel reasonable. It is not science. It is aesthetics wearing a lab coat.</p>
+      <p>GAUGE fills the gap. Six diagnostics, each measuring a different face of the same distortion. Each implemented as a SQL query on real oceanographic data. Each revealing what the projection lost in order to show you what it shows you. The ocean is the test case. The framework is general.</p>
+    </section>
+
+    <!-- SCHEMA REFERENCE -->
+    <section class="schema-section">
+      <h3>The Shared Schema &mdash; Seven Tables, One Ocean</h3>
+      <div class="schema-table">
+        <div><span class="table-name">argo.float_profiles</span></div>
+        <div class="columns">profile_id, float_id, cycle_number, lat, lon, observation_ts, pressure_dbar, temperature_c, salinity_psu, oxygen_umol_kg, quality_flag, data_mode</div>
+
+        <div><span class="table-name">argo.float_metadata</span></div>
+        <div class="columns">float_id, deploy_date, deploy_lat, deploy_lon, country, project_name, float_model, status</div>
+
+        <div><span class="table-name">noaa.buoy_observations</span></div>
+        <div class="columns">station_id, station_name, lat, lon, observation_ts, wind_speed_ms, wave_height_m, sea_surface_temp_c, air_temp_c, air_pressure_hpa</div>
+
+        <div><span class="table-name">noaa.sea_surface_temperature</span></div>
+        <div class="columns">grid_id, lat, lon, observation_date, sst_c, sst_anomaly_c, ice_concentration_pct, source</div>
+
+        <div><span class="table-name">ocean.current_measurements</span></div>
+        <div class="columns">measurement_id, platform_type, lat, lon, depth_m, observation_ts, velocity_east_ms, velocity_north_ms, speed_ms</div>
+
+        <div><span class="table-name">gebco.bathymetry</span></div>
+        <div class="columns">cell_id, lat, lon, depth_m, feature_name, feature_type</div>
+
+        <div><span class="table-name">obis.biodiversity_observations</span></div>
+        <div class="columns">occurrence_id, species_name, phylum, observation_date, lat, lon, depth_m, abundance, dataset_id</div>
+      </div>
+      <p style="margin-top: 1rem; font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.1em; color: var(--text-muted);">Diagnostic focus: distortion metrics, embedding diagnostics, residual analysis, measurement fidelity</p>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO I ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario I &mdash; Pairwise Distance Fidelity</div>
+      <p class="scenario-question">When we project the ocean&rsquo;s high-dimensional measurements into two dimensions, which pairs of points lose their true separation &mdash; and by how much?</p>
+
+      <div class="sql-block"><code><span class="cm">-- GAUGE diagnostic: pairwise distance distortion</span>
+<span class="cm">-- compare Euclidean distances in original 4D feature space</span>
+<span class="cm">-- vs projected 2D space (lat, lon as proxy embedding)</span>
+
+<span class="kw">WITH</span> feature_space <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        profile_id,
+        lat,
+        lon,
+        temperature_c,
+        salinity_psu,
+        oxygen_umol_kg,
+        pressure_dbar
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> temperature_c    <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> salinity_psu     <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> oxygen_umol_kg   <span class="kw">IS NOT NULL</span>
+    <span class="kw">LIMIT</span> 5000
+),
+
+distance_fidelity <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        a.profile_id                                    <span class="kw">AS</span> id_a,
+        b.profile_id                                    <span class="kw">AS</span> id_b,
+        SQRT(
+            POWER(a.temperature_c  - b.temperature_c,  2)
+          + POWER(a.salinity_psu   - b.salinity_psu,   2)
+          + POWER(a.oxygen_umol_kg - b.oxygen_umol_kg, 2)
+          + POWER(a.pressure_dbar  - b.pressure_dbar,  2)
+        )                                               <span class="kw">AS</span> d_original,
+        SQRT(
+            POWER(a.lat - b.lat, 2)
+          + POWER(a.lon - b.lon, 2)
+        )                                               <span class="kw">AS</span> d_projected
+    <span class="kw">FROM</span> feature_space a
+    <span class="kw">JOIN</span> feature_space b
+        <span class="kw">ON</span> a.profile_id &lt; b.profile_id
+),
+
+distortion_scored <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        id_a,
+        id_b,
+        d_original,
+        d_projected,
+        d_projected / NULLIF(d_original, 0)             <span class="kw">AS</span> distortion_ratio,
+        ABS(d_projected - d_original) / NULLIF(d_original, 0)
+                                                        <span class="kw">AS</span> relative_error
+    <span class="kw">FROM</span> distance_fidelity
+    <span class="kw">WHERE</span> d_original &gt; 0
+)
+
+<span class="kw">SELECT</span>
+    ROUND(AVG(distortion_ratio)::numeric, 4)            <span class="kw">AS</span> mean_distortion,
+    ROUND(STDDEV(distortion_ratio)::numeric, 4)         <span class="kw">AS</span> distortion_spread,
+    ROUND(AVG(relative_error)::numeric, 4)              <span class="kw">AS</span> mean_relative_error,
+    COUNT(*) <span class="kw">FILTER</span> (
+        <span class="kw">WHERE</span> distortion_ratio &gt; 2.0
+           <span class="kw">OR</span> distortion_ratio &lt; 0.5
+    )                                                   <span class="kw">AS</span> severely_distorted_pairs,
+    COUNT(*)                                            <span class="kw">AS</span> total_pairs,
+    ROUND(
+        100.0 * COUNT(*) <span class="kw">FILTER</span> (
+            <span class="kw">WHERE</span> distortion_ratio &gt; 2.0
+               <span class="kw">OR</span> distortion_ratio &lt; 0.5
+        ) / COUNT(*)::numeric, 2
+    )                                                   <span class="kw">AS</span> pct_severely_distorted
+<span class="kw">FROM</span> distortion_scored;</code></div>
+
+      <div class="scenario-reflection">Distance is the most elementary geometric fact: how far apart are these two things? Every embedding implicitly answers this question for every pair of points. Most get it wrong. The distortion ratio reveals the lie: a ratio of 1.0 means the embedding preserved the true separation; anything else means it stretched or compressed reality. The percentage of severely distorted pairs is not a curiosity &mdash; it is the embedding&rsquo;s error rate, stated honestly. A scatter plot that distorts 40% of its pairwise distances is not a visualization. It is a hallucination with axes.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO II ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario II &mdash; Neighborhood Preservation</div>
+      <p class="scenario-question">Does a point&rsquo;s nearest neighbors in the full measurement space remain its neighbors after projection &mdash; or does the embedding silently rearrange what is close to what?</p>
+
+      <div class="sql-block"><code><span class="cm">-- GAUGE diagnostic: k-nearest neighbor preservation</span>
+<span class="cm">-- Jaccard overlap between original and projected neighborhoods</span>
+
+<span class="kw">WITH</span> profiles <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        profile_id,
+        lat,
+        lon,
+        temperature_c,
+        salinity_psu,
+        oxygen_umol_kg,
+        pressure_dbar
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> temperature_c    <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> salinity_psu     <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> oxygen_umol_kg   <span class="kw">IS NOT NULL</span>
+    <span class="kw">LIMIT</span> 2000
+),
+
+original_neighbors <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        a.profile_id                                    <span class="kw">AS</span> anchor_id,
+        b.profile_id                                    <span class="kw">AS</span> neighbor_id,
+        RANK() <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> a.profile_id
+            <span class="kw">ORDER BY</span> SQRT(
+                POWER(a.temperature_c  - b.temperature_c,  2)
+              + POWER(a.salinity_psu   - b.salinity_psu,   2)
+              + POWER(a.oxygen_umol_kg - b.oxygen_umol_kg, 2)
+              + POWER(a.pressure_dbar  - b.pressure_dbar,  2)
+            ) <span class="kw">ASC</span>
+        )                                               <span class="kw">AS</span> rank_original
+    <span class="kw">FROM</span> profiles a
+    <span class="kw">JOIN</span> profiles b
+        <span class="kw">ON</span> a.profile_id &lt;&gt; b.profile_id
+),
+
+projected_neighbors <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        a.profile_id                                    <span class="kw">AS</span> anchor_id,
+        b.profile_id                                    <span class="kw">AS</span> neighbor_id,
+        RANK() <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> a.profile_id
+            <span class="kw">ORDER BY</span> SQRT(
+                POWER(a.lat - b.lat, 2)
+              + POWER(a.lon - b.lon, 2)
+            ) <span class="kw">ASC</span>
+        )                                               <span class="kw">AS</span> rank_projected
+    <span class="kw">FROM</span> profiles a
+    <span class="kw">JOIN</span> profiles b
+        <span class="kw">ON</span> a.profile_id &lt;&gt; b.profile_id
+),
+
+neighborhood_drift <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        o.anchor_id,
+        COUNT(*) <span class="kw">FILTER</span> (
+            <span class="kw">WHERE</span> o.rank_original &lt;= 10
+              <span class="kw">AND</span> p.rank_projected &lt;= 10
+        )                                               <span class="kw">AS</span> shared_neighbors,
+        10                                              <span class="kw">AS</span> k
+    <span class="kw">FROM</span> original_neighbors o
+    <span class="kw">JOIN</span> projected_neighbors p
+        <span class="kw">ON</span> o.anchor_id   = p.anchor_id
+       <span class="kw">AND</span> o.neighbor_id = p.neighbor_id
+    <span class="kw">GROUP BY</span> o.anchor_id
+)
+
+<span class="kw">SELECT</span>
+    ROUND(AVG(shared_neighbors / 10.0)::numeric, 4)     <span class="kw">AS</span> mean_jaccard_overlap,
+    ROUND(MIN(shared_neighbors / 10.0)::numeric, 4)     <span class="kw">AS</span> worst_preservation,
+    ROUND(STDDEV(shared_neighbors / 10.0)::numeric, 4)  <span class="kw">AS</span> preservation_spread,
+    COUNT(*) <span class="kw">FILTER</span> (
+        <span class="kw">WHERE</span> shared_neighbors &lt; 3
+    )                                                   <span class="kw">AS</span> catastrophic_rearrangements,
+    COUNT(*)                                            <span class="kw">AS</span> total_points
+<span class="kw">FROM</span> neighborhood_drift;</code></div>
+
+      <div class="scenario-reflection">Distance fidelity asks about pairs. Neighborhood preservation asks about communities. A point&rsquo;s ten nearest neighbors define its local context &mdash; what it is similar to, what it should be grouped with, what it can be interpolated from. When the embedding rearranges these neighborhoods, it does not just distort geometry. It breaks the inferential structure that every downstream analysis depends on. The Jaccard overlap is the embedding&rsquo;s report card on local topology. Catastrophic rearrangements &mdash; points whose neighborhoods share fewer than three of ten members &mdash; are the places where the projection is not simplifying reality. It is inventing a new one.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO III ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario III &mdash; Local Curvature Residuals</div>
+      <p class="scenario-question">Where does the projected surface bend in ways the original manifold does not &mdash; and what does this phantom curvature reveal about the embedding&rsquo;s assumptions?</p>
+
+      <div class="sql-block"><code><span class="cm">-- GAUGE diagnostic: phantom curvature detection</span>
+<span class="cm">-- compare local variance structure at fine vs coarse scales</span>
+<span class="cm">-- to detect artificial smoothing or introduced wrinkles</span>
+
+<span class="kw">WITH</span> fine_grain <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat::numeric, 0)                          <span class="kw">AS</span> lat_1deg,
+        ROUND(lon::numeric, 0)                          <span class="kw">AS</span> lon_1deg,
+        AVG(sst_c)                                      <span class="kw">AS</span> mean_sst,
+        STDDEV(sst_c)                                   <span class="kw">AS</span> local_variance,
+        STDDEV(sst_anomaly_c)                           <span class="kw">AS</span> anomaly_variance,
+        COUNT(*)                                        <span class="kw">AS</span> n_obs
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> sst_c <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> ice_concentration_pct &lt; 15
+    <span class="kw">GROUP BY</span> lat_1deg, lon_1deg
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 30
+),
+
+coarse_grain <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat_1deg / 5) * 5                         <span class="kw">AS</span> lat_5deg,
+        ROUND(lon_1deg / 5) * 5                         <span class="kw">AS</span> lon_5deg,
+        AVG(mean_sst)                                   <span class="kw">AS</span> smooth_sst,
+        AVG(local_variance)                             <span class="kw">AS</span> expected_variance,
+        STDDEV(mean_sst)                                <span class="kw">AS</span> between_cell_variance,
+        COUNT(*)                                        <span class="kw">AS</span> n_cells
+    <span class="kw">FROM</span> fine_grain
+    <span class="kw">GROUP BY</span> lat_5deg, lon_5deg
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 5
+),
+
+phantom_curvature <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        f.lat_1deg,
+        f.lon_1deg,
+        f.mean_sst,
+        c.smooth_sst,
+        f.mean_sst - c.smooth_sst                      <span class="kw">AS</span> curvature_residual,
+        ABS(f.mean_sst - c.smooth_sst)
+            / NULLIF(c.expected_variance, 0)            <span class="kw">AS</span> standardized_residual,
+        f.local_variance,
+        c.expected_variance,
+        f.local_variance
+            / NULLIF(c.expected_variance, 0)            <span class="kw">AS</span> variance_ratio
+    <span class="kw">FROM</span> fine_grain f
+    <span class="kw">JOIN</span> coarse_grain c
+        <span class="kw">ON</span> ROUND(f.lat_1deg / 5) * 5 = c.lat_5deg
+       <span class="kw">AND</span> ROUND(f.lon_1deg / 5) * 5 = c.lon_5deg
+)
+
+<span class="kw">SELECT</span>
+    lat_1deg,
+    lon_1deg,
+    ROUND(curvature_residual::numeric, 3)               <span class="kw">AS</span> residual_c,
+    ROUND(standardized_residual::numeric, 3)            <span class="kw">AS</span> z_residual,
+    ROUND(variance_ratio::numeric, 3)                   <span class="kw">AS</span> var_ratio,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> standardized_residual &gt; 2.0
+         <span class="kw">AND</span> variance_ratio &gt; 1.5 <span class="kw">THEN</span> <span class="st">'phantom wrinkle'</span>
+        <span class="kw">WHEN</span> standardized_residual &lt; 0.5
+         <span class="kw">AND</span> variance_ratio &lt; 0.5 <span class="kw">THEN</span> <span class="st">'artificial smoothing'</span>
+        <span class="kw">ELSE</span>                          <span class="st">'faithful projection'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> curvature_diagnosis
+<span class="kw">FROM</span> phantom_curvature
+<span class="kw">WHERE</span> standardized_residual &gt; 2.0
+   <span class="kw">OR</span> variance_ratio <span class="kw">NOT</span> <span class="kw">BETWEEN</span> 0.5 <span class="kw">AND</span> 1.5
+<span class="kw">ORDER BY</span> standardized_residual <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> 30;</code></div>
+
+      <div class="scenario-reflection">Curvature is the geometry&rsquo;s second derivative &mdash; how the surface bends. When a projection introduces curvature that the original manifold does not possess, it creates phantom structure: wrinkles in the map that do not exist in the territory. Gulf Stream boundaries, equatorial upwelling zones, and polar transition regions are the usual suspects &mdash; places where the ocean&rsquo;s true high-dimensional geometry is steep, and any flattening introduces artifacts. The variance ratio catches both failure modes: ratios above 1.5 indicate the projection has amplified local variation (wrinkles); ratios below 0.5 indicate it has suppressed it (smoothing). Both are lies. The question is whether anyone is checking.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO IV ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario IV &mdash; Instrument Agreement Under Projection</div>
+      <p class="scenario-question">If two instruments converge in the original measurement space, do they still converge after projection &mdash; or does dimensionality reduction break the reliability that the raw data possessed?</p>
+
+      <div class="sql-block"><code><span class="cm">-- GAUGE diagnostic: reliability preservation</span>
+<span class="cm">-- does instrument agreement survive projection?</span>
+
+<span class="kw">WITH</span> co_located_raw <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        b.station_id,
+        f.float_id,
+        b.sea_surface_temp_c                            <span class="kw">AS</span> buoy_sst,
+        f.temperature_c                                 <span class="kw">AS</span> float_sst,
+        b.lat                                           <span class="kw">AS</span> buoy_lat,
+        b.lon                                           <span class="kw">AS</span> buoy_lon,
+        f.lat                                           <span class="kw">AS</span> float_lat,
+        f.lon                                           <span class="kw">AS</span> float_lon,
+        <span class="kw">CASE</span>
+            <span class="kw">WHEN</span> b.lat <span class="kw">BETWEEN</span> -30 <span class="kw">AND</span>  30 <span class="kw">THEN</span> <span class="st">'tropical'</span>
+            <span class="kw">WHEN</span> b.lat <span class="kw">BETWEEN</span> -60 <span class="kw">AND</span> -30
+              <span class="kw">OR</span> b.lat <span class="kw">BETWEEN</span>  30 <span class="kw">AND</span>  60 <span class="kw">THEN</span> <span class="st">'temperate'</span>
+            <span class="kw">ELSE</span>                                <span class="st">'polar'</span>
+        <span class="kw">END</span>                                             <span class="kw">AS</span> climate_zone
+    <span class="kw">FROM</span> noaa.buoy_observations b
+    <span class="kw">JOIN</span> argo.float_profiles f
+        <span class="kw">ON</span> ABS(b.lat - f.lat) &lt; 0.5
+       <span class="kw">AND</span> ABS(b.lon - f.lon) &lt; 0.5
+       <span class="kw">AND</span> ABS(EXTRACT(EPOCH <span class="kw">FROM</span>
+            b.observation_ts - f.observation_ts)) &lt; 3600
+    <span class="kw">WHERE</span> f.pressure_dbar &lt; 10
+      <span class="kw">AND</span> f.quality_flag = 1
+),
+
+raw_reliability <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        climate_zone,
+        COUNT(*)                                        <span class="kw">AS</span> n_pairs,
+        CORR(buoy_sst, float_sst)                      <span class="kw">AS</span> raw_r,
+        STDDEV(buoy_sst - float_sst)                   <span class="kw">AS</span> raw_disagreement
+    <span class="kw">FROM</span> co_located_raw
+    <span class="kw">GROUP BY</span> climate_zone
+),
+
+projected_reliability <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        climate_zone,
+        CORR(buoy_lat, float_lat)                       <span class="kw">AS</span> proj_r_lat,
+        CORR(buoy_lon, float_lon)                       <span class="kw">AS</span> proj_r_lon,
+        STDDEV(buoy_lat - float_lat)                    <span class="kw">AS</span> proj_disagreement
+    <span class="kw">FROM</span> co_located_raw
+    <span class="kw">GROUP BY</span> climate_zone
+)
+
+<span class="kw">SELECT</span>
+    r.climate_zone,
+    r.n_pairs,
+    ROUND(r.raw_r::numeric, 4)                          <span class="kw">AS</span> raw_correlation,
+    ROUND(r.raw_disagreement::numeric, 4)               <span class="kw">AS</span> raw_noise,
+    ROUND(p.proj_r_lat::numeric, 4)                     <span class="kw">AS</span> projected_r_lat,
+    ROUND(p.proj_disagreement::numeric, 4)              <span class="kw">AS</span> projected_noise,
+    ROUND((r.raw_r - p.proj_r_lat)::numeric, 4)        <span class="kw">AS</span> reliability_loss,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> r.raw_r - p.proj_r_lat &gt; 0.10
+            <span class="kw">THEN</span> <span class="st">'projection degrades reliability'</span>
+        <span class="kw">WHEN</span> ABS(r.raw_r - p.proj_r_lat) &lt;= 0.10
+            <span class="kw">THEN</span> <span class="st">'reliability preserved'</span>
+        <span class="kw">ELSE</span>     <span class="st">'projection inflates agreement'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> diagnostic
+<span class="kw">FROM</span> raw_reliability r
+<span class="kw">JOIN</span> projected_reliability p
+    <span class="kw">ON</span> r.climate_zone = p.climate_zone
+<span class="kw">ORDER BY</span> reliability_loss <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">Reliability is the psychometrician&rsquo;s first question: do repeated measurements agree? In the raw feature space, buoys and floats converge with high correlations &mdash; they are measuring the same ocean. But when we project those measurements into a reduced view, agreement can silently degrade. The reliability loss column is the smoking gun: it shows, per climate zone, how much inter-instrument convergence the projection destroyed. If polar regions show greater reliability loss than tropical ones, the embedding is not merely distorting geometry. It is introducing differential measurement error &mdash; making the instruments disagree about things they actually agreed on. This is not a visualization problem. It is a measurement integrity problem.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO V ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario V &mdash; Information Loss by Region</div>
+      <p class="scenario-question">Which ocean regions surrender the most information when compressed &mdash; and do the regions of greatest loss correspond to the regions of greatest scientific interest?</p>
+
+      <div class="sql-block"><code><span class="cm">-- GAUGE diagnostic: regional information loss</span>
+<span class="cm">-- compare multivariate entropy in full space vs reduced view</span>
+
+<span class="kw">WITH</span> ocean_basins <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        profile_id,
+        temperature_c,
+        salinity_psu,
+        oxygen_umol_kg,
+        pressure_dbar,
+        <span class="kw">CASE</span>
+            <span class="kw">WHEN</span> lon <span class="kw">BETWEEN</span> -80  <span class="kw">AND</span>   0  <span class="kw">THEN</span> <span class="st">'north_atlantic'</span>
+            <span class="kw">WHEN</span> lon <span class="kw">BETWEEN</span> -80  <span class="kw">AND</span>   0
+             <span class="kw">AND</span> lat &lt; 0              <span class="kw">THEN</span> <span class="st">'south_atlantic'</span>
+            <span class="kw">WHEN</span> lon <span class="kw">BETWEEN</span>  100 <span class="kw">AND</span> 180
+              <span class="kw">OR</span> lon <span class="kw">BETWEEN</span> -180 <span class="kw">AND</span> -80 <span class="kw">THEN</span> <span class="st">'pacific'</span>
+            <span class="kw">WHEN</span> lon <span class="kw">BETWEEN</span>   30 <span class="kw">AND</span> 100 <span class="kw">THEN</span> <span class="st">'indian'</span>
+            <span class="kw">WHEN</span> lat &lt; -60              <span class="kw">THEN</span> <span class="st">'southern'</span>
+            <span class="kw">ELSE</span>                             <span class="st">'other'</span>
+        <span class="kw">END</span>                                             <span class="kw">AS</span> basin
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> temperature_c    <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> salinity_psu     <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> oxygen_umol_kg   <span class="kw">IS NOT NULL</span>
+),
+
+full_space_entropy <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        basin,
+        COUNT(*)                                        <span class="kw">AS</span> n_profiles,
+        STDDEV(temperature_c)                           <span class="kw">AS</span> sd_temp,
+        STDDEV(salinity_psu)                            <span class="kw">AS</span> sd_sal,
+        STDDEV(oxygen_umol_kg)                          <span class="kw">AS</span> sd_oxy,
+        STDDEV(pressure_dbar)                           <span class="kw">AS</span> sd_pres,
+        <span class="cm">-- proxy for log-determinant of covariance</span>
+        LN(NULLIF(STDDEV(temperature_c),  0))
+      + LN(NULLIF(STDDEV(salinity_psu),   0))
+      + LN(NULLIF(STDDEV(oxygen_umol_kg), 0))
+      + LN(NULLIF(STDDEV(pressure_dbar),  0))           <span class="kw">AS</span> full_entropy_proxy
+    <span class="kw">FROM</span> ocean_basins
+    <span class="kw">GROUP BY</span> basin
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 100
+),
+
+reduced_entropy <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        basin,
+        <span class="cm">-- entropy in reduced 2D view (temp + salinity only)</span>
+        LN(NULLIF(STDDEV(temperature_c), 0))
+      + LN(NULLIF(STDDEV(salinity_psu),  0))            <span class="kw">AS</span> reduced_entropy_proxy
+    <span class="kw">FROM</span> ocean_basins
+    <span class="kw">GROUP BY</span> basin
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 100
+)
+
+<span class="kw">SELECT</span>
+    f.basin,
+    f.n_profiles,
+    ROUND(f.full_entropy_proxy::numeric, 3)             <span class="kw">AS</span> entropy_full,
+    ROUND(r.reduced_entropy_proxy::numeric, 3)          <span class="kw">AS</span> entropy_reduced,
+    ROUND((f.full_entropy_proxy
+         - r.reduced_entropy_proxy)::numeric, 3)        <span class="kw">AS</span> information_lost,
+    ROUND(100.0 * (f.full_entropy_proxy
+         - r.reduced_entropy_proxy)
+         / NULLIF(f.full_entropy_proxy, 0)::numeric, 1) <span class="kw">AS</span> pct_information_lost,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> (f.full_entropy_proxy
+            - r.reduced_entropy_proxy)
+            / NULLIF(f.full_entropy_proxy, 0) &gt; 0.5
+            <span class="kw">THEN</span> <span class="st">'critical loss'</span>
+        <span class="kw">WHEN</span> (f.full_entropy_proxy
+            - r.reduced_entropy_proxy)
+            / NULLIF(f.full_entropy_proxy, 0) &gt; 0.25
+            <span class="kw">THEN</span> <span class="st">'moderate loss'</span>
+        <span class="kw">ELSE</span>     <span class="st">'acceptable'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> loss_severity
+<span class="kw">FROM</span> full_space_entropy f
+<span class="kw">JOIN</span> reduced_entropy r
+    <span class="kw">ON</span> f.basin = r.basin
+<span class="kw">ORDER BY</span> information_lost <span class="kw">DESC</span>;</code></div>
+
+      <div class="scenario-reflection">Information theory gives us what geometry alone cannot: a bookkeeping system for what was lost. The entropy proxy &mdash; the sum of log-standard-deviations across dimensions &mdash; captures the total variability in each basin&rsquo;s multivariate signature. When we compress from four dimensions to two, the difference measures exactly how much structure we discarded. The pattern is rarely uniform. The Southern Ocean, with its violent mixing and extreme gradients in oxygen and pressure, typically surrenders the most &mdash; precisely because its high-dimensional structure is the richest. The tropics, more thermally monotone, lose less. This is the cruelest irony of dimensionality reduction: the regions that are most scientifically interesting are the regions most damaged by the tools we use to look at them.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO VI ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario VI &mdash; Cross-Scale Distortion Gradient</div>
+      <p class="scenario-question">Does the distortion stay constant as we change resolution &mdash; or does the diagnostic itself depend on the scale at which we measure?</p>
+
+      <div class="sql-block"><code><span class="cm">-- GAUGE diagnostic: scale-dependent distortion</span>
+<span class="cm">-- compute variance loss at 1&deg;, 5&deg;, and 10&deg; resolutions</span>
+
+<span class="kw">WITH</span> resolution_1deg <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat::numeric, 0)                          <span class="kw">AS</span> lat_bin,
+        ROUND(lon::numeric, 0)                          <span class="kw">AS</span> lon_bin,
+        1                                               <span class="kw">AS</span> resolution_deg,
+        AVG(sst_c)                                      <span class="kw">AS</span> mean_sst,
+        STDDEV(sst_c)                                   <span class="kw">AS</span> within_cell_sd,
+        AVG(sst_anomaly_c)                              <span class="kw">AS</span> mean_anomaly,
+        STDDEV(sst_anomaly_c)                           <span class="kw">AS</span> anomaly_sd,
+        COUNT(*)                                        <span class="kw">AS</span> n_obs
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> sst_c <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> lat_bin, lon_bin
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 10
+),
+
+resolution_5deg <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat::numeric / 5) * 5                     <span class="kw">AS</span> lat_bin,
+        ROUND(lon::numeric / 5) * 5                     <span class="kw">AS</span> lon_bin,
+        5                                               <span class="kw">AS</span> resolution_deg,
+        AVG(sst_c)                                      <span class="kw">AS</span> mean_sst,
+        STDDEV(sst_c)                                   <span class="kw">AS</span> within_cell_sd,
+        AVG(sst_anomaly_c)                              <span class="kw">AS</span> mean_anomaly,
+        STDDEV(sst_anomaly_c)                           <span class="kw">AS</span> anomaly_sd,
+        COUNT(*)                                        <span class="kw">AS</span> n_obs
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> sst_c <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> lat_bin, lon_bin
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 10
+),
+
+resolution_10deg <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        ROUND(lat::numeric / 10) * 10                   <span class="kw">AS</span> lat_bin,
+        ROUND(lon::numeric / 10) * 10                   <span class="kw">AS</span> lon_bin,
+        10                                              <span class="kw">AS</span> resolution_deg,
+        AVG(sst_c)                                      <span class="kw">AS</span> mean_sst,
+        STDDEV(sst_c)                                   <span class="kw">AS</span> within_cell_sd,
+        AVG(sst_anomaly_c)                              <span class="kw">AS</span> mean_anomaly,
+        STDDEV(sst_anomaly_c)                           <span class="kw">AS</span> anomaly_sd,
+        COUNT(*)                                        <span class="kw">AS</span> n_obs
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> sst_c <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> lat_bin, lon_bin
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 10
+),
+
+all_scales <span class="kw">AS</span> (
+    <span class="kw">SELECT</span> * <span class="kw">FROM</span> resolution_1deg
+    <span class="kw">UNION</span>
+    <span class="kw">SELECT</span> * <span class="kw">FROM</span> resolution_5deg
+    <span class="kw">UNION</span>
+    <span class="kw">SELECT</span> * <span class="kw">FROM</span> resolution_10deg
+)
+
+<span class="kw">SELECT</span>
+    resolution_deg,
+    COUNT(*)                                            <span class="kw">AS</span> n_cells,
+    ROUND(AVG(within_cell_sd)::numeric, 4)              <span class="kw">AS</span> mean_within_sd,
+    ROUND(STDDEV(mean_sst)::numeric, 4)                 <span class="kw">AS</span> between_cell_sd,
+    ROUND(AVG(anomaly_sd)::numeric, 4)                  <span class="kw">AS</span> mean_anomaly_sd,
+    ROUND(
+        (AVG(within_cell_sd)
+       / NULLIF(STDDEV(mean_sst), 0))::numeric, 4
+    )                                                   <span class="kw">AS</span> distortion_index,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> resolution_deg = 1  <span class="kw">THEN</span> <span class="st">'fine &mdash; local fidelity'</span>
+        <span class="kw">WHEN</span> resolution_deg = 5  <span class="kw">THEN</span> <span class="st">'medium &mdash; regional patterns'</span>
+        <span class="kw">WHEN</span> resolution_deg = 10 <span class="kw">THEN</span> <span class="st">'coarse &mdash; basin-scale trends'</span>
+    <span class="kw">END</span>                                                 <span class="kw">AS</span> scale_interpretation
+<span class="kw">FROM</span> all_scales
+<span class="kw">GROUP BY</span> resolution_deg
+<span class="kw">ORDER BY</span> resolution_deg <span class="kw">ASC</span>;</code></div>
+
+      <div class="scenario-reflection">The most uncomfortable finding in distortion analysis is this: the diagnosis depends on the doctor&rsquo;s choice of magnifying glass. At one-degree resolution, the embedding looks faithful &mdash; local gradients are small, variance is well-captured. At ten-degree resolution, the same embedding may appear catastrophically lossy, because the between-cell structure it suppressed only becomes visible at larger scales. The distortion index &mdash; within-cell variance divided by between-cell variance &mdash; is the scale-dependent signature of projection quality. When it rises with resolution, the embedding is hiding large-scale patterns behind a mask of fine-grained noise. When it falls, the embedding is sacrificing local detail to preserve global shape. Neither is right. Both are measurable. And any diagnostic that reports a single distortion number without specifying its scale of measurement is not a diagnostic at all &mdash; it is an opinion.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <!-- CODA -->
+    <section class="coda">
+      <h2>Coda</h2>
+      <p>Six diagnostics. One ocean. Each measuring a different face of the same distortion.</p>
+      <p>Pairwise distance fidelity asks whether the embedding preserves how far apart things truly are. Neighborhood preservation asks whether it keeps similar things together. Local curvature residuals ask whether it introduces structure that does not exist. Instrument agreement asks whether it breaks the reliability that the raw data possessed. Information loss asks which regions pay the highest tax. Cross-scale gradient asks whether the diagnosis itself is stable or a function of the observer&rsquo;s chosen resolution.</p>
+      <p>GAUGE&trade; does not pick winners among embeddings. It maps their failures. It does not say which projection is best. It says, for any projection, precisely where and how it lies.</p>
+      <p>Paper 1 &mdash; The Parallax Imperative &mdash; demonstrated that every view of a complex system is partial. The temporal lens sees warming; the psychometric lens sees measurement noise; the network lens sees circulation topology. Each reveals what the others miss. GAUGE sees what each of those lenses lost in order to see what they see. It is the diagnostic of the diagnostics. The audit of the audit.</p>
+      <p>The field has spent five decades optimizing projections &mdash; minimizing stress functions, maximizing variance explained, preserving local neighborhoods at the expense of global structure or vice versa. It has spent almost no time measuring what those projections destroy. The optimization was always half the problem. The measurement was the other half, and it was left undone.</p>
+      <p class="warning-line">Every projection distorts. The question is where, and by how much.</p>
+      <div class="signature">
+        Jeffrey J. Berg<br>
+        PARALLAX&trade; / CONSTELLATION&trade; Research Program<br>
+        Paper 2 of 10 &middot; The Methodology Paper
+      </div>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <span>&copy; Jeffrey J. Berg. All rights reserved.</span>
+  <span>PARALLAX&trade; &middot; GAUGE&trade; &middot; CONSTELLATION&trade; &middot; CDEII&trade;</span>
+</footer>
+
+</body>
+</html>

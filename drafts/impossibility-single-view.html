@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>The Impossibility of Single-View Intelligence &mdash; PARALLAX&trade;</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='14'%3E%E2%97%87%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --surface: #111820;
+    --surface-raised: #171f28;
+    --text: #c8ccd0;
+    --text-muted: #6a7580;
+    --text-bright: #e8ecf0;
+    --amber: #d4a843;
+    --amber-dim: rgba(212, 168, 67, 0.08);
+    --amber-border: rgba(212, 168, 67, 0.35);
+    --green-soft: #8fbc8f;
+    --serif: "Cormorant Garamond", "EB Garamond", Garamond, "Hoefler Text", "Times New Roman", serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    --mono: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", "Consolas", monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    background: var(--bg);
+    color: var(--text);
+    font-size: 17px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--serif);
+    font-weight: 400;
+    line-height: 1.72;
+    letter-spacing: 0.005em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--amber-border); transition: border-color 0.3s; }
+  a:hover { border-color: var(--amber); }
+  a:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+  /* --- NAV --- */
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 14, 20, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0.6rem clamp(1rem, 4vw, 2rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+  }
+  .site-nav a { color: var(--text-muted); border: none; }
+  .site-nav a:hover { color: var(--text-bright); }
+  .nav-brand { font-weight: 600; color: var(--text); letter-spacing: 0.22em; }
+  .nav-links { display: flex; gap: 1.2rem; }
+
+  /* --- MAIN --- */
+  #main {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem) 4rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    border: none;
+  }
+  .back-link::before { content: "\2190\00a0"; }
+
+  /* --- ARTICLE HEADER --- */
+  .article-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .article-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text-bright);
+    margin-bottom: 0.4rem;
+  }
+  .article-subtitle {
+    font-family: var(--serif);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+  .article-meta {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: lowercase;
+  }
+  .article-meta .tm { font-size: 0.6em; vertical-align: super; }
+
+  /* --- EPIGRAPH --- */
+  .epigraph {
+    text-align: center;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin: 2.5rem 2rem 0.5rem;
+    line-height: 1.6;
+  }
+  .epigraph-attribution {
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+  }
+
+  /* --- PREAMBLE --- */
+  .preamble {
+    margin-bottom: 3rem;
+  }
+  .preamble h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .preamble p {
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  /* --- SCHEMA SECTION --- */
+  .schema-section {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .schema-section h3 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  .schema-table {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+  .schema-table .table-name {
+    color: var(--text-bright);
+    font-weight: 600;
+  }
+  .schema-table .columns {
+    color: var(--text-muted);
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* --- TRANSITION --- */
+  .transition {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+    margin: 3rem 0;
+    opacity: 0.4;
+  }
+
+  /* --- SCENARIO --- */
+  .scenario {
+    margin-bottom: 3.5rem;
+  }
+  .scenario-label {
+    font-family: var(--sans);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.8rem;
+  }
+  .scenario-question {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--text-bright);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--amber-border);
+  }
+
+  /* --- SQL BLOCK --- */
+  .sql-block {
+    background: var(--surface);
+    border-left: 3px solid var(--amber-border);
+    border-radius: 0 4px 4px 0;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sql-block code {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--text);
+    white-space: pre;
+    tab-size: 4;
+  }
+  .sql-block .kw { color: var(--amber); font-weight: 500; }
+  .sql-block .st { color: var(--green-soft); }
+  .sql-block .cm { color: var(--text-muted); font-style: italic; }
+
+  /* --- REFLECTION --- */
+  .scenario-reflection {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding: 1rem 1.2rem;
+    background: var(--amber-dim);
+    border-radius: 4px;
+    margin-bottom: 0.8rem;
+  }
+
+  /* --- DNA THREADS --- */
+  .dna-threads {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+  }
+  .dna-thread {
+    font-family: var(--sans);
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 2px;
+    padding: 0.15rem 0.5rem;
+  }
+  .dna-thread.active {
+    color: var(--amber);
+    border-color: var(--amber-border);
+    background: var(--amber-dim);
+  }
+
+  /* --- CODA --- */
+  .coda {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .coda h2 {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.5rem;
+  }
+  .coda p { margin-bottom: 1rem; }
+  .coda .warning-line {
+    font-style: italic;
+    color: var(--text-bright);
+    font-size: 1.05rem;
+  }
+  .coda .signature {
+    margin-top: 2.5rem;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* --- FOOTER --- */
+  .site-footer {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem clamp(1.2rem, 5vw, 3rem);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-family: var(--sans);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 768px) {
+    .sql-block { padding: 1rem; }
+    .sql-block code { font-size: 0.72rem; }
+    .schema-table { font-size: 0.72rem; }
+    .scenario-question { font-size: 1.05rem; }
+  }
+
+  @media (max-width: 480px) {
+    .sql-block { padding: 0.8rem; margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+    .schema-section { margin-left: -0.5rem; margin-right: -0.5rem; border-radius: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  @media print {
+    .site-nav { display: none; }
+    :root { --bg: #fff; --text: #111; --text-bright: #000; --text-muted: #555; --surface: #f5f5f5; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <span class="nav-brand">parallax&trade;</span>
+  <div class="nav-links">
+    <a href="/">home</a>
+    <a href="/cv">cv</a>
+  </div>
+</nav>
+
+<div id="main">
+  <a href="/" class="back-link">home</a>
+
+  <header class="article-header">
+    <h1>The Impossibility of Single-View Intelligence</h1>
+    <div class="article-subtitle">Why One Projection Cannot Recover What Many Projections Preserve</div>
+    <div class="article-meta">
+      Jeffrey J. Berg &middot; PARALLAX<span class="tm">&trade;</span> &middot; CONSTELLATION<span class="tm">&trade;</span>
+    </div>
+  </header>
+
+  <article class="article-content">
+
+    <!-- EPIGRAPH -->
+    <p class="epigraph">&ldquo;A surface is not exhausted by any single chart. It requires an atlas.&rdquo;</p>
+    <p class="epigraph-attribution">&mdash; Bernhard Riemann, <em>Habilitationsschrift</em> (1854)</p>
+
+    <!-- PREAMBLE -->
+    <section class="preamble">
+      <h2>A Note Before the Dive</h2>
+      <p>Gauss proved in 1827 that intrinsic curvature is invariant under isometry &mdash; no projection of a curved surface to a plane preserves both distances and angles. The Theorema Egregium is not a limitation of technique. It is a property of geometry itself. And yet the field of dimension reduction has spent fifty years debating &ldquo;which projection is best&rdquo; while ignoring the theorem that proves the question is malformed.</p>
+      <p>This paper formalizes the impossibility: no single low-dimensional embedding can preserve all structure. Every projection destroys something. The only question worth asking is what each method loses &mdash; and whether the losses can be recovered by combining multiple views that sacrifice different things.</p>
+      <p>The ocean is our proving ground. Not because it is simple, but because its complexity is measurable, its dimensions are known, and its structure resists every attempt at single-view summary. Six queries. One theorem. The impossibility is not a problem to be solved. It is a constraint to be respected &mdash; and leveraged.</p>
+    </section>
+
+    <!-- SCHEMA REFERENCE -->
+    <section class="schema-section">
+      <h3>The Shared Schema &mdash; Seven Tables, One Ocean</h3>
+      <div class="schema-table">
+        <div><span class="table-name">argo.float_profiles</span></div>
+        <div class="columns">profile_id, float_id, cycle_number, lat, lon, observation_ts, pressure_dbar, temperature_c, salinity_psu, oxygen_umol_kg, quality_flag, data_mode</div>
+
+        <div><span class="table-name">argo.float_metadata</span></div>
+        <div class="columns">float_id, deploy_date, deploy_lat, deploy_lon, country, project_name, float_model, status</div>
+
+        <div><span class="table-name">noaa.buoy_observations</span></div>
+        <div class="columns">station_id, station_name, lat, lon, observation_ts, wind_speed_ms, wave_height_m, sea_surface_temp_c, air_temp_c, air_pressure_hpa</div>
+
+        <div><span class="table-name">noaa.sea_surface_temperature</span></div>
+        <div class="columns">grid_id, lat, lon, observation_date, sst_c, sst_anomaly_c, ice_concentration_pct, source</div>
+
+        <div><span class="table-name">ocean.current_measurements</span></div>
+        <div class="columns">measurement_id, platform_type, lat, lon, depth_m, observation_ts, velocity_east_ms, velocity_north_ms, speed_ms</div>
+
+        <div><span class="table-name">gebco.bathymetry</span></div>
+        <div class="columns">cell_id, lat, lon, depth_m, feature_name, feature_type</div>
+
+        <div><span class="table-name">obis.biodiversity_observations</span></div>
+        <div class="columns">occurrence_id, species_name, phylum, observation_date, lat, lon, depth_m, abundance, dataset_id</div>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO I ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario I &mdash; The Distance-Angle Tradeoff</div>
+      <p class="scenario-question">Can a single two-dimensional summary preserve both the pairwise distances and the angular relationships among ocean profiles &mdash; or does preserving one necessarily sacrifice the other?</p>
+
+      <div class="sql-block"><code><span class="cm">-- The distance portrait and the angle portrait of the same profiles</span>
+<span class="kw">WITH</span> profile_vectors <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        profile_id,
+        temperature_c,
+        salinity_psu,
+        pressure_dbar,
+        COALESCE(oxygen_umol_kg, 0)                     <span class="kw">AS</span> oxygen_filled
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> temperature_c <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> salinity_psu <span class="kw">IS NOT NULL</span>
+    <span class="kw">LIMIT</span> 2000
+),
+
+distance_portrait <span class="kw">AS</span> (
+    <span class="cm">-- Euclidean distance: preserves magnitude separation</span>
+    <span class="kw">SELECT</span>
+        a.profile_id                                    <span class="kw">AS</span> id_a,
+        b.profile_id                                    <span class="kw">AS</span> id_b,
+        SQRT(
+            POWER(a.temperature_c - b.temperature_c, 2)
+          + POWER(a.salinity_psu - b.salinity_psu, 2)
+          + POWER(a.pressure_dbar - b.pressure_dbar, 2)
+          + POWER(a.oxygen_filled - b.oxygen_filled, 2)
+        )                                               <span class="kw">AS</span> euclidean_dist
+    <span class="kw">FROM</span> profile_vectors a
+    <span class="kw">CROSS JOIN</span> profile_vectors b
+    <span class="kw">WHERE</span> a.profile_id &lt; b.profile_id
+),
+
+angle_portrait <span class="kw">AS</span> (
+    <span class="cm">-- Cosine similarity: preserves directional alignment</span>
+    <span class="kw">SELECT</span>
+        a.profile_id                                    <span class="kw">AS</span> id_a,
+        b.profile_id                                    <span class="kw">AS</span> id_b,
+        (a.temperature_c * b.temperature_c
+       + a.salinity_psu * b.salinity_psu
+       + a.pressure_dbar * b.pressure_dbar
+       + a.oxygen_filled * b.oxygen_filled)
+      / NULLIF(
+            SQRT(POWER(a.temperature_c,2) + POWER(a.salinity_psu,2)
+               + POWER(a.pressure_dbar,2) + POWER(a.oxygen_filled,2))
+          * SQRT(POWER(b.temperature_c,2) + POWER(b.salinity_psu,2)
+               + POWER(b.pressure_dbar,2) + POWER(b.oxygen_filled,2)),
+            0
+        )                                               <span class="kw">AS</span> cosine_sim
+    <span class="kw">FROM</span> profile_vectors a
+    <span class="kw">CROSS JOIN</span> profile_vectors b
+    <span class="kw">WHERE</span> a.profile_id &lt; b.profile_id
+)
+
+<span class="cm">-- Measure the correlation between the two portraits</span>
+<span class="kw">SELECT</span>
+    ROUND(CORR(d.euclidean_dist, a.cosine_sim)::numeric, 4)  <span class="kw">AS</span> dist_angle_correlation,
+    ROUND(AVG(d.euclidean_dist)::numeric, 4)                 <span class="kw">AS</span> mean_distance,
+    ROUND(AVG(a.cosine_sim)::numeric, 4)                     <span class="kw">AS</span> mean_cosine_sim,
+    COUNT(*)                                                  <span class="kw">AS</span> n_pairs
+<span class="kw">FROM</span> distance_portrait d
+<span class="kw">JOIN</span> angle_portrait a
+  <span class="kw">ON</span> d.id_a = a.id_a <span class="kw">AND</span> d.id_b = a.id_b;</code></div>
+
+      <div class="scenario-reflection">If the correlation were perfect &mdash; if knowing distances told you everything about angles &mdash; then a single embedding could serve both masters. But it cannot. Profiles that are far apart in magnitude may point in similar directions; profiles that are close in Euclidean space may diverge angularly. This is not a bug in the metrics. It is Gauss&rsquo;s theorem made computational: the distance chart and the angle chart are two maps of the same territory, and no single map is both. The tradeoff is not a failure of method. It is a property of projection itself.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO II ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario II &mdash; The Variance Partition</div>
+      <p class="scenario-question">How much of the ocean&rsquo;s total variance lives in the first two principal directions &mdash; and what does the remainder contain that the summary cannot?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Partition total variance into what PCA keeps and what it discards</span>
+<span class="kw">WITH</span> standardized_profiles <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        profile_id,
+        (temperature_c - AVG(temperature_c) <span class="kw">OVER</span> ())
+            / NULLIF(STDDEV(temperature_c) <span class="kw">OVER</span> (), 0)    <span class="kw">AS</span> z_temp,
+        (salinity_psu - AVG(salinity_psu) <span class="kw">OVER</span> ())
+            / NULLIF(STDDEV(salinity_psu) <span class="kw">OVER</span> (), 0)    <span class="kw">AS</span> z_sal,
+        (pressure_dbar - AVG(pressure_dbar) <span class="kw">OVER</span> ())
+            / NULLIF(STDDEV(pressure_dbar) <span class="kw">OVER</span> (), 0)  <span class="kw">AS</span> z_pres,
+        (COALESCE(oxygen_umol_kg, 0)
+            - AVG(COALESCE(oxygen_umol_kg, 0)) <span class="kw">OVER</span> ())
+            / NULLIF(STDDEV(COALESCE(oxygen_umol_kg, 0)) <span class="kw">OVER</span> (), 0)
+                                                          <span class="kw">AS</span> z_oxy
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> temperature_c <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> salinity_psu <span class="kw">IS NOT NULL</span>
+),
+
+variance_partition <span class="kw">AS</span> (
+    <span class="cm">-- Total variance = sum of variances across all 4 standardized dims (= 4)</span>
+    <span class="cm">-- Max-variance 2D projection captures the two largest eigenvalue directions</span>
+    <span class="cm">-- Approximate via pairwise covariance structure</span>
+    <span class="kw">SELECT</span>
+        COUNT(*)                                          <span class="kw">AS</span> n_profiles,
+        ROUND((POWER(CORR(z_temp, z_sal), 2)
+             + POWER(CORR(z_temp, z_pres), 2)
+             + POWER(CORR(z_temp, z_oxy), 2)
+             + POWER(CORR(z_sal, z_pres), 2)
+             + POWER(CORR(z_sal, z_oxy), 2)
+             + POWER(CORR(z_pres, z_oxy), 2))::numeric, 4)
+                                                          <span class="kw">AS</span> sum_squared_corr,
+        4.0                                               <span class="kw">AS</span> total_variance
+    <span class="kw">FROM</span> standardized_profiles
+),
+
+residual_structure <span class="kw">AS</span> (
+    <span class="cm">-- Test whether the residual is random or structured:</span>
+    <span class="cm">-- if oxygen correlates with salinity after removing temp+pressure,</span>
+    <span class="cm">-- the residual carries signal, not noise</span>
+    <span class="kw">SELECT</span>
+        ROUND(CORR(z_oxy, z_sal)::numeric, 4)            <span class="kw">AS</span> oxy_sal_corr,
+        ROUND(CORR(z_oxy,
+            z_sal - REGR_SLOPE(z_sal, z_temp) * z_temp
+        )::numeric, 4)                                    <span class="kw">AS</span> oxy_sal_partial
+    <span class="kw">FROM</span> standardized_profiles
+)
+
+<span class="kw">SELECT</span>
+    vp.n_profiles,
+    vp.total_variance,
+    vp.sum_squared_corr                                   <span class="kw">AS</span> redundancy_index,
+    ROUND((vp.total_variance
+        - vp.sum_squared_corr)::numeric, 4)               <span class="kw">AS</span> estimated_residual,
+    rs.oxy_sal_corr,
+    rs.oxy_sal_partial                                    <span class="kw">AS</span> partial_after_temp,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> ABS(rs.oxy_sal_partial) &gt; 0.10
+            <span class="kw">THEN</span> <span class="st">'residual is structured'</span>
+        <span class="kw">ELSE</span>     <span class="st">'residual is noise'</span>
+    <span class="kw">END</span>                                                   <span class="kw">AS</span> residual_diagnosis
+<span class="kw">FROM</span> variance_partition vp
+<span class="kw">CROSS JOIN</span> residual_structure rs;</code></div>
+
+      <div class="scenario-reflection">The two-dimensional summary &mdash; the one that captures &ldquo;most of the variance&rdquo; &mdash; is the view the field treats as sufficient. But sufficiency requires that the discarded remainder be noise. This query tests that assumption directly. When the partial correlation between oxygen and salinity survives the removal of temperature and pressure, the residual is not noise. It is signal that the first two components were structurally incapable of representing. The variance partition is not a budget where leftovers are scraps. It is a triage where the discarded dimensions may contain exactly the structure that matters most.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO III ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario III &mdash; The Neighborhood Contradiction</div>
+      <p class="scenario-question">Do the same profiles that are neighbors in temperature space remain neighbors in salinity space &mdash; or does each variable impose a different topology on the same set of points?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Two topologies on the same set of profiles</span>
+<span class="kw">WITH</span> ranked_profiles <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        profile_id,
+        float_id,
+        temperature_c,
+        salinity_psu,
+        lat,
+        lon
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> temperature_c <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> salinity_psu <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> pressure_dbar <span class="kw">BETWEEN</span> 50 <span class="kw">AND</span> 150
+    <span class="kw">LIMIT</span> 5000
+),
+
+temp_neighbors <span class="kw">AS</span> (
+    <span class="cm">-- For each profile, find its closest 10 neighbors by temperature</span>
+    <span class="kw">SELECT</span>
+        a.profile_id                                      <span class="kw">AS</span> anchor_id,
+        b.profile_id                                      <span class="kw">AS</span> neighbor_id,
+        ABS(a.temperature_c - b.temperature_c)            <span class="kw">AS</span> temp_dist,
+        ROW_NUMBER() <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> a.profile_id
+            <span class="kw">ORDER BY</span> ABS(a.temperature_c - b.temperature_c) <span class="kw">ASC</span>
+        )                                                 <span class="kw">AS</span> temp_rank
+    <span class="kw">FROM</span> ranked_profiles a
+    <span class="kw">JOIN</span> ranked_profiles b
+      <span class="kw">ON</span> a.profile_id != b.profile_id
+),
+
+sal_neighbors <span class="kw">AS</span> (
+    <span class="cm">-- Same profiles, same count, ranked by salinity</span>
+    <span class="kw">SELECT</span>
+        a.profile_id                                      <span class="kw">AS</span> anchor_id,
+        b.profile_id                                      <span class="kw">AS</span> neighbor_id,
+        ABS(a.salinity_psu - b.salinity_psu)              <span class="kw">AS</span> sal_dist,
+        ROW_NUMBER() <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> a.profile_id
+            <span class="kw">ORDER BY</span> ABS(a.salinity_psu - b.salinity_psu) <span class="kw">ASC</span>
+        )                                                 <span class="kw">AS</span> sal_rank
+    <span class="kw">FROM</span> ranked_profiles a
+    <span class="kw">JOIN</span> ranked_profiles b
+      <span class="kw">ON</span> a.profile_id != b.profile_id
+)
+
+<span class="cm">-- Measure neighborhood overlap: what fraction of temp-neighbors</span>
+<span class="cm">-- are also sal-neighbors?</span>
+<span class="kw">SELECT</span>
+    ROUND(AVG(overlap_count)::numeric, 2)                 <span class="kw">AS</span> mean_overlap,
+    ROUND(STDDEV(overlap_count)::numeric, 2)              <span class="kw">AS</span> overlap_stddev,
+    ROUND(AVG(overlap_count / 10.0)::numeric, 4)          <span class="kw">AS</span> jaccard_at_k10,
+    COUNT(<span class="kw">DISTINCT</span> anchor_id)                             <span class="kw">AS</span> n_anchors
+<span class="kw">FROM</span> (
+    <span class="kw">SELECT</span>
+        t.anchor_id,
+        COUNT(s.neighbor_id)                              <span class="kw">AS</span> overlap_count
+    <span class="kw">FROM</span> temp_neighbors t
+    <span class="kw">LEFT JOIN</span> sal_neighbors s
+      <span class="kw">ON</span>  t.anchor_id   = s.anchor_id
+      <span class="kw">AND</span> t.neighbor_id  = s.neighbor_id
+      <span class="kw">AND</span> s.sal_rank    &lt;= 10
+    <span class="kw">WHERE</span> t.temp_rank &lt;= 10
+    <span class="kw">GROUP BY</span> t.anchor_id
+) topology_clash;</code></div>
+
+      <div class="scenario-reflection">If temperature and salinity imposed the same topology &mdash; if knowing who is close in one told you who is close in the other &mdash; then choosing either variable as a basis for clustering would be harmless. But they do not. A Jaccard overlap well below 1.0 means that the neighborhoods defined by temperature are substantially different from those defined by salinity. The same profiles, the same ocean, two irreconcilable definitions of &ldquo;nearby.&rdquo; A single-variable view does not merely simplify the topology. It replaces it with a different one &mdash; and the replacement is silent, invisible to anyone who never computes the second view.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO IV ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario IV &mdash; The Temporal Incompleteness</div>
+      <p class="scenario-question">Does a spatial snapshot of the ocean contain the same information as a temporal trajectory through the same region &mdash; or does compressing time destroy structure that space preserves?</p>
+
+      <div class="sql-block"><code><span class="cm">-- Space vs. time: two fundamentally different compressions</span>
+<span class="kw">WITH</span> spatial_snapshot <span class="kw">AS</span> (
+    <span class="cm">-- Cross-section: all locations on a single date</span>
+    <span class="kw">SELECT</span>
+        grid_id,
+        lat,
+        lon,
+        sst_c,
+        sst_anomaly_c
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> observation_date = <span class="st">'2023-07-15'</span>
+      <span class="kw">AND</span> sst_c <span class="kw">IS NOT NULL</span>
+),
+
+temporal_trajectory <span class="kw">AS</span> (
+    <span class="cm">-- Time series: one location across many dates</span>
+    <span class="kw">SELECT</span>
+        observation_date,
+        sst_c,
+        sst_anomaly_c,
+        sst_c - LAG(sst_c) <span class="kw">OVER</span> (
+            <span class="kw">ORDER BY</span> observation_date
+        )                                                 <span class="kw">AS</span> daily_delta,
+        STDDEV(sst_c) <span class="kw">OVER</span> (
+            <span class="kw">ORDER BY</span> observation_date
+            ROWS <span class="kw">BETWEEN</span> 30 PRECEDING <span class="kw">AND</span> CURRENT ROW
+        )                                                 <span class="kw">AS</span> rolling_volatility
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> lat <span class="kw">BETWEEN</span> 30 <span class="kw">AND</span> 32
+      <span class="kw">AND</span> lon <span class="kw">BETWEEN</span> -80 <span class="kw">AND</span> -78
+      <span class="kw">AND</span> sst_c <span class="kw">IS NOT NULL</span>
+    <span class="kw">ORDER BY</span> observation_date
+),
+
+cross_information <span class="kw">AS</span> (
+    <span class="cm">-- What spatial variance tells you vs. what temporal variance tells you</span>
+    <span class="kw">SELECT</span>
+        <span class="st">'spatial'</span>                                         <span class="kw">AS</span> view_type,
+        ROUND(STDDEV(sst_c)::numeric, 4)                  <span class="kw">AS</span> sst_spread,
+        ROUND(STDDEV(sst_anomaly_c)::numeric, 4)          <span class="kw">AS</span> anomaly_spread,
+        COUNT(*)                                          <span class="kw">AS</span> n_obs
+    <span class="kw">FROM</span> spatial_snapshot
+    <span class="kw">UNION ALL</span>
+    <span class="kw">SELECT</span>
+        <span class="st">'temporal'</span>                                        <span class="kw">AS</span> view_type,
+        ROUND(STDDEV(sst_c)::numeric, 4)                  <span class="kw">AS</span> sst_spread,
+        ROUND(STDDEV(sst_anomaly_c)::numeric, 4)          <span class="kw">AS</span> anomaly_spread,
+        COUNT(*)                                          <span class="kw">AS</span> n_obs
+    <span class="kw">FROM</span> temporal_trajectory
+)
+
+<span class="kw">SELECT</span>
+    view_type,
+    sst_spread,
+    anomaly_spread,
+    n_obs,
+    ROUND((anomaly_spread / NULLIF(sst_spread, 0))::numeric, 4)
+                                                          <span class="kw">AS</span> anomaly_to_total_ratio
+<span class="kw">FROM</span> cross_information
+<span class="kw">ORDER BY</span> view_type;</code></div>
+
+      <div class="scenario-reflection">Spatial variance and temporal variance are not interchangeable summaries of the same phenomenon. The spatial snapshot captures the geography of the ocean on a single day &mdash; equator warm, poles cold, currents carving boundaries. The temporal trajectory captures the memory of one place &mdash; seasons, El Ni&ntilde;o cycles, regime shifts. Each is a projection onto a different axis, and the projections are not redundant. When they produce different anomaly-to-total ratios, it means the signal structure itself changes depending on which axis you compress. Time and space are not two descriptions of one truth. They are two truths about one ocean.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO V ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario V &mdash; The Depth Collapse</div>
+      <p class="scenario-question">When we average across depth to produce a single surface value, what vertical structure vanishes &mdash; and does the lost structure carry signal or noise?</p>
+
+      <div class="sql-block"><code><span class="cm">-- What depth-averaging destroys and whether it matters</span>
+<span class="kw">WITH</span> depth_resolved <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        float_id,
+        cycle_number,
+        ROUND(lat::numeric, 0)                            <span class="kw">AS</span> lat_band,
+        ROUND(lon::numeric, 0)                            <span class="kw">AS</span> lon_band,
+        pressure_dbar,
+        temperature_c,
+        salinity_psu
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> temperature_c <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> salinity_psu <span class="kw">IS NOT NULL</span>
+),
+
+column_statistics <span class="kw">AS</span> (
+    <span class="cm">-- Per water column: mean, vertical variance, vertical range</span>
+    <span class="kw">SELECT</span>
+        float_id,
+        cycle_number,
+        lat_band,
+        lon_band,
+        AVG(temperature_c)                                <span class="kw">AS</span> col_mean_temp,
+        STDDEV(temperature_c)                             <span class="kw">AS</span> col_temp_spread,
+        MAX(temperature_c) - MIN(temperature_c)           <span class="kw">AS</span> col_temp_range,
+        AVG(salinity_psu)                                 <span class="kw">AS</span> col_mean_sal,
+        STDDEV(salinity_psu)                              <span class="kw">AS</span> col_sal_spread,
+        COUNT(*)                                          <span class="kw">AS</span> n_depths
+    <span class="kw">FROM</span> depth_resolved
+    <span class="kw">GROUP BY</span> float_id, cycle_number, lat_band, lon_band
+    <span class="kw">HAVING</span> COUNT(*) &gt;= 5
+),
+
+signal_test <span class="kw">AS</span> (
+    <span class="cm">-- Does vertical structure predict horizontal location?</span>
+    <span class="cm">-- If yes, the collapsed dimension carried spatial signal</span>
+    <span class="kw">SELECT</span>
+        ROUND(CORR(col_temp_spread, lat_band)::numeric, 4)
+                                                          <span class="kw">AS</span> vert_var_vs_lat,
+        ROUND(CORR(col_temp_range, lat_band)::numeric, 4)
+                                                          <span class="kw">AS</span> vert_range_vs_lat,
+        ROUND(CORR(col_sal_spread, lon_band)::numeric, 4)
+                                                          <span class="kw">AS</span> sal_spread_vs_lon,
+        ROUND(AVG(col_temp_spread)::numeric, 4)           <span class="kw">AS</span> mean_vert_spread,
+        ROUND(STDDEV(col_temp_spread)::numeric, 4)        <span class="kw">AS</span> spread_of_spread,
+        COUNT(*)                                          <span class="kw">AS</span> n_columns
+    <span class="kw">FROM</span> column_statistics
+)
+
+<span class="kw">SELECT</span>
+    n_columns,
+    mean_vert_spread,
+    spread_of_spread,
+    vert_var_vs_lat                                       <span class="kw">AS</span> vertical_predicts_latitude,
+    vert_range_vs_lat                                     <span class="kw">AS</span> range_predicts_latitude,
+    sal_spread_vs_lon                                     <span class="kw">AS</span> sal_spread_predicts_longitude,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> ABS(vert_var_vs_lat) &gt; 0.15
+          <span class="kw">OR</span> ABS(sal_spread_vs_lon) &gt; 0.15
+            <span class="kw">THEN</span> <span class="st">'depth collapse destroys signal'</span>
+        <span class="kw">ELSE</span>     <span class="st">'depth collapse is benign'</span>
+    <span class="kw">END</span>                                                   <span class="kw">AS</span> collapse_verdict
+<span class="kw">FROM</span> signal_test;</code></div>
+
+      <div class="scenario-reflection">Depth-averaging is the most common projection in oceanography and the most invisible. Every surface map is a depth collapse &mdash; an implicit claim that vertical variation is either uniform or irrelevant. This query tests that claim by asking whether the amount of vertical spread in a water column predicts where that column is located. If it does, then depth-averaging has not merely smoothed the data. It has destroyed a dimension that carried geographic information. The tropics stratify sharply; the poles mix deeply. That gradient &mdash; the vertical signature of latitude &mdash; vanishes completely in a depth-averaged view. The collapse was never neutral. It was a lossy projection disguised as a convenience.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread">computational</span>
+        <span class="dna-thread">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread active">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- ==================== SCENARIO VI ==================== -->
+    <section class="scenario">
+      <div class="scenario-label">Scenario VI &mdash; The Multi-View Recovery</div>
+      <p class="scenario-question">Can we recover information that any single view destroys &mdash; by combining two views that lose different things?</p>
+
+      <div class="sql-block"><code><span class="cm">-- The atlas theorem: two incomplete views recover what neither has alone</span>
+<span class="kw">WITH</span> subsurface_view <span class="kw">AS</span> (
+    <span class="cm">-- Argo profiles: rich vertical structure, sparse horizontal coverage</span>
+    <span class="kw">SELECT</span>
+        ROUND(lat::numeric, 0)                            <span class="kw">AS</span> lat_band,
+        ROUND(lon::numeric, 0)                            <span class="kw">AS</span> lon_band,
+        AVG(temperature_c)                                <span class="kw">AS</span> subsurface_mean_temp,
+        STDDEV(temperature_c)                             <span class="kw">AS</span> subsurface_temp_var,
+        AVG(salinity_psu)                                 <span class="kw">AS</span> subsurface_mean_sal,
+        COUNT(<span class="kw">DISTINCT</span> profile_id)                        <span class="kw">AS</span> n_profiles
+    <span class="kw">FROM</span> argo.float_profiles
+    <span class="kw">WHERE</span> quality_flag <span class="kw">IN</span> (1, 2)
+      <span class="kw">AND</span> temperature_c <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> salinity_psu <span class="kw">IS NOT NULL</span>
+    <span class="kw">GROUP BY</span> lat_band, lon_band
+    <span class="kw">HAVING</span> COUNT(<span class="kw">DISTINCT</span> profile_id) &gt;= 3
+),
+
+surface_view <span class="kw">AS</span> (
+    <span class="cm">-- SST grid: dense horizontal coverage, no depth information</span>
+    <span class="kw">SELECT</span>
+        ROUND(lat::numeric, 0)                            <span class="kw">AS</span> lat_band,
+        ROUND(lon::numeric, 0)                            <span class="kw">AS</span> lon_band,
+        AVG(sst_c)                                        <span class="kw">AS</span> surface_mean_temp,
+        STDDEV(sst_anomaly_c)                             <span class="kw">AS</span> surface_anomaly_var,
+        COUNT(*)                                          <span class="kw">AS</span> n_gridcells
+    <span class="kw">FROM</span> noaa.sea_surface_temperature
+    <span class="kw">WHERE</span> sst_c <span class="kw">IS NOT NULL</span>
+      <span class="kw">AND</span> observation_date <span class="kw">BETWEEN</span> <span class="st">'2023-01-01'</span> <span class="kw">AND</span> <span class="st">'2023-12-31'</span>
+    <span class="kw">GROUP BY</span> lat_band, lon_band
+),
+
+combined_atlas <span class="kw">AS</span> (
+    <span class="cm">-- Join the two views: what does the combination reveal?</span>
+    <span class="kw">SELECT</span>
+        sub.lat_band,
+        sub.lon_band,
+        sub.subsurface_mean_temp,
+        sub.subsurface_temp_var,
+        sub.subsurface_mean_sal,
+        surf.surface_mean_temp,
+        surf.surface_anomaly_var,
+        <span class="cm">-- The gap between surface and subsurface is new information</span>
+        sub.subsurface_mean_temp - surf.surface_mean_temp <span class="kw">AS</span> thermal_gradient,
+        sub.n_profiles,
+        surf.n_gridcells
+    <span class="kw">FROM</span> subsurface_view sub
+    <span class="kw">JOIN</span> surface_view surf
+      <span class="kw">USING</span> (lat_band, lon_band)
+)
+
+<span class="kw">SELECT</span>
+    <span class="cm">-- Information in each view alone vs. the combination</span>
+    ROUND(CORR(surface_mean_temp, subsurface_mean_sal)::numeric, 4)
+                                                          <span class="kw">AS</span> surface_predicts_sal,
+    ROUND(CORR(thermal_gradient, subsurface_temp_var)::numeric, 4)
+                                                          <span class="kw">AS</span> gradient_predicts_depth_var,
+    ROUND(CORR(surface_anomaly_var, subsurface_temp_var)::numeric, 4)
+                                                          <span class="kw">AS</span> surface_var_vs_depth_var,
+    ROUND(STDDEV(thermal_gradient)::numeric, 4)           <span class="kw">AS</span> gradient_spread,
+    COUNT(*)                                              <span class="kw">AS</span> n_cells_both_views,
+    <span class="kw">CASE</span>
+        <span class="kw">WHEN</span> ABS(CORR(thermal_gradient, subsurface_temp_var)) &gt;
+             ABS(CORR(surface_mean_temp, subsurface_temp_var))
+            <span class="kw">THEN</span> <span class="st">'combination exceeds either view'</span>
+        <span class="kw">ELSE</span>     <span class="st">'single view suffices'</span>
+    <span class="kw">END</span>                                                   <span class="kw">AS</span> atlas_verdict
+<span class="kw">FROM</span> combined_atlas;</code></div>
+
+      <div class="scenario-reflection">This is the turning point. Five scenarios demonstrated impossibility &mdash; the many ways a single projection fails. This scenario demonstrates recovery. The surface grid knows the ocean&rsquo;s horizontal face but nothing of its vertical soul. The Argo floats know the vertical architecture but visit only scattered columns. Neither view is sufficient. But their combination &mdash; the thermal gradient between surface and subsurface, the correlation between surface anomaly variance and depth-resolved variance &mdash; produces information that exists in neither source alone. The gradient is an emergent variable: it requires two atlases laid on top of each other. This is not a trick of data fusion. It is the atlas theorem in action. What one chart loses, another preserves. What no single chart can show, the atlas can.</div>
+
+      <div class="dna-threads">
+        <span class="dna-thread active">computational</span>
+        <span class="dna-thread active">data scientific</span>
+        <span class="dna-thread active">measurement-theoretic</span>
+        <span class="dna-thread active">psychometric</span>
+        <span class="dna-thread">econometric</span>
+        <span class="dna-thread">sociometric</span>
+        <span class="dna-thread">behavioral</span>
+        <span class="dna-thread">cognitive</span>
+        <span class="dna-thread active">information-theoretic</span>
+      </div>
+    </section>
+
+    <div class="transition">&middot; &middot; &middot;</div>
+
+    <!-- CODA -->
+    <section class="coda">
+      <h2>Coda &mdash; The Atlas Theorem</h2>
+
+      <p>Six demonstrations. One theorem.</p>
+
+      <p>Each query shows a different face of the same impossibility. The distance view and the angle view cannot agree &mdash; preserving one distorts the other, and no single embedding serves both. The variance summary discards structured residuals that carry signal the first two components were never built to see. Temperature neighborhoods and salinity neighborhoods contradict &mdash; the same points, the same ocean, two irreconcilable definitions of proximity. Time and space encode different truths about the same phenomenon, and compressing one axis destroys structure the other preserves. Depth collapses not noise but signal &mdash; the vertical signature of latitude, erased by an averaging operation disguised as simplification.</p>
+
+      <p>But &mdash; crucially &mdash; multiple incomplete views, combined, recover what no single view preserves. The thermal gradient between surface and subsurface is a variable that exists in neither dataset alone. It emerges only at the seam where two lossy projections overlap. This is not a feature of the ocean. It is a feature of projection itself. Gauss proved it for surfaces. Riemann generalized it for manifolds. And every analyst who has ever chosen a single method for a complex system has collided with it, whether they recognized the collision or not.</p>
+
+      <p>The question was never which projection is best. The question was always which projections, taken together, form a sufficient atlas. The impossibility is not the enemy. It is the design constraint. And the path through it is not a better single view but a disciplined plurality of incomplete ones.</p>
+
+      <p class="warning-line">&ldquo;The ocean was simply patient enough to sit for its many portraits.&rdquo;</p>
+
+      <div class="signature">
+        Jeffrey J. Berg<br>
+        The PARALLAX<span class="tm">&trade;</span> Research Program<br>
+        CONSTELLATION<span class="tm">&trade;</span> Series &mdash; Paper III of X
+      </div>
+    </section>
+
+  </article>
+</div>
+
+<footer class="site-footer">
+  <span>&copy; Jeffrey J. Berg. All rights reserved.</span>
+  <span>PARALLAX&trade; &middot; GAUGE&trade; &middot; CONSTELLATION&trade; &middot; CDEII&trade;</span>
+</footer>
+
+</body>
+</html>
