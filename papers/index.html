@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>jeff berg — papers</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="jeff berg — papers">
+<meta property="og:description" content="self-hosted publication pdfs.">
+<meta property="og:url" content="https://jeffberg.github.io/papers/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#f4efe6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1614" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='14'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --ink: #1a1614;
+    --ink-soft: #5a4f48;
+    --ink-faint: #8a7f78;
+    --paper: #f4efe6;
+    --rule: #d8d0c4;
+  }
+
+  * { box-sizing: border-box; margin: 0; }
+
+  html, body {
+    min-height: 100%;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  body {
+    font-family: "Cormorant Garamond", "EB Garamond", Garamond, "Hoefler Text", "Times New Roman", serif;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.6;
+    letter-spacing: 0.005em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .page {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 3rem clamp(1.5rem, 6vw, 4rem) 5rem;
+    animation: rise 1.4s cubic-bezier(.2,.7,.2,1) both;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(0.5rem); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  h1 {
+    font-family: inherit;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+  }
+
+  .subtitle {
+    font-family: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: lowercase;
+    color: var(--ink-soft);
+    font-weight: 300;
+  }
+
+  .pub {
+    margin-bottom: 1.1rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  .pub em { color: var(--ink); font-style: normal; font-weight: 500; }
+  .pub .journal { font-style: italic; }
+
+  .pub a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: none;
+    transition: color .3s ease;
+  }
+
+  .pub a:hover,
+  .pub a:focus-visible {
+    color: var(--ink);
+  }
+
+  .pub a:hover em,
+  .pub a:focus-visible em {
+    color: var(--ink);
+  }
+
+  a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--ink-faint);
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  footer a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+    transition: color .3s ease, border-color .3s ease;
+  }
+
+  footer a:hover, footer a:focus-visible {
+    color: var(--ink);
+    border-color: transparent;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    padding: 0.45rem 1rem;
+    background: var(--paper);
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    border-radius: 2rem;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    text-decoration: none;
+    transform: translateY(-150%);
+    transition: transform 0.2s ease;
+    z-index: 10;
+  }
+  .skip-link:focus-visible {
+    transform: translateY(0);
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page { animation: none; }
+    .skip-link { transition: none; }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #f0e6d6;
+      --ink-soft: #b8a896;
+      --ink-faint: #8a7a68;
+      --paper: #1a1614;
+      --rule: #3a322c;
+    }
+  }
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main">skip to content</a>
+  <main class="page" id="main">
+    <header>
+      <h1>papers</h1>
+      <p class="subtitle">self-hosted pdfs &mdash; what i&rsquo;ve helped write.</p>
+    </header>
+
+    <section aria-label="publications">
+      <div class="pub">
+        <a href="greene-2020-neuron.pdf">Greene, D. J., Marek, S., Gordon, E. M., Siegel, J. S., Gratton, C., Laumann, T. O., ...<em>Berg, J. J.</em>, ... (2020).
+        Integrative and network-specific connectivity of the basal ganglia and thalamus defined in individuals.
+        <span class="journal">Neuron</span>, 105(4), 742&ndash;758.</a>
+      </div>
+
+      <div class="pub">
+        <a href="sylvester-2020-pnas.pdf">Sylvester, C. M., Yu, Q., Srivastava, A. B., Marek, S., Zheng, A., ...<em>Berg, J. J.</em>, ... (2020).
+        Individual-specific functional connectivity of the amygdala: a substrate for precision psychiatry.
+        <span class="journal">Proceedings of the National Academy of Sciences</span>, 117(7), 3808&ndash;3818.</a>
+      </div>
+
+      <div class="pub">
+        <a href="hackel-2019-frontiers.pdf">Hackel, L. M., <em>Berg, J. J.</em>, Lindstr&ouml;m, B. R., &amp; Amodio, D. M. (2019).
+        Model-based and model-free social cognition: investigating the role of habit in social attitude formation and choice.
+        <span class="journal">Frontiers in Psychology</span>, 10, 2592.</a>
+      </div>
+
+      <div class="pub">
+        <a href="seitzman-2019-pnas.pdf">Seitzman, B. A., Gratton, C., Laumann, T. O., Gordon, E. M., Adeyemo, B., ...<em>Berg, J. J.</em>, ... (2019).
+        Trait-like variants in human functional brain networks.
+        <span class="journal">Proceedings of the National Academy of Sciences</span>, 116(45), 22851&ndash;22861.</a>
+      </div>
+
+      <div class="pub">
+        <a href="gilmore-2019-neuroimage.pdf">Gilmore, A. W., Nelson, S. M., Laumann, T. O., Gordon, E. M., <em>Berg, J. J.</em>, Greene, D. J., ... (2019).
+        High-fidelity mapping of repetition-related changes in the parietal memory network.
+        <span class="journal">NeuroImage</span>, 199, 427&ndash;439.</a>
+      </div>
+
+      <div class="pub">
+        <a href="amodio-2018-psych-inquiry.pdf">Amodio, D. M. &amp; <em>Berg, J. J.</em> (2018).
+        Toward a multiple memory systems model of attitudes and social cognition.
+        <span class="journal">Psychological Inquiry</span>, 29(1), 14&ndash;19.</a>
+      </div>
+
+      <div class="pub">
+        <a href="zerr-2018-psych-science.pdf">Zerr, C. L., <em>Berg, J. J.</em>, Nelson, S. M., Fishell, A. K., Savalia, N. K., &amp; McDermott, K. B. (2018).
+        Learning efficiency: identifying individual differences in learning rate and retention in healthy adults.
+        <span class="journal">Psychological Science</span>, 29(9), 1436&ndash;1450.</a>
+      </div>
+
+      <div class="pub">
+        <a href="marek-2018-neuron.pdf">Marek, S., Siegel, J. S., Gordon, E. M., Raut, R. V., Gratton, C., Newbold, D. J., ...<em>Berg, J. J.</em>, ... (2018).
+        Spatial and temporal organization of the individual human cerebellum.
+        <span class="journal">Neuron</span>, 100(4), 977&ndash;993.</a>
+      </div>
+
+      <div class="pub">
+        <a href="strand-2018-jeplmc.pdf">Strand, J. F., Brown, V. A., Brown, H. E., &amp; <em>Berg, J. J.</em> (2018).
+        Keep listening: grammatical context reduces but does not eliminate activation of unexpected words.
+        <span class="journal">Journal of Experimental Psychology: Learning, Memory, and Cognition</span>, 44(6), 962.</a>
+      </div>
+
+      <div class="pub">
+        <a href="gordon-2017-neuron.pdf">Gordon, E. M., Laumann, T. O., Gilmore, A. W., Newbold, D. J., Greene, D. J., <em>Berg, J. J.</em>, ... (2017).
+        Precision functional mapping of individual human brains.
+        <span class="journal">Neuron</span>, 95(4), 791&ndash;807.</a>
+      </div>
+
+      <div class="pub">
+        <a href="laumann-2017-cerebral-cortex.pdf">Laumann, T. O., Snyder, A. Z., Mitra, A., Gordon, E. M., Gratton, C., Adeyemo, B., ...<em>Berg, J. J.</em>, ... (2017).
+        On the stability of BOLD fMRI correlations.
+        <span class="journal">Cerebral Cortex</span>, 27(10), 4719&ndash;4732.</a>
+      </div>
+
+      <div class="pub">
+        <a href="mcdermott-2016-qjep.pdf">McDermott, K. B., Wooldridge, C. L., Rice, H. J., <em>Berg, J. J.</em>, &amp; Szpunar, K. K. (2016).
+        Visual perspective in remembering and episodic future thought.
+        <span class="journal">Quarterly Journal of Experimental Psychology</span>, 69(2), 243&ndash;253.</a>
+      </div>
+    </section>
+
+    <footer>
+      <a href="/">home</a>
+      <a href="/cv/">cv</a>
+      <a href="https://scholar.google.com/citations?user=biGrKHwAAAAJ">scholar</a>
+    </footer>
+  </main>
+</body>
+</html>

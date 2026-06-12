@@ -1,0 +1,14 @@
+/* the humans behind a small page */
+
+  jeff berg
+    writing, words, the poem.
+    n@pa — or, if serendipity succeeds, a city near you.
+    berg.jeffreyjordan@gmail.com
+
+/* technology */
+
+  html, css.
+  no frameworks. no bundlers. no javascript.
+  no fonts loaded. no analytics. no third parties.
+  served by github pages from the main branch.
+  ✦
