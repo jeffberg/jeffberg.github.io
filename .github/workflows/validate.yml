@@ -150,3 +150,37 @@ jobs:
             fi
           done < /tmp/html_files.txt
           exit $status
+
+      - name: Internal link check
+        run: |
+          echo "--- Internal link check ---"
+          status=0
+          tmp=$(mktemp)
+          while IFS= read -r file; do
+            dir=$(dirname "$file")
+            # Pull href values one per line; drop external, mailto, tel, javascript,
+            # data URIs, and pure-fragment links. Iterate with read -r so values that
+            # contain spaces (e.g. inline SVG data URIs) aren't word-split.
+            grep -oP 'href="[^"]+"' "$file" | sed -E 's/^href="//; s/"$//' \
+              | grep -vP '^(https?:|mailto:|tel:|javascript:|data:|#)' > "$tmp" || true
+            while IFS= read -r href; do
+              [ -z "$href" ] && continue
+              path="${href%%#*}"
+              path="${path%%\?*}"
+              [ -z "$path" ] && continue
+              if [[ "$path" == /* ]]; then
+                target=".${path}"
+              else
+                target="${dir}/${path}"
+              fi
+              if [[ "$target" == */ ]]; then
+                target="${target}index.html"
+              fi
+              if [ ! -e "$target" ]; then
+                echo "::error file=${file}::Broken internal link: ${href} -> ${target}"
+                status=1
+              fi
+            done < "$tmp"
+          done < /tmp/html_files.txt
+          rm -f "$tmp"
+          exit $status

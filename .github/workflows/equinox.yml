@@ -1,0 +1,95 @@
+name: equinox palette
+
+on:
+  schedule:
+    # noon UTC on each solstice/equinox window. Cron is approximate; GitHub may delay scheduled runs.
+    - cron: '0 12 20 3 *'   # spring equinox (~Mar 20)
+    - cron: '0 12 21 6 *'   # summer solstice (~Jun 21)
+    - cron: '0 12 22 9 *'   # autumn equinox (~Sep 22)
+    - cron: '0 12 21 12 *'  # winter solstice (~Dec 21)
+  workflow_dispatch:
+    inputs:
+      season:
+        description: 'force a season'
+        required: false
+        type: choice
+        options:
+          - spring
+          - summer
+          - autumn
+          - winter
+
+jobs:
+  rotate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pick season
+        id: pick
+        run: |
+          forced="${{ inputs.season }}"
+          if [ -n "$forced" ]; then
+            season="$forced"
+          else
+            m=$(date -u +%m)
+            case "$m" in
+              03) season=spring ;;
+              06) season=summer ;;
+              09) season=autumn ;;
+              12) season=winter ;;
+              *)  season=summer ;;
+            esac
+          fi
+          echo "season=$season" >> "$GITHUB_OUTPUT"
+          echo "Picked: $season"
+
+      - name: Splice palette into index.html
+        run: |
+          season="${{ steps.pick.outputs.season }}"
+          src="_workforce/palettes/${season}.css"
+          if [ ! -f "$src" ]; then
+            echo "Missing palette file: $src" >&2
+            exit 1
+          fi
+          cp "$src" /tmp/block.css
+          python3 - <<'PY'
+          import pathlib, re, sys
+          path = pathlib.Path('index.html')
+          html = path.read_text()
+          block = pathlib.Path('/tmp/block.css').read_text().rstrip('\n') + '\n'
+          pattern = re.compile(
+              r'(    /\* seasonal-palette:start \*/\n)(.*?)(    /\* seasonal-palette:end \*/)',
+              re.DOTALL,
+          )
+          if not pattern.search(html):
+              sys.exit('seasonal-palette markers not found in index.html')
+          new = pattern.sub(lambda m: m.group(1) + block + '    /* seasonal-palette:end */', html)
+          path.write_text(new)
+          PY
+
+      - name: Open PR if changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "No palette change — already in season."
+            exit 0
+          fi
+          season="${{ steps.pick.outputs.season }}"
+          year=$(date -u +%Y)
+          branch="palette/${season}-${year}"
+          git config user.name "equinox-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add index.html
+          git commit -m "palette: ${season} accents"
+          git push -u origin "$branch"
+          gh pr create \
+            --title "palette: ${season} accents" \
+            --body "Seasonal palette swap proposed by \`.github/workflows/equinox.yml\`. Review the gradient field on the home page and merge or close." \
+            --base main \
+            --head "$branch"
