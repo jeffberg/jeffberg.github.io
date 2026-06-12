@@ -9,7 +9,7 @@ Intentionally minimal, intentionally invisible to search engines.
 
 ## Architecture
 - **Static HTML, no build step.** What you commit is what gets served — no framework, no bundler, no npm, no CDN.
-- **One self-contained HTML file per page.** CSS is inlined inside `<style>` in each file. `cv/index.html` intentionally duplicates the `:root` tokens and font stacks from `index.html` rather than sharing a stylesheet. When design tokens change, update both files.
+- **One self-contained HTML file per page.** CSS is inlined inside `<style>` in each file. Every subpage (`cv/`, `papers/`, `colophon/`, `404.html`) intentionally duplicates the `:root` tokens and font stacks from `index.html` rather than sharing a stylesheet. When design tokens change, update them everywhere.
 - **GitHub Pages deploys from `main`.** `.nojekyll` bypasses Jekyll. The `_workforce/` directory is ignored by Pages because of its underscore prefix.
 - **Crawler-blocked.** `robots.txt` disallows all user agents, and every HTML page carries `<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">`. Do not relax either without Jeff's approval.
 
@@ -30,6 +30,16 @@ Current values reflect `index.html` — if a workforce skill doc contradicts the
 - **Motion**: 32s `drift` on `.field`, 1.6s `rise` on `.center`. Both must be nullified under `prefers-reduced-motion`.
 - **Grain**: inline SVG `feTurbulence` data URI, `opacity: 0.1`, `mix-blend-mode: multiply`. Hidden below 768px for GPU perf and under reduced motion.
 - **Favicon**: `✦` inline SVG data URI in `<link rel="icon">`. Reuse across new pages.
+- **Dark mode**: every page carries a `@media (prefers-color-scheme: dark)` block that flips the tokens to a warm dark palette (`--paper #1a1614`, `--ink #f0e6d6`). On index, the gradient field also gets `filter: saturate(0.55) brightness(0.6)` and the grain switches to `mix-blend-mode: screen`. Don't introduce raw hex in rules — use `color-mix(in srgb, var(--ink) N%, transparent)` for derivatives so dark mode follows automatically.
+- **Seasonal palette markers**: the `.field` `background` declaration in `index.html` is wrapped in `/* seasonal-palette:start */` … `/* seasonal-palette:end */` comments. The equinox workflow swaps the block between these markers — don't remove them.
+
+### Contrast
+Text-on-background contrast in current layouts is always against `--paper`. Audited ratios on light mode:
+- `--ink` (#1a1614) on `--paper` (#f4efe6): ~14.9:1 (AAA)
+- `--ink-soft` (#5a4f48) on `--paper`: ~5.3:1 (AA)
+- `--ink-faint` (#8a7f78) on `--paper`: ~3.1:1 (AA large-text only; use for tiny metadata only)
+
+Extended palette colors are decorative gradient stops and never directly back text. If a future layout places `--ink` over a saturated stop, worst case is `--spruce` (#7a8c6e) at ~4.7:1 (AA pass). Re-audit if you change the gradient composition.
 
 ## Conventions
 - **Never add external dependencies** (no CDN, no Google Fonts, no JS libraries, no npm). Inline SVG data URIs are fine.
@@ -39,6 +49,8 @@ Current values reflect `index.html` — if a workforce skill doc contradicts the
 - **Every interactive element needs `:focus-visible` styles.** Decorative elements need `aria-hidden="true"`.
 - **Honor `prefers-reduced-motion`** on every page: disable animations and hide the grain.
 - **Semantic HTML**: `main`, `header`, `footer`, `section`, `nav`. No `<div>` soup.
+- **Skip-link**: every page with a `<main>` has a `<a class="skip-link" href="#main">skip to content</a>` first in `<body>` and `<main id="main">`. Visually hidden until focused.
+- **OG/theme-color meta**: every HTML page carries `og:type`, `og:title`, `og:description`, `og:url`, `twitter:card`, and paired `theme-color` meta tags (light + dark). No `og:image` until an asset exists.
 - **Commit style** (see `git log`): lowercase, short scope prefix (`cv:`, `poem:`, `fix:`, `redesign:`) followed by a concise description. Branch names like `feature/description`.
 
 ## Escalation — Ask Jeff First
@@ -55,10 +67,13 @@ Current values reflect `index.html` — if a workforce skill doc contradicts the
 index.html              — landing page (poem, gradient field, grain, links)
 404.html                — not-found page (same aesthetic, simpler)
 cv/index.html           — CV subpage; duplicates design tokens from index.html
-papers/*.pdf            — self-hosted publication PDFs linked from the CV
+papers/index.html       — index of hosted publication PDFs (mirrors CV citations)
+papers/*.pdf            — self-hosted publication PDFs linked from CV and /papers/
+colophon/index.html     — small page about how the site is built
+humans.txt              — credits in humanstxt.org format
 robots.txt              — blocks all crawlers
 .nojekyll               — skip Jekyll processing
 CLAUDE.md               — this file
 _workforce/             — agent definitions, skills, roadmap (ignored by Pages)
-.github/workflows/      — validate.yml (HTML/meta/a11y checks on push + PR)
+.github/workflows/      — validate.yml (HTML/meta/a11y/link checks); equinox.yml (seasonal palette PR)
 ```
