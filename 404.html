@@ -5,12 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <title>not here</title>
+<meta name="theme-color" content="#f4efe6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1614" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='14'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
 <style>
+  :root {
+    --ink: #1a1614;
+    --ink-soft: #5a4f48;
+    --paper: #f4efe6;
+  }
   html, body {
     margin: 0;
     min-height: 100%;
-    background: #f4efe6;
-    color: #1a1614;
+    background: var(--paper);
+    color: var(--ink);
     font-family: "Cormorant Garamond", "EB Garamond", Garamond, "Hoefler Text", "Times New Roman", serif;
   }
   body {
@@ -33,24 +41,32 @@
     font-size: 0.78rem;
     letter-spacing: 0.2em;
     text-transform: lowercase;
-    color: #5a4f48;
+    color: var(--ink-soft);
     text-decoration: none;
     border-bottom: 1px solid currentColor;
     padding-bottom: 1px;
+    transition: color .3s ease;
   }
-  a:hover {
-    color: #3f362f;
+  a:hover, a:focus-visible {
+    color: var(--ink);
   }
   a:focus-visible {
-    outline: 2px solid #1a1614;
+    outline: 2px solid var(--ink);
     outline-offset: 3px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #f0e6d6;
+      --ink-soft: #b8a896;
+      --paper: #1a1614;
+    }
   }
 </style>
 </head>
 <body>
-  <div>
+  <main>
     <p>nothing lives at this address.</p>
     <a href="/">go home</a>
-  </div>
+  </main>
 </body>
 </html>

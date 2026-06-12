@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <title>jeff berg — cv</title>
+<meta property="og:type" content="profile">
+<meta property="og:title" content="jeff berg — cv">
+<meta property="og:description" content="research data scientist. statistics & inference for human-machine interaction.">
+<meta property="og:url" content="https://jeffberg.github.io/cv/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#f4efe6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1614" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='14'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
 <style>
   :root {
@@ -199,20 +206,66 @@
     outline-offset: 3px;
   }
 
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    padding: 0.45rem 1rem;
+    background: var(--paper);
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    border-radius: 2rem;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    text-decoration: none;
+    transform: translateY(-150%);
+    transition: transform 0.2s ease;
+    z-index: 10;
+  }
+  .skip-link:focus-visible {
+    transform: translateY(0);
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .page { animation: none; }
+    .skip-link { transition: none; }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #f0e6d6;
+      --ink-soft: #b8a896;
+      --ink-faint: #8a7a68;
+      --paper: #1a1614;
+      --rule: #3a322c;
+    }
   }
 
   @media print {
-    body { font-size: 10.5pt; }
+    :root {
+      --paper: #ffffff;
+      --ink: #000000;
+      --ink-soft: #333333;
+      --ink-faint: #666666;
+      --rule: #cccccc;
+    }
+    body { font-size: 10pt; line-height: 1.45; }
     .page { padding: 0; max-width: none; animation: none; }
-    .cv-footer { display: none; }
-    a { border: none; }
+    .skip-link, .cv-footer { display: none; }
+    a { border: none; color: inherit; }
+    .entry, .pub { break-inside: avoid; }
+    h1, h2 { break-after: avoid; }
+    section { break-inside: auto; }
   }
 </style>
 </head>
 <body>
-  <div class="page">
+  <a class="skip-link" href="#main">skip to content</a>
+  <main class="page" id="main">
     <header class="cv-header">
       <h1>jeffrey j. berg, ph.d.</h1>
       <p class="subtitle">
@@ -492,11 +545,12 @@
 
     <footer class="cv-footer">
       <a href="/">home</a>
+      <a href="/papers/">papers</a>
       <a href="https://linkedin.com/in/jeffreyjordanberg">linkedin</a>
       <a href="https://github.com/jeffberg">github</a>
       <a href="https://scholar.google.com/citations?user=biGrKHwAAAAJ">scholar</a>
-      <a href="mailto:berg.jeffreyjordan@gmail.com">say hi</a>
+      <a href="mailto:berg.jeffreyjordan@gmail.com?subject=hello">say hi</a>
     </footer>
-  </div>
+  </main>
 </body>
 </html>
