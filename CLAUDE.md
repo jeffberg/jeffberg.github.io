@@ -2,14 +2,16 @@
 
 ## What This Is
 Jeff Berg's personal website. A single poetic page. Hosted on GitHub Pages.
-Intentionally minimal, intentionally invisible to search engines.
+Intentionally minimal. Public and indexed by search engines (since 2026-11-22).
 
 ## Architecture
 - **Static HTML** — no build step, no framework, no dependencies
 - **GitHub Pages** — auto-deploys from `main` branch
 - **`.nojekyll`** — bypasses Jekyll processing
-- **`robots.txt`** — blocks all crawlers
-- **`noindex, nofollow, noarchive, nosnippet`** — on all HTML pages
+- **`robots.txt`** — allows all crawlers, disallows `/_workforce/`, points to `sitemap.xml`
+- **`index, follow`** on `/` and `/cv/` (with description, canonical, Open Graph); `noindex` on `404.html`
+- **JSON-LD `Person`** on the homepage
+- **`sitemap.xml`** — update `lastmod` and add new pages when publishing
 
 ## Design Language
 - **Palette**: warm paper (#f4efe6), ink (#1a1614), soft ink (#5a4f48), rose (#d9b5a0), sky (#b8c9d4)
@@ -25,7 +27,7 @@ The `✦` mark and "a small page" tagline are part of the identity.
 
 ## Rules
 - Never add external dependencies (no CDN, no Google Fonts, no JS libraries)
-- Never remove `noindex`/`nofollow` without explicit approval
+- Every new public page needs a description, canonical URL, OG tags, and a `sitemap.xml` entry
 - Keep the site to a single HTML file per page (inline CSS, no separate stylesheets)
 - Prefer system font stacks over web fonts
 - Every page must honor `prefers-reduced-motion` and include `focus-visible` styles
@@ -39,7 +41,10 @@ The `_workforce/` directory is prefixed with `_` so GitHub Pages ignores it.
 ```
 index.html          — the one page (poem, gradient field, grain)
 404.html            — not-found page (same aesthetic)
-robots.txt          — blocks all crawlers
+robots.txt          — allows crawlers, points to sitemap
+sitemap.xml         — public pages for search engines
+cv/index.html       — curriculum vitae
+papers/             — hosted publication PDFs
 .nojekyll           — skip Jekyll
 CLAUDE.md           — this file (project intelligence)
 _workforce/         — agent definitions for website development
