@@ -634,8 +634,19 @@
       <a href="https://linkedin.com/in/jeffreyjordanberg">linkedin</a>
       <a href="https://github.com/jeffberg">github</a>
       <a href="https://scholar.google.com/citations?user=biGrKHwAAAAJ">scholar</a>
-      <a href="mailto:berg.jeffreyjordan@gmail.com">say hi</a>
+      <a href="#" class="say-hi" data-m="moc.liamg|nadrojyerffej.greb">say hi</a>
     </footer>
   </div>
+<script>
+  // email is stored reversed and split so scrapers can't read it; rebuilt only when a person reaches for the link
+  document.querySelectorAll('.say-hi').forEach(function (a) {
+    function arm() {
+      var p = a.dataset.m.split('|');
+      a.href = 'mailto:' + p[1].split('').reverse().join('') + '@' + p[0].split('').reverse().join('');
+    }
+    ['mouseenter', 'focus', 'touchstart'].forEach(function (e) { a.addEventListener(e, arm, { once: true, passive: true }); });
+    a.addEventListener('click', function () { if (a.getAttribute('href') === '#') arm(); });
+  });
+</script>
 </body>
 </html>
